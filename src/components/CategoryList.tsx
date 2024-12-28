@@ -51,7 +51,7 @@ export default function CategoryList() {
   };
   
   return (
-    <nav className="flex flex-col space-y-0.5">
+    <nav className="flex flex-col space-y-0">
       <a
         href="/hot"
         onClick={(e) => handleNavigation('/hot', e)}
