@@ -1,0 +1,14 @@
+// 获取token请求
+curl -i -X POST 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
+-H 'Content-Type: application/json' \
+-d '{
+        "app_id": "cli_a7cf81a5d318500b",
+        "app_secret": "pbvES8Ks3AkQELrsNbqzMb8CZzktIXow"
+}'
+// 获取token返回数据
+{
+    "code": 0,
+    "expire": 7200,
+    "msg": "ok",
+    "tenant_access_token": "t-g104bqnc2DJYDHRDZG4EHSEO4CL2PMLU52ZJDUEK"
+}

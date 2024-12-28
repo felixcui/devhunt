@@ -1,0 +1,192 @@
+// 获取资讯列表
+curl -i -X POST 'https://open.feishu.cn/open-apis/bitable/v1/apps/Fd6zbPzXgahcmvsJGBOc4mqHn8e/tables/tbltAkJa2ansIzeQ/records/search?page_size=10' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer u-d2VkTm2ll4BEGsxWQmMnSk0g2_S4g4Z9Vww0k0Ya0xta' \
+-d '{
+	"automatic_fields": false,
+	"field_names": [
+		"标题",
+		"链接",
+		"更新时间"
+	],
+	"sort": [
+		{
+			"desc": true,
+			"field_name": "更新时间"
+		}
+	],
+	"view_id": "vew3zwwugA"
+}'
+
+// 获取资讯返回数据
+{
+  "code": 0,
+  "data": {
+    "has_more": true,
+    "items": [
+      {
+        "fields": {
+          "更新时间": 1732636800000,
+          "标题": [
+            {
+              "text": "Claude化身服务器联通一切！AI写好代码自己发Github，人类程序员只配动嘴了",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/UXb0KyDCSHkUS_4dCGlsfQ",
+            "text": "https://mp.weixin.qq.com/s/UXb0KyDCSHkUS_4dCGlsfQ"
+          }
+        },
+        "record_id": "recuvifBNPKbTu"
+      },
+      {
+        "fields": {
+          "更新时间": 1732636800000,
+          "标题": [
+            {
+              "text": "PearAI：开源 AI 代码编辑器",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/xpht7MGOD5hIXY3dl1NeYg",
+            "text": "https://mp.weixin.qq.com/s/xpht7MGOD5hIXY3dl1NeYg"
+          }
+        },
+        "record_id": "recuvkIVfHXuG5"
+      },
+      {
+        "fields": {
+          "更新时间": 1732636800000,
+          "标题": [
+            {
+              "text": "对话AIGCode创始人：只有从底层训模型，才能真正释放Coding生产力",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/Br7SN4DWD6Y3ocJefY98tA",
+            "text": "https://mp.weixin.qq.com/s/Br7SN4DWD6Y3ocJefY98tA"
+          }
+        },
+        "record_id": "recuvkJlZmc7f0"
+      },
+      {
+        "fields": {
+          "更新时间": 1732464000000,
+          "标题": [
+            {
+              "text": "AI编程在硅谷杀疯了，但国内还长得出自己的Cursor么",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/h76diDxm9ep0yai1alsk0A",
+            "text": "https://mp.weixin.qq.com/s/h76diDxm9ep0yai1alsk0A"
+          }
+        },
+        "record_id": "recuv6mvBan3nR"
+      },
+      {
+        "fields": {
+          "更新时间": 1732464000000,
+          "标题": [
+            {
+              "text": "本科创业即成功退出，26岁再创业AI编程，极长窗口极低延迟，OpenAI联创和BVP千万美元投资",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/D4bYlHyUVqfhD0qMIyVxYg",
+            "text": "https://mp.weixin.qq.com/s/D4bYlHyUVqfhD0qMIyVxYg"
+          }
+        },
+        "record_id": "recuv6YwCIXmUo"
+      },
+      {
+        "fields": {
+          "更新时间": 1732464000000,
+          "标题": [
+            {
+              "text": "CopyCoder，不和Cursor 和 Windsurf 争主角，只做年度最强无敌的绿叶",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/gpXAurZSPA6pEeAnh03-EQ",
+            "text": "https://mp.weixin.qq.com/s/gpXAurZSPA6pEeAnh03-EQ"
+          }
+        },
+        "record_id": "recuv6YCxWfmZ6"
+      },
+      {
+        "fields": {
+          "更新时间": 1732464000000,
+          "标题": [
+            {
+              "text": "新晋AI编程神器干翻Cursor！首创实时感知无限用，估值12.5亿华人初创震惊AI界",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/8VYkAxA73JcRaUZ7MoNKcA",
+            "text": "https://mp.weixin.qq.com/s/8VYkAxA73JcRaUZ7MoNKcA"
+          }
+        },
+        "record_id": "recuv8er0e1xrx"
+      },
+      {
+        "fields": {
+          "更新时间": 1732464000000,
+          "标题": [
+            {
+              "text": "更新了！带Agent的Cursor太疯狂了",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/tAKtn9QzRWXcJKqohGaRzw",
+            "text": "https://mp.weixin.qq.com/s/tAKtn9QzRWXcJKqohGaRzw"
+          }
+        },
+        "record_id": "recuv8sufMelel"
+      },
+      {
+        "fields": {
+          "更新时间": 1732377600000,
+          "标题": [
+            {
+              "text": "AI Coding能撑起一个多大的叙事？",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/yGpTpkDxDPjY2jvdHy1Amw",
+            "text": "https://mp.weixin.qq.com/s/yGpTpkDxDPjY2jvdHy1Amw"
+          }
+        },
+        "record_id": "recuuXS1a5jxkz"
+      },
+      {
+        "fields": {
+          "更新时间": 1732377600000,
+          "标题": [
+            {
+              "text": "Cursor的挑战者来了，开源的PearAI加入AI编程工具大战，一样样的配方",
+              "type": "text"
+            }
+          ],
+          "链接": {
+            "link": "https://mp.weixin.qq.com/s/D-sQ3sGbUiwbVbMJDnC-gg",
+            "text": "https://mp.weixin.qq.com/s/D-sQ3sGbUiwbVbMJDnC-gg"
+          }
+        },
+        "record_id": "recuuXS1a5WfHm"
+      }
+    ],
+    "page_token": "cGFnZVRva2VuOjEw",
+    "total": 18
+  },
+  "msg": "success"
+}
