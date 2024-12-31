@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { fetchCategories } from '@/data/tools';
-import { Category} from '@/types';
-
+import { Category } from '@/types';
 import { useRouter, usePathname } from 'next/navigation';
 import { IconType } from 'react-icons';
 import { 
@@ -19,6 +18,50 @@ import {
   FiGlobe,
   FiTrendingUp
 } from 'react-icons/fi';
+
+// 缓存相关常量
+const CACHE_KEY = 'categories_cache';
+const CACHE_DURATION = 12 * 60 * 60 * 1000; // 1小时的毫秒数
+
+// 缓存接口
+interface CacheData {
+  data: Category[];
+  timestamp: number;
+}
+
+// 从缓存中获取数据
+function getFromCache(): Category[] | null {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return null;
+
+    const { data, timestamp }: CacheData = JSON.parse(cached);
+    const now = Date.now();
+
+    // 检查缓存是否过期
+    if (now - timestamp > CACHE_DURATION) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+// 将数据存入缓存
+function setToCache(data: Category[]) {
+  if (typeof window === 'undefined') return;
+  
+  const cacheData: CacheData = {
+    data,
+    timestamp: Date.now()
+  };
+  localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+}
 
 // 根据分类名称特征选择图标
 function getCategoryIcon(category: string): IconType {
@@ -41,8 +84,34 @@ export default function CategoryList() {
   const router = useRouter();
   const pathname = usePathname();
 
+  // 加载分类数据
+  const loadCategories = async () => {
+    try {
+      const data = await fetchCategories();
+      setCategories(data);
+      setToCache(data);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  };
+
   useEffect(() => {
-    fetchCategories().then(setCategories);
+    // 首先尝试从缓存获取数据
+    const cachedData = getFromCache();
+    if (cachedData) {
+      setCategories(cachedData);
+    } else {
+      loadCategories();
+    }
+
+    // 设置定时器，定期检查缓存是否过期
+    const intervalId = setInterval(() => {
+      if (!getFromCache()) {
+        loadCategories();
+      }
+    }, 60 * 60 * 1000); // 每60分钟检查一次
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleNavigation = (path: string, e: React.MouseEvent) => {

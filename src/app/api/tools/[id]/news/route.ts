@@ -78,7 +78,7 @@ export const GET = async function getToolNews(
       throw new Error(`Feishu API Error: ${feishuData.msg}`);
     }
 
-    console.log('Sample item fields:', JSON.stringify(feishuData.data.items[0]?.fields, null, 2));
+    //console.log('Sample item fields:', JSON.stringify(feishuData.data.items[0]?.fields, null, 2));
 
     const news = feishuData.data.items
       .filter(item => {
