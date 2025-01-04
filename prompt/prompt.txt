@@ -5,4 +5,4 @@
 4) 工具的详情页:展示工具的名称、描述、链接、分类等信息
 
 数据源：
-工具数据从飞书表格中获取，具体api参考文件：@api.txt
+工具数据从飞书表格中获取，具体api参考文件：@news-api.txt, token-api.txt, tools-api.txt

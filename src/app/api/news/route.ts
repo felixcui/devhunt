@@ -69,6 +69,7 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
       throw new Error(`Feishu API Error: ${feishuData.msg}`);
     }
 
+
     const news = feishuData.data.items
       .filter((item) => {
         const title = Array.isArray(item.fields.title) ? item.fields.title[0]?.text : item.fields.title;
