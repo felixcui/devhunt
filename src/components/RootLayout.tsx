@@ -16,7 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <div className="flex items-center gap-2 mb-6">
             <FiBox className="w-6 h-6 text-blue-500" />
             <h1 className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors cursor-pointer">
-              AI研发工具
+              AI-Coding工具
             </h1>
           </div>
         </Link>
