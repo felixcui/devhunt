@@ -1,64 +1,69 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fetchTools } from '@/data/tools';
-import ToolGrid from '@/components/ToolGrid';
 import RootLayout from '@/components/RootLayout';
-import SearchBar from '@/components/SearchBar';
-import TopNav from '@/components/TopNav';
-import { Tool } from '@/types';
+import { News } from '@/types';
 
-export default function Home() {
-  const [tools, setTools] = useState<Tool[]>([]);
-  const [filteredTools, setFilteredTools] = useState<Tool[]>([]);
+export default function HomePage() {
+  const [news, setNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadTools = async () => {
-      const data = await fetchTools();
-      setTools(data);
-      setFilteredTools(data);
-      setLoading(false);
+    const loadNews = async () => {
+      try {
+        const response = await fetch('/api/news');
+        const data = await response.json();
+        if (data.code === 0) {
+          setNews(data.data.items);
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      } finally {
+        setLoading(false);
+      }
     };
-    loadTools();
+
+    loadNews();
   }, []);
-
-  const handleSearch = (query: string) => {
-    if (!query.trim()) {
-      setFilteredTools(tools);
-      return;
-    }
-
-    const searchQuery = query.toLowerCase();
-    const filtered = tools.filter(tool => 
-      tool.name.toLowerCase().includes(searchQuery) ||
-      tool.description.toLowerCase().includes(searchQuery) ||
-      tool.category.toLowerCase().includes(searchQuery)
-    );
-    setFilteredTools(filtered);
-  };
-
-  if (loading) {
-    return (
-      <RootLayout>
-        <div className="flex justify-center items-center min-h-[200px]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-        </div>
-      </RootLayout>
-    );
-  }
 
   return (
     <RootLayout>
-      <div className="space-y-6">
-        <TopNav />
-        <SearchBar onSearch={handleSearch} />
-        {filteredTools.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">没有找到相关工具</p>
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8">最新资讯</h1>
+        {loading ? (
+          <div className="text-center py-8">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
           </div>
         ) : (
-          <ToolGrid tools={filteredTools} />
+          <div className="space-y-4">
+            {news.length === 0 ? (
+              <p className="text-center text-gray-500 py-8">暂无资讯</p>
+            ) : (
+              news.map((item) => (
+                <article key={item.id} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start gap-4">
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg font-medium text-gray-900 hover:text-blue-600 flex-1"
+                    >
+                      {item.title}
+                    </a>
+                    <time 
+                      dateTime={item.updateTime}
+                      className="text-sm text-gray-500 whitespace-nowrap"
+                    >
+                      {item.updateTime}
+                    </time>
+                  </div>
+                  {item.description && (
+                    <p className="mt-2 text-gray-600">{item.description}</p>
+                  )}
+                </article>
+              ))
+            )}
+          </div>
         )}
       </div>
     </RootLayout>

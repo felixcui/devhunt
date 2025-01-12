@@ -15,8 +15,7 @@ import {
   FiLayout,
   FiPackage,
   FiActivity,
-  FiGlobe,
-  FiTrendingUp
+  FiGlobe
 } from 'react-icons/fi';
 
 // 缓存相关常量
@@ -121,16 +120,6 @@ export default function CategoryList() {
   
   return (
     <nav className="flex flex-col space-y-0">
-      <a
-        href="/hot"
-        onClick={(e) => handleNavigation('/hot', e)}
-        className={`flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors
-          ${pathname === '/hot' ? 'bg-gray-100 text-blue-600' : 'text-gray-700'}`}
-      >
-        <FiTrendingUp className="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" />
-        <span>热门工具</span>
-      </a>
-
       {categories.map((category) => {
         const Icon = getCategoryIcon(category.name);
         const categoryPath = `/category/${encodeURIComponent(category.id)}`;

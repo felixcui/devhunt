@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiClock, FiPlus } from 'react-icons/fi';
+import { FiClock, FiPlus, FiGrid, FiTrendingUp } from 'react-icons/fi';
 
 const SUBMIT_TOOL_URL = 'https://nhihqe5yfi.feishu.cn/share/base/form/shrcnH6nUO2x2ddTTXtZCGVKKcc';
 
@@ -12,6 +12,8 @@ export default function TopNav() {
 
   const navItems = [
     { href: '/news', icon: FiClock, label: '工具资讯' },
+    { href: '/tools', icon: FiGrid, label: '全部工具' },
+    { href: '/hot', icon: FiTrendingUp, label: '热门工具' },
   ];
 
   return (
