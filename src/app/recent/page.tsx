@@ -1,19 +1,16 @@
 import { fetchTools } from '@/data/tools';
 import RootLayout from '@/components/RootLayout';
 import ToolGrid from '@/components/ToolGrid';
+import { formatDate } from '@/utils/date';
 
 export default async function RecentToolsPage() {
   // 获取所有工具
   const tools = await fetchTools();
 
-  // 按 updateTime 倒序排序，取前20个
+  // 兼容 updateTime 为数字或字符串
   const sorted = [...tools]
-    .filter(tool => tool.updateTime)
-    .sort((a, b) => {
-      const tA = a.updateTime ? new Date(a.updateTime).getTime() : 0;
-      const tB = b.updateTime ? new Date(b.updateTime).getTime() : 0;
-      return tB - tA;
-    })
+    .filter(tool => tool.updateTime !== undefined && tool.updateTime !== null)
+    .sort((a, b) => Number(b.updateTime) - Number(a.updateTime))
     .slice(0, 20);
 
   return (
@@ -27,7 +24,11 @@ export default async function RecentToolsPage() {
           <p className="text-gray-500">暂无最近收录工具</p>
         </div>
       ) : (
-        <ToolGrid tools={sorted} />
+        <ToolGrid tools={sorted.map(tool => ({
+          ...tool,
+          // 兼容ToolGrid内部如需显示时间
+          updateTime: tool.updateTime ? formatDate(tool.updateTime) : '',
+        }))} />
       )}
     </RootLayout>
   );
