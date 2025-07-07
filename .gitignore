@@ -22,3 +22,6 @@ logs/
 Thumbs.db
 
 .next/
+
+# YoYo AI version control directory
+.yoyo/

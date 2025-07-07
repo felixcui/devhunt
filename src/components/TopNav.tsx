@@ -12,8 +12,9 @@ export default function TopNav() {
 
   const navItems = [
     { href: '/news', icon: FiClock, label: '工具资讯' },
-    { href: '/tools', icon: FiGrid, label: '全部工具' },
     { href: '/hot', icon: FiTrendingUp, label: '热门工具' },
+    { href: '/recent', icon: FiClock, label: '最近收录' },
+    { href: '/tools', icon: FiGrid, label: '全部工具' },
   ];
 
   return (

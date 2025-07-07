@@ -187,5 +187,7 @@ if __name__ == "__main__":
             markdown += f"[{title}]({url})\n"
             markdown += f"{descrption}"
             print(markdown)
+        print('--------------------------------')
+        print('更多内容访问AI Coding知识库:https://nhihqe5yfi.feishu.cn/wiki/KBlUwLv56izVmdk5xzncJUAFnHd')
     else:
         print(f"Error: {result['msg']}") 
