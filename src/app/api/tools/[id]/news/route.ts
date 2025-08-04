@@ -1,7 +1,8 @@
 import { NextRequest } from 'next/server';
-import { FeishuResponse } from '@/types/api';
-import { FEISHU_CONFIG, getTenantAccessToken } from '@/config/feishu';
+import { FeishuResponse, FeishuField } from '@/types/api';
+import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { formatDate } from '@/utils/date';
+import { getFieldText, getFieldUrl } from '@/utils/feishu';
 
 type Props = {
   params: {
@@ -21,29 +22,17 @@ export const GET = async function getToolNews(
 
     const { searchParams } = new URL(req.url);
     const toolName = searchParams.get('name');
-    console.log('Tool name:', toolName);
-    
     if (!toolName) {
       throw new Error('Tool name is required');
     }
 
     const token = await getTenantAccessToken();
-    const url = `https://open.feishu.cn/open-apis/bitable/v1/apps/${FEISHU_CONFIG.NEWS.APP_TOKEN}/tables/${FEISHU_CONFIG.NEWS.TABLE_ID}/records/search`;
+    const url = `${buildBitableUrl(FEISHU_CONFIG.NEWS.APP_TOKEN, FEISHU_CONFIG.NEWS.TABLE_ID)}/search`;
     
     const searchBody = {
       page_size: 100,
       view_id: FEISHU_CONFIG.NEWS.VIEW_ID,
       field_names: FEISHU_CONFIG.NEWS.FIELDS,
-      filter: {
-        conditions: [
-          {
-            field_name: "tool",
-            operator: "is",
-            value: [toolName.toLowerCase()]
-          }
-        ],
-        conjunction: "and"
-      },
       sort: [
         {
           field_name: "updatetime",
@@ -78,29 +67,26 @@ export const GET = async function getToolNews(
       throw new Error(`Feishu API Error: ${feishuData.msg}`);
     }
 
-    //console.log('Sample item fields:', JSON.stringify(feishuData.data.items[0]?.fields, null, 2));
+
 
     const news = feishuData.data.items
-      .filter(item => {
-        const itemTool = Array.isArray(item.fields.tool) 
-          ? item.fields.tool[0]?.text 
-          : item.fields.tool;
-        return itemTool && itemTool.toLowerCase().includes(toolName.toLowerCase());
-      })
-      .map((item:any) => ({
+      .map((item: any) => ({
         id: item.record_id,
-        title: Array.isArray(item.fields.title) ? item.fields.title[0]?.text : item.fields.title,
-        url: item.fields.link?.link || item.fields.link?.text || '',
+        title: getFieldText(item.fields.title as FeishuField[]),
+        url: getFieldUrl(item.fields.link as FeishuField[]),
         updateTime: formatDate(item.fields.updatetime as string),
-        description: Array.isArray(item.fields.description) 
-          ? item.fields.description[0]?.text 
-          : item.fields.description,
-        tool: Array.isArray(item.fields.tool) 
-          ? item.fields.tool[0]?.text 
-          : item.fields.tool
-      }));
+        description: item.fields.description 
+          ? getFieldText(item.fields.description as FeishuField[])
+          : undefined,
+        tool: typeof item.fields.tool === 'string' ? item.fields.tool : getFieldText(item.fields.tool as FeishuField[])
+      }))
+      .filter(item => item.title && item.url) // 过滤掉没有标题或链接的资讯
+      .filter(item => {
+        const itemTool = item.tool;
+        return itemTool && itemTool.toLowerCase().includes(toolName.toLowerCase());
+      });
 
-    console.log('Processed news item:', JSON.stringify(news[0], null, 2));
+
 
     return new Response(JSON.stringify({
       code: 0,

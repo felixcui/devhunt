@@ -29,6 +29,7 @@ export interface FeishuRecord {
     title?: FeishuField[];
     link?: FeishuField[];
     tool?: FeishuField[];
+    description?: FeishuField[];
     
     [key: string]: FeishuField[] | string | undefined;
   };

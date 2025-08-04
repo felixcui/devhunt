@@ -3,33 +3,11 @@ import { ApiResponse, FeishuResponse, FeishuField } from '@/types/api';
 import { News } from '@/types';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { formatDate } from '@/utils/date';
+import { getFieldText, getFieldUrl } from '@/utils/feishu';
 import NodeCache from 'node-cache';
 
 const cache = new NodeCache({ stdTTL: 3600 });
 const CACHE_KEY = 'news_data';
-
-// 将飞书字段数组转换为纯文本
-function getFieldText(fields: FeishuField[]): string {
-  if (!Array.isArray(fields)) return '';
-  return fields
-    .map(field => field.text || '')
-    .join(' ')
-    .replace(/\n/g, ' ')
-    .trim();
-}
-
-// 从飞书字段中提取链接
-function extractUrl(field: any): string {
-  if (field && typeof field === 'object' && 'link' in field) {
-    return field.link;
-  }
-  
-  if (typeof field === 'string' && (field.startsWith('http://') || field.startsWith('https://'))) {
-    return field;
-  }
-  
-  return '';
-}
 
 export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
   try {
@@ -70,38 +48,28 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
     }
 
 
-    const news = feishuData.data.items
-      .filter((item) => {
-        const title = Array.isArray(item.fields.title) ? item.fields.title[0]?.text : item.fields.title;
-        const link = extractUrl(item.fields.link);
-        return title && link;
-      })
-      .map((item) => {
-        const title = Array.isArray(item.fields.title) ? item.fields.title[0]?.text : item.fields.title;
-        const link = extractUrl(item.fields.link);
-        const updateTime = item.fields.updatetime || new Date().toISOString().split('T')[0];
-        
-        const description = item.fields.description 
-          ? (Array.isArray(item.fields.description)
-              ? getFieldText(item.fields.description)
-              : String(item.fields.description))
-          : undefined;
+    const news = feishuData.data.items.map((item: any) => {
+      const title = getFieldText(item.fields.title as FeishuField[]);
+      const url = getFieldUrl(item.fields.link as FeishuField[]);
+      const updateTime = item.fields.updatetime as string;
+      
+      const description = item.fields.description 
+        ? getFieldText(item.fields.description as FeishuField[])
+        : undefined;
 
-        const tool = item.fields.tool
-          ? (Array.isArray(item.fields.tool)
-              ? getFieldText(item.fields.tool)
-              : String(item.fields.tool))
-          : undefined;
-        
-        return {
-          id: item.record_id,
-          title: title as string,
-          url: link,
-          updateTime: formatDate(updateTime as string),
-          description,
-          tool
-        };
-      });
+      const tool = item.fields.tool
+        ? getFieldText(item.fields.tool as FeishuField[])
+        : undefined;
+      
+      return {
+        id: item.record_id,
+        title,
+        url,
+        updateTime: updateTime ? formatDate(updateTime) : formatDate(new Date().toISOString()),
+        description,
+        tool
+      };
+    }).filter(item => item.title && item.url); // 过滤掉没有标题或链接的资讯
 
     const responseData: ApiResponse<News> = {
       code: 0,

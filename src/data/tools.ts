@@ -2,11 +2,24 @@ import { Tool, Category, News } from '@/types';
 
 export async function fetchTools(): Promise<Tool[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || window.location.origin;
-    const response = await fetch(`${baseUrl}/api/tools`);
+    // 在服务器端渲染时，使用相对路径
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
+      (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    
+    const response = await fetch(`${baseUrl}/api/tools`, {
+      // 添加缓存控制
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
     if (!response.ok) {
-      throw new Error('Failed to fetch tools');
+      const errorText = await response.text();
+      console.error('API Error Response:', errorText);
+      throw new Error(`Failed to fetch tools: ${response.status} ${response.statusText}`);
     }
+    
     const data = await response.json();
     return data.data.items;
   } catch (error) {
@@ -17,11 +30,24 @@ export async function fetchTools(): Promise<Tool[]> {
 
 export async function fetchNews(): Promise<News[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || window.location.origin;
-    const response = await fetch(`${baseUrl}/api/news`);
+    // 在服务器端渲染时，使用相对路径
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
+      (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    
+    const response = await fetch(`${baseUrl}/api/news`, {
+      // 添加缓存控制
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
     if (!response.ok) {
-      throw new Error('Failed to fetch news');
+      const errorText = await response.text();
+      console.error('News API Error Response:', errorText);
+      throw new Error(`Failed to fetch news: ${response.status} ${response.statusText}`);
     }
+    
     const data = await response.json();
     return data.data.items;
   } catch (error) {
