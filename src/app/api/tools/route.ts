@@ -56,6 +56,15 @@ export async function GET(): Promise<NextResponse<ApiResponse<Tool>>> {
         tags = [item.fields.tags];
       }
 
+      // 添加调试信息
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Tool tags debug:', {
+          name: getFieldText(item.fields.name as FeishuField[]),
+          rawTags: item.fields.tags,
+          processedTags: tags
+        });
+      }
+
       return {
         id: item.record_id,
         name: getFieldText(item.fields.name as FeishuField[]),
