@@ -2,6 +2,9 @@ import { fetchTools } from '@/data/tools';
 import ToolGrid from '@/components/ToolGrid';
 import { formatDate } from '@/utils/date';
 
+// 强制动态渲染此页面
+export const dynamic = 'force-dynamic';
+
 export default async function RecentToolsPage() {
   // 获取所有工具
   const tools = await fetchTools();
