@@ -33,7 +33,7 @@ export default function NewsList({ news }: NewsListProps) {
   return (
     <div className="max-w-4xl">
       <ul className="space-y-4">
-        {news.map((item:any) => (
+        {news.map((item: News) => (
           <li key={item.id} className="border-b border-gray-200 pb-4">
             <div className="rounded-lg p-4">
               <div className="flex justify-between items-start">
@@ -41,12 +41,14 @@ export default function NewsList({ news }: NewsListProps) {
                   {item.title}
                 </h3>
                 <span className="text-sm text-gray-500 ml-4">
-                  {item.date}
+                  {item.updateTime}
                 </span>
               </div>
-              <p className="mt-2 text-gray-600">
-                {convertUrlsToLinks(item.description)}
-              </p>
+              {item.description && (
+                <p className="mt-2 text-gray-600">
+                  {convertUrlsToLinks(item.description)}
+                </p>
+              )}
             </div>
           </li>
         ))}

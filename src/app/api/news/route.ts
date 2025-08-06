@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ApiResponse, FeishuResponse, FeishuField } from '@/types/api';
+import { ApiResponse, FeishuResponse, FeishuField, FeishuRecord } from '@/types/api';
 import { News } from '@/types';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { formatDate } from '@/utils/date';
@@ -48,7 +48,7 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
     }
 
 
-    const news = feishuData.data.items.map((item: any) => {
+    const news = feishuData.data.items.map((item: FeishuRecord) => {
       const title = getFieldText(item.fields.title as FeishuField[]);
       const url = getFieldUrl(item.fields.link as FeishuField[]);
       const updateTime = item.fields.updatetime as string;
@@ -94,12 +94,13 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
       }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching news:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch news';
     return new NextResponse(
       JSON.stringify({
         code: 500,
-        msg: error?.message || 'Failed to fetch news',
+        msg: errorMessage,
         data: {
           items: [],
           total: 0,

@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { ApiResponse } from '@/types/api';
 
 async function getTenantAccessToken(): Promise<string> {
   const response = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
@@ -71,12 +70,13 @@ export async function POST(request: Request) {
       { status: 200 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error adding tool:', error);
+    const errorMessage = error instanceof Error ? error.message : '添加工具失败';
     return new NextResponse(
       JSON.stringify({
         code: 500,
-        msg: error.message || '添加工具失败',
+        msg: errorMessage,
         data: null
       }),
       { status: 500 }

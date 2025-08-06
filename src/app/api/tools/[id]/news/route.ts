@@ -1,21 +1,16 @@
 import { NextRequest } from 'next/server';
-import { FeishuResponse, FeishuField } from '@/types/api';
+import { FeishuResponse, FeishuField, FeishuRecord } from '@/types/api';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { formatDate } from '@/utils/date';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
 export const GET = async function getToolNews(
   req: Request | NextRequest,
-  props: any
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = props.params.id;
+    const params = await context.params;
+    const id = params.id;
     if (!id) {
       throw new Error('Tool ID is required');
     }
@@ -70,7 +65,7 @@ export const GET = async function getToolNews(
 
 
     const news = feishuData.data.items
-      .map((item: any) => ({
+      .map((item: FeishuRecord) => ({
         id: item.record_id,
         title: getFieldText(item.fields.title as FeishuField[]),
         url: getFieldUrl(item.fields.link as FeishuField[]),

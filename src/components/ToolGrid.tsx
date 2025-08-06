@@ -5,7 +5,7 @@ import ToolCard from './ToolCard';
 
 interface ToolGridProps {
   tools: Tool[];
-  featured?: number[]; // 精选工具ID数组
+  featured?: string[]; // 精选工具ID数组
 }
 
 export default function ToolGrid({ tools, featured = [] }: ToolGridProps) {

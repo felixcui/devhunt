@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { News } from '@/types';
 import { FiBox, FiArrowLeft, FiClock, FiExternalLink, FiTag, FiRefreshCw } from 'react-icons/fi';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const toolName = searchParams.get('name');
 
-  const fetchNews = async () => {
+  const fetchNews = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -44,13 +44,13 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, toolName]);
 
   useEffect(() => {
     if (toolName) {
       fetchNews();
     }
-  }, [id, toolName]);
+  }, [toolName, fetchNews]);
 
   const handleRefresh = () => {
     fetchNews();

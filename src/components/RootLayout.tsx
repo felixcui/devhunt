@@ -3,7 +3,7 @@
 import CategoryList from './CategoryList';
 import Link from 'next/link';
 import TopNav from './TopNav';
-import { FiCode, FiStar, FiZap } from 'react-icons/fi';
+import { FiZap } from 'react-icons/fi';
 
 interface RootLayoutProps {
   children: React.ReactNode;

@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { FeishuResponse, ApiResponse, FeishuField } from '@/types/api';
+import { FeishuResponse, ApiResponse, FeishuField, FeishuRecord } from '@/types/api';
 import { Tool } from '@/types';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
-import { formatDate } from '@/utils/date';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
 import NodeCache from 'node-cache';
 
@@ -47,10 +46,14 @@ export async function GET(): Promise<NextResponse<ApiResponse<Tool>>> {
       throw new Error(`Feishu API Error: ${feishuData.msg}`);
     }
 
-    const tools = feishuData.data.items.map((item:any) => {
+    const tools = feishuData.data.items.map((item: FeishuRecord) => {
       let tags: string[] = [];
       if (item.fields.tags && Array.isArray(item.fields.tags)) {
-        tags = item.fields.tags;
+        // Handle if tags is an array of FeishuField objects
+        tags = (item.fields.tags as FeishuField[]).map(field => field.text || '').filter(Boolean);
+      } else if (typeof item.fields.tags === 'string') {
+        // Handle if tags is a string
+        tags = [item.fields.tags];
       }
 
       return {
@@ -82,10 +85,11 @@ export async function GET(): Promise<NextResponse<ApiResponse<Tool>>> {
       headers: { 'Content-Type': 'application/json' }
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tools';
     return new NextResponse(JSON.stringify({
       code: 500,
-      msg: error?.message || 'Failed to fetch tools',
+      msg: errorMessage,
       data: {
         items: [],
         total: 0,

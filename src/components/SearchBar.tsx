@@ -8,14 +8,14 @@ interface SearchBarProps {
 }
 
 // 自定义防抖 hook
-function useDebounce<T extends (...args: any[]) => void>(
-  callback: T,
+function useDebounce<T extends unknown[]>(
+  callback: (...args: T) => void,
   delay: number
 ) {
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   return useCallback(
-    (...args: Parameters<T>) => {
+    (...args: T) => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -31,7 +31,7 @@ function useDebounce<T extends (...args: any[]) => void>(
 export default function SearchBar({ onSearch }: SearchBarProps) {
   const [query, setQuery] = useState('');
 
-  const debouncedSearch = useDebounce((value: string) => {
+  const debouncedSearch = useDebounce<[string]>((value: string) => {
     onSearch(value);
   }, 300);
 
