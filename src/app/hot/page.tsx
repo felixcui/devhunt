@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { fetchTools } from '@/data/tools';
 import ToolGrid from '@/components/ToolGrid';
-import RootLayout from '@/components/RootLayout';
 import { Tool } from '@/types';
 
 // 缓存相关常量
@@ -92,7 +91,7 @@ export default function HotToolsPage() {
   }, []);
 
   return (
-    <RootLayout>
+    <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">热门工具</h1>
         <p className="text-gray-600">精选推荐的AI研发工具</p>
@@ -108,6 +107,6 @@ export default function HotToolsPage() {
       ) : (
         <ToolGrid tools={tools} />
       )}
-    </RootLayout>
+    </div>
   );
 } 

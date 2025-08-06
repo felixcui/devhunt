@@ -1,7 +1,6 @@
 import { fetchTools, fetchCategories } from '@/data/tools';
 import { notFound } from 'next/navigation';
 import ToolGrid from '@/components/ToolGrid';
-import RootLayout from '@/components/RootLayout';
 import { Metadata } from 'next';
 
 interface PageProps {
@@ -14,27 +13,37 @@ export default async function CategoryPage({ params }: PageProps) {
   const resolvedParams = await params;
   const id = resolvedParams.id;
 
-  const [tools, categories] = await Promise.all([
-    fetchTools(),
-    fetchCategories()
-  ]);
-  
-  const category = categories.find(c => c.id === id);
-  if (!category) return notFound();
+  try {
+    const [tools, categories] = await Promise.all([
+      fetchTools(),
+      fetchCategories()
+    ]);
+    
+    const category = categories.find(c => c.id === id);
+    if (!category) return notFound();
 
-  const categoryTools = tools.filter(tool => 
-    tool.category.toLowerCase().replace(/\s+/g, '-') === id
-  );
+    const categoryTools = tools.filter(tool => 
+      tool.category.toLowerCase().replace(/\s+/g, '-') === id
+    );
 
-  return (
-    <RootLayout>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
-        <p className="text-gray-600">{category.description}</p>
+    return (
+      <div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
+          <p className="text-gray-600">{category.description}</p>
+        </div>
+        <ToolGrid tools={categoryTools} />
       </div>
-      <ToolGrid tools={categoryTools} />
-    </RootLayout>
-  );
+    );
+  } catch (error) {
+    console.error('Error fetching data for category page:', error);
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-500 mb-4">无法加载分类数据</p>
+        <p className="text-gray-500">请稍后重试</p>
+      </div>
+    );
+  }
 }
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;

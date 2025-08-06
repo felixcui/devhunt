@@ -1,5 +1,4 @@
 import { fetchTools } from '@/data/tools';
-import RootLayout from '@/components/RootLayout';
 import ToolGrid from '@/components/ToolGrid';
 import { formatDate } from '@/utils/date';
 
@@ -18,7 +17,7 @@ export default async function RecentToolsPage() {
     .slice(0, 20);
 
   return (
-    <RootLayout>
+    <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">最近收录</h1>
         <p className="text-gray-600">最新收录的20个AI开发工具</p>
@@ -34,6 +33,6 @@ export default async function RecentToolsPage() {
           updateTime: tool.updateTime ? formatDate(typeof tool.updateTime === 'string' ? parseInt(tool.updateTime) : tool.updateTime) : '',
         }))} />
       )}
-    </RootLayout>
+    </div>
   );
 } 

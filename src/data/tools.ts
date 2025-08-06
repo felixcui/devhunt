@@ -2,12 +2,12 @@ import { Tool, Category, News } from '@/types';
 
 export async function fetchTools(): Promise<Tool[]> {
   try {
-    // 在服务器端渲染时，使用相对路径
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
       (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
     
+    console.log('Fetching tools from:', `${baseUrl}/api/tools`);
+    
     const response = await fetch(`${baseUrl}/api/tools`, {
-      // 添加缓存控制
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -15,8 +15,15 @@ export async function fetchTools(): Promise<Tool[]> {
     });
     
     if (!response.ok) {
+      console.error('API Error Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+      
       const errorText = await response.text();
-      console.error('API Error Response:', errorText);
+      console.error('Error Response Body:', errorText);
       throw new Error(`Failed to fetch tools: ${response.status} ${response.statusText}`);
     }
     
@@ -30,12 +37,12 @@ export async function fetchTools(): Promise<Tool[]> {
 
 export async function fetchNews(): Promise<News[]> {
   try {
-    // 在服务器端渲染时，使用相对路径
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
       (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
     
+    console.log('Fetching news from:', `${baseUrl}/api/news`);
+    
     const response = await fetch(`${baseUrl}/api/news`, {
-      // 添加缓存控制
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -43,8 +50,15 @@ export async function fetchNews(): Promise<News[]> {
     });
     
     if (!response.ok) {
+      console.error('News API Error Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+      
       const errorText = await response.text();
-      console.error('News API Error Response:', errorText);
+      console.error('News Error Response Body:', errorText);
       throw new Error(`Failed to fetch news: ${response.status} ${response.statusText}`);
     }
     
