@@ -82,7 +82,7 @@ export default function TopNav() {
                   <Icon className={`w-3.5 h-3.5 transition-transform group-hover:scale-110 ${
                     isActive ? 'text-white' : ''
                   }`} />
-                  <span className="font-medium text-sm">{item.label}</span>
+                  <span className="font-medium text-lg">{item.label}</span>
                   {item.badge && (
                     <span className={`absolute -top-1 -right-1 px-1.5 py-0.5 text-xs font-bold rounded-full ${
                       item.badge === 'New' 
