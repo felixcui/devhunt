@@ -2,19 +2,13 @@
 
 import Link from 'next/link';
 import { Tool } from '@/types';
-import { FiArrowUpRight, FiStar, FiZap, FiTrendingUp, FiExternalLink } from 'react-icons/fi';
+import { FiArrowUpRight, FiStar, FiZap, FiTrendingUp, FiExternalLink, FiCode } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { getCategoryDisplayName } from '@/utils/category-mapping';
-import { getCategoryIconConfig } from '@/utils/category-icons';
 
 interface ToolCardProps {
   tool: Tool;
   featured?: boolean;
-}
-
-// 根据工具分类获取图标配置
-function getToolIconConfig(tool: Tool) {
-  return getCategoryIconConfig(tool.category);
 }
 
 export default function ToolCard({ tool, featured = false }: ToolCardProps) {
@@ -33,8 +27,10 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
     const lowerTag = tag.toLowerCase().trim();
     return lowerTag === 'hot';
   });
-  const toolIconConfig = getToolIconConfig(tool);
-  const Icon = toolIconConfig.icon;
+
+  // 统一使用 FiCode 图标和蓝绿渐变背景
+  const UnifiedIcon = FiCode;
+  const unifiedGradient = 'from-blue-500 to-green-500';
 
   return (
     <div className={`group relative bg-white rounded-3xl shadow-soft overflow-hidden hover:shadow-soft-lg transition-all duration-500 transform hover:-translate-y-2 border border-gray-100/50 hover:border-gray-200/60 ${
@@ -45,13 +41,13 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
       <div className="p-6 pb-4">
         <div className="flex items-start justify-between mb-4">
           <Link href={`/tool/${tool.id}`} className="flex items-start gap-3 flex-1 group/link">
-            {/* 工具图标 - 根据分类使用不同图标和颜色 */}
+            {/* 工具图标 - 统一使用蓝绿渐变背景 */}
             <div className="relative group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-              <div className={`w-8 h-8 ${toolIconConfig.gradient} rounded-2xl flex items-center justify-center shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
-                <Icon className="w-4 h-4 text-white" />
+              <div className={`w-8 h-8 bg-gradient-to-r ${unifiedGradient} rounded-2xl flex items-center justify-center shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
+                <UnifiedIcon className="w-4 h-4 text-white" />
               </div>
               {/* 悬浮光效 */}
-              <div className={`absolute inset-0 ${toolIconConfig.gradient} rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500 -z-10 scale-110`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-r ${unifiedGradient} rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500 -z-10 scale-110`}></div>
             </div>
             
             {/* 工具信息 */}
@@ -145,11 +141,11 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
         </div>
       </div>
 
-      {/* 悬浮时的边框光效 - 使用工具图标颜色 */}
-      <div className={`absolute inset-0 rounded-3xl ${toolIconConfig.solid} opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}></div>
+      {/* 悬浮时的边框光效 - 使用统一蓝绿色 */}
+      <div className="absolute inset-0 rounded-3xl bg-blue-500 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"></div>
       
-      {/* 底部装饰线 - 使用工具图标颜色 */}
-      <div className={`absolute bottom-0 left-8 right-8 h-1 ${toolIconConfig.gradient} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center`}></div>
+      {/* 底部装饰线 - 使用统一蓝绿渐变 */}
+      <div className={`absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r ${unifiedGradient} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center`}></div>
     </div>
   );
 } 

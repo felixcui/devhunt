@@ -1,7 +1,7 @@
 import { fetchTools } from '@/data/tools';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { FiBox, FiExternalLink, FiTag, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
+import { FiCode, FiExternalLink, FiTag, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
 import Link from 'next/link';
 import { getCategoryDisplayName } from '@/utils/category-mapping';
 
@@ -77,7 +77,7 @@ export default async function ToolPage({ params }: PageProps) {
                 {/* 工具图标 */}
                 <div className="relative">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center shadow-soft">
-                    <FiBox className="w-8 h-8 text-white" />
+                    <FiCode className="w-8 h-8 text-white" />
                   </div>
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
                     <FiStar className="w-2.5 h-2.5 text-white" />
