@@ -136,7 +136,7 @@ export default function AddToolForm({ onSuccess, onClose }: AddToolFormProps) {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg hover:from-blue-600 hover:to-green-600 disabled:opacity-50"
               >
                 {loading ? '添加中...' : '确认添加'}
               </button>

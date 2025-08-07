@@ -67,7 +67,7 @@ export default async function ToolPage({ params }: PageProps) {
         {/* 主要内容区域 */}
         <div className="relative">
           {/* 背景装饰 */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-600/5 rounded-3xl blur-xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-green-500/5 rounded-3xl blur-xl"></div>
           
           <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-soft border border-white/20 overflow-hidden">
             {/* 工具头部信息 */}
@@ -75,7 +75,7 @@ export default async function ToolPage({ params }: PageProps) {
               <div className="flex items-start gap-6 mb-8">
                 {/* 工具图标 */}
                 <div className="relative">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-soft">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl flex items-center justify-center shadow-soft">
                     <FiBox className="w-8 h-8 text-white" />
                   </div>
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
@@ -90,7 +90,7 @@ export default async function ToolPage({ params }: PageProps) {
                       {tool.name}
                     </h1>
                     
-                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-soft">
+                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-soft">
                       <FiTag className="w-3 h-3" />
                       {tool.category}
                     </span>
@@ -106,7 +106,7 @@ export default async function ToolPage({ params }: PageProps) {
                       href={tool.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-soft-lg font-medium"
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-green-600 transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-soft-lg font-medium"
                     >
                       <FiGlobe className="w-4 h-4" />
                       访问工具
@@ -128,7 +128,7 @@ export default async function ToolPage({ params }: PageProps) {
               {tool.resources && (
                 <div className="border-t border-gray-200 pt-8">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
                       <FiFileText className="w-5 h-5 text-white" />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-800">相关资料</h2>

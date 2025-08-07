@@ -23,7 +23,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <div className="p-6">
           {/* Logo区域 */}
           <Link href="/" className="block group">
-            <div className="flex items-center justify-center mb-8 p-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-soft transform transition-all duration-200 hover:scale-[1.02] hover:shadow-soft-lg">
+            <div className="flex items-center justify-center mb-8 p-4 rounded-xl gradient-brand text-white shadow-soft transform transition-all duration-200 hover:scale-[1.02] hover:shadow-soft-lg">
               <div>
                 <h1 className="text-xl font-bold tracking-tight text-center">
                   AICoding基地
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       {/* 右下角返回顶部按钮 */}
       <button 
         onClick={scrollToTop}
-        className="fixed bottom-8 right-8 w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-soft-lg hover:shadow-lg transition-all duration-200 hover:scale-110 z-40 flex items-center justify-center group"
+        className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white rounded-full shadow-soft-lg hover:shadow-lg transition-all duration-200 hover:scale-110 z-40 flex items-center justify-center group"
         aria-label="返回顶部"
       >
         <svg className="w-5 h-5 transform transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

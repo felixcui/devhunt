@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FiClock, FiPlus, FiGrid, FiTrendingUp, FiSearch, FiX } from 'react-icons/fi';
+import { FiClock, FiPlus, FiGrid, FiTrendingUp, FiSearch, FiX, FiFileText } from 'react-icons/fi';
 
 const SUBMIT_TOOL_URL = 'https://nhihqe5yfi.feishu.cn/share/base/form/shrcnH6nUO2x2ddTTXtZCGVKKcc';
 
@@ -49,7 +49,7 @@ export default function TopNav() {
   };
 
   const navItems = [
-    { href: '/news', icon: FiClock, label: '工具资讯', badge: 'New' },
+    { href: '/news', icon: FiFileText, label: '工具资讯', badge: 'New' },
     { href: '/hot', icon: FiTrendingUp, label: '热门工具', badge: 'Hot' },
     { href: '/recent', icon: FiClock, label: '最近收录' },
     { href: '/tools', icon: FiGrid, label: '全部工具' },
@@ -75,8 +75,8 @@ export default function TopNav() {
                   href={item.href}
                   className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full transition-all duration-200 group
                     ${isActive 
-                      ? 'text-white bg-gradient-to-r from-blue-500 to-blue-600 shadow-soft' 
-                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50/80'
+                      ? 'text-white bg-gradient-to-r from-blue-500 to-green-500 shadow-soft' 
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50/80'
                     }`}
                 >
                   <Icon className={`w-3.5 h-3.5 transition-transform group-hover:scale-110 ${
@@ -102,7 +102,7 @@ export default function TopNav() {
             {/* 搜索按钮 */}
             <button 
               onClick={() => setShowSearchModal(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-600 hover:text-blue-600 hover:bg-blue-50/80 transition-all duration-200 group border border-gray-200/60 hover:border-blue-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-600 hover:text-primary-600 hover:bg-primary-50/80 transition-all duration-200 group border border-gray-200/60 hover:border-primary-200"
               aria-label="搜索"
             >
               <FiSearch className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
@@ -114,7 +114,7 @@ export default function TopNav() {
               href={SUBMIT_TOOL_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium text-xs shadow-soft hover:shadow-lg transition-all duration-200 hover:scale-105 group"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full category-badge font-medium text-xs shadow-soft hover:shadow-lg transition-all duration-200 hover:scale-105 group"
             >
               <FiPlus className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform duration-300" />
               <span className="text-sm">提交工具</span>

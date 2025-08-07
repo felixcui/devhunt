@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { News } from '@/types';
-import { FiBox, FiArrowLeft, FiClock, FiExternalLink, FiTag, FiRefreshCw } from 'react-icons/fi';
+import { FiBookOpen, FiArrowLeft, FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText } from 'react-icons/fi';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { use } from 'react';
@@ -72,28 +72,28 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
       {/* 页面头部 */}
       <div className="relative">
         {/* 背景装饰 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-600/10 rounded-3xl blur-xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-3xl blur-xl"></div>
         
-        <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-soft border border-white/20">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-soft border border-white/20">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-soft">
-                  <FiBox className="w-8 h-8 text-white" />
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl flex items-center justify-center shadow-soft">
+                  <FiBookOpen className="w-6 h-6 text-white" />
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
                   {toolName ? `${toolName} 相关资讯` : '相关资讯'}
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 text-sm mt-1">
                   与此工具相关的最新资讯和动态
                 </p>
               </div>
             </div>
 
             {/* 刷新按钮和更新时间 */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {lastUpdated && (
                 <div className="text-sm text-gray-500 flex items-center gap-1">
                   <FiClock className="w-4 h-4" />
@@ -103,7 +103,7 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
               <button
                 onClick={handleRefresh}
                 disabled={loading}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft"
+                className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg hover:from-blue-600 hover:to-green-600 disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
               >
                 <FiRefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 刷新
@@ -152,7 +152,7 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
           <p className="text-red-500 mb-6">{error}</p>
           <button 
             onClick={handleRefresh} 
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 shadow-soft"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg hover:from-blue-600 hover:to-green-600 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
           >
             <FiRefreshCw className="w-4 h-4" />
             重新加载
@@ -179,8 +179,8 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
                   <div className="flex items-start gap-4">
                     {/* 资讯图标 */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-soft group-hover:scale-110 transition-transform duration-200">
-                        <FiClock className="w-5 h-5 text-white" />
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center shadow-soft group-hover:scale-110 transition-transform duration-200">
+                        <FiFileText className="w-5 h-5 text-white" />
                       </div>
                       <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
                     </div>
@@ -228,7 +228,7 @@ export default function ToolNewsPage({ params }: NewsPageProps) {
                   </div>
 
                   {/* 悬浮时的底部装饰 */}
-                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-blue-500 to-green-500 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                 </article>
               ))}
             </div>

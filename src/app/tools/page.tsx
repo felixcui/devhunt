@@ -107,19 +107,19 @@ export default function ToolsPage() {
     <div className="space-y-8">
       {/* 页面头部 */}
       <div className="relative">
-        {/* 背景装饰 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-600/10 rounded-3xl blur-xl"></div>
+        {/* 背景装饰 - 使用工具专用颜色 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-3xl blur-xl"></div>
         
         <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-soft border border-white/20">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-soft">
+                <div className="w-16 h-16 tool-icon-gradient shadow-soft">
                   <FiGrid className="w-8 h-8 text-white" />
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                <h1 className="text-4xl font-bold gradient-text-brand">
                   所有工具
                 </h1>
                 <p className="text-gray-600 mt-2">
@@ -136,7 +136,7 @@ export default function ToolsPage() {
                   onClick={() => handleSort('recent')}
                   className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
                     sortBy === 'recent' 
-                      ? 'bg-white text-blue-600 shadow-soft' 
+                      ? 'bg-white text-primary-600 shadow-soft' 
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
@@ -147,7 +147,7 @@ export default function ToolsPage() {
                   onClick={() => handleSort('name')}
                   className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
                     sortBy === 'name' 
-                      ? 'bg-white text-blue-600 shadow-soft' 
+                      ? 'bg-white text-primary-600 shadow-soft' 
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
@@ -157,7 +157,7 @@ export default function ToolsPage() {
                   onClick={() => handleSort('category')}
                   className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
                     sortBy === 'category' 
-                      ? 'bg-white text-blue-600 shadow-soft' 
+                      ? 'bg-white text-primary-600 shadow-soft' 
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
@@ -182,7 +182,7 @@ export default function ToolsPage() {
           <p className="text-gray-500 mb-6">尝试调整搜索关键词或浏览其他分类</p>
           <button
             onClick={() => setFilteredTools(tools)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 shadow-soft"
+            className="inline-flex items-center gap-2 px-6 py-3 tool-icon-gradient text-white rounded-lg transition-all duration-200 hover:scale-105 shadow-soft"
           >
             查看所有工具
           </button>
@@ -195,7 +195,7 @@ export default function ToolsPage() {
               <FiTrendingUp className="w-4 h-4" />
               <span>找到 {filteredTools.length} 个工具</span>
               {filteredTools.length !== totalCount && (
-                <span className="text-blue-600">（已过滤）</span>
+                <span className="text-primary-600">（已过滤）</span>
               )}
             </div>
             <div>
@@ -213,7 +213,7 @@ export default function ToolsPage() {
         <p className="text-gray-500 text-sm mb-4">
           没有找到你想要的工具？
         </p>
-        <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+        <button className="text-primary-600 hover:text-primary-700 font-medium text-sm">
           提交新工具 →
         </button>
       </div>

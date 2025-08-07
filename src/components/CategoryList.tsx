@@ -100,66 +100,14 @@ function getCategoryIcon(category: string): IconType {
   return FiCode; // 默认图标
 }
 
-// 根据分类名称选择颜色主题
-function getCategoryColor(category: string): string {
-  const lowerCategory = category.toLowerCase();
-  
-  // 具体分类颜色匹配
-  if (lowerCategory === 'other') return 'from-gray-500 to-slate-600';
-  if (lowerCategory === 'sassagent') return 'from-emerald-500 to-teal-600';
-  if (lowerCategory === 'ui-code') return 'from-violet-500 to-purple-600';
-  if (lowerCategory === 'testing') return 'from-amber-500 to-orange-600';
-  if (lowerCategory === 'ide') return 'from-slate-500 to-gray-600';
-  if (lowerCategory === 'cliagent') return 'from-cyan-500 to-blue-600';
-  if (lowerCategory === 'mcptool') return 'from-indigo-500 to-purple-500';
-  
-  // 通用颜色匹配规则
-  if (lowerCategory.includes('ui') || lowerCategory.includes('界面')) return 'from-purple-500 to-pink-500';
-  if (lowerCategory.includes('sass') || lowerCategory.includes('平台')) return 'from-blue-500 to-cyan-500';
-  if (lowerCategory.includes('plugin') || lowerCategory.includes('插件')) return 'from-green-500 to-teal-500';
-  if (lowerCategory.includes('agent') || lowerCategory.includes('代理')) return 'from-emerald-500 to-green-600';
-  if (lowerCategory.includes('review') || lowerCategory.includes('审查')) return 'from-indigo-500 to-purple-500';
-  if (lowerCategory.includes('test') || lowerCategory.includes('测试')) return 'from-yellow-500 to-orange-500';
-  if (lowerCategory.includes('chat') || lowerCategory.includes('对话')) return 'from-rose-500 to-pink-500';
-  if (lowerCategory.includes('综合')) return 'from-gray-500 to-gray-600';
-  if (lowerCategory.includes('热门') || lowerCategory.includes('流行')) return 'from-red-500 to-pink-500';
-  if (lowerCategory.includes('cli') || lowerCategory.includes('命令行')) return 'from-slate-500 to-zinc-600';
-  if (lowerCategory.includes('ide') || lowerCategory.includes('编辑器')) return 'from-blue-500 to-indigo-600';
-  if (lowerCategory.includes('database') || lowerCategory.includes('数据库')) return 'from-green-500 to-emerald-600';
-  if (lowerCategory.includes('monitor') || lowerCategory.includes('监控')) return 'from-orange-500 to-red-500';
-  
-  return 'from-blue-500 to-purple-500';
+// 统一分类标签颜色 - 所有分类都使用蓝绿渐变
+function getCategoryColor(): string {
+  return 'from-blue-500 to-green-500'; // 统一使用蓝绿渐变
 }
 
-// 根据分类名称选择图标颜色
-function getIconColor(category: string): string {
-  const lowerCategory = category.toLowerCase();
-  
-  // 具体分类颜色匹配
-  if (lowerCategory === 'other') return 'text-gray-600';
-  if (lowerCategory === 'sassagent') return 'text-emerald-600';
-  if (lowerCategory === 'ui-code') return 'text-violet-600';
-  if (lowerCategory === 'testing') return 'text-amber-600';
-  if (lowerCategory === 'ide') return 'text-slate-600';
-  if (lowerCategory === 'cliagent') return 'text-cyan-600';
-  if (lowerCategory === 'mcptool') return 'text-indigo-600';
-  
-  // 通用颜色匹配规则
-  if (lowerCategory.includes('ui') || lowerCategory.includes('界面')) return 'text-purple-600';
-  if (lowerCategory.includes('sass') || lowerCategory.includes('平台')) return 'text-blue-600';
-  if (lowerCategory.includes('plugin') || lowerCategory.includes('插件')) return 'text-green-600';
-  if (lowerCategory.includes('agent') || lowerCategory.includes('代理')) return 'text-emerald-600';
-  if (lowerCategory.includes('review') || lowerCategory.includes('审查')) return 'text-indigo-600';
-  if (lowerCategory.includes('test') || lowerCategory.includes('测试')) return 'text-yellow-600';
-  if (lowerCategory.includes('chat') || lowerCategory.includes('对话')) return 'text-rose-600';
-  if (lowerCategory.includes('综合')) return 'text-gray-600';
-  if (lowerCategory.includes('热门') || lowerCategory.includes('流行')) return 'text-red-600';
-  if (lowerCategory.includes('cli') || lowerCategory.includes('命令行')) return 'text-slate-600';
-  if (lowerCategory.includes('ide') || lowerCategory.includes('编辑器')) return 'text-blue-600';
-  if (lowerCategory.includes('database') || lowerCategory.includes('数据库')) return 'text-green-600';
-  if (lowerCategory.includes('monitor') || lowerCategory.includes('监控')) return 'text-orange-600';
-  
-  return 'text-blue-600';
+// 统一图标颜色 - 所有分类图标都使用蓝色
+function getIconColor(): string {
+  return 'text-blue-600'; // 统一使用蓝色
 }
 
 export default function CategoryList() {
@@ -220,8 +168,8 @@ export default function CategoryList() {
         const Icon = getCategoryIcon(category.name);
         const categoryPath = `/category/${encodeURIComponent(category.id)}`;
         const isActive = pathname === categoryPath;
-        const gradientColor = getCategoryColor(category.name);
-        const iconColor = getIconColor(category.name);
+        const gradientColor = getCategoryColor();
+        const iconColor = getIconColor();
         
         return (
           <div key={category.id} className="group animate-slide-up" style={{ animationDelay: `${index * 50}ms` }}>
@@ -234,17 +182,13 @@ export default function CategoryList() {
                   : 'text-gray-700 hover:bg-gray-100/80 hover:shadow-soft'
                 }`}
             >
-              {/* 图标背景 */}
+              {/* 图标背景 - 统一样式 */}
               <div className={`relative flex items-center justify-center w-10 h-10 rounded-lg mr-3 transition-all duration-200
                 ${isActive 
                   ? 'bg-white/20 backdrop-blur-sm' 
-                  : 'bg-gray-100 group-hover:bg-white group-hover:shadow-soft'
+                  : 'bg-blue-100 group-hover:bg-white group-hover:shadow-soft'
                 }`}>
-                <Icon className={`w-5 h-5 transition-all duration-200 ${
-                  isActive 
-                    ? 'text-white' 
-                    : `${iconColor} group-hover:text-white`
-                }`} />
+                <Icon className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : `${iconColor} group-hover:text-white`}`} />
               </div>
               
               {/* 分类名称 */}

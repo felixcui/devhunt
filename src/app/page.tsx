@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { News } from '@/types';
-import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiTrendingUp, FiZap } from 'react-icons/fi';
+import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiBookOpen } from 'react-icons/fi';
 
 export default function HomePage() {
   const [news, setNews] = useState<News[]>([]);
@@ -50,32 +50,32 @@ export default function HomePage() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* 页面头部 */}
       <div className="relative">
-        {/* 背景装饰 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-600/10 rounded-3xl blur-xl"></div>
+        {/* 背景装饰 - 使用资讯专用颜色 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent-500/10 to-accent-600/10 rounded-3xl blur-xl"></div>
         
-        <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-soft border border-white/20">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
+        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-soft border border-white/20">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-soft">
-                  <FiTrendingUp className="w-8 h-8 text-white" />
+                <div className="w-12 h-12 news-icon-gradient shadow-soft">
+                  <FiBookOpen className="w-6 h-6 text-white" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <FiZap className="w-3 h-3 text-white" />
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                  <FiZap className="w-2 h-2 text-white" />
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold gradient-text-brand">
                   最新资讯
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 text-sm mt-1">
                   为开发者精选的AI工具资讯和行业动态
                 </p>
               </div>
             </div>
 
             {/* 刷新按钮和更新时间 */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {lastUpdated && (
                 <div className="text-sm text-gray-500 flex items-center gap-1">
                   <FiClock className="w-4 h-4" />
@@ -85,7 +85,7 @@ export default function HomePage() {
               <button
                 onClick={handleRefresh}
                 disabled={loading}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft"
+                className="flex items-center gap-2 px-3 py-1.5 tool-icon-gradient text-white rounded-lg disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
               >
                 <FiRefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 刷新
@@ -138,7 +138,7 @@ export default function HomePage() {
           <p className="text-red-500 mb-6">{error}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 shadow-soft"
+            className="inline-flex items-center gap-2 px-6 py-3 tool-icon-gradient text-white rounded-lg transition-all duration-200 hover:scale-105 shadow-soft"
           >
             <FiRefreshCw className="w-4 h-4" />
             重新加载
@@ -159,14 +159,14 @@ export default function HomePage() {
               {news.map((item, index) => (
                 <article 
                   key={item.id} 
-                  className="group bg-white rounded-2xl shadow-soft hover:shadow-soft-lg p-6 transition-all duration-300 hover:-translate-y-1 animate-slide-up border border-gray-100 hover:border-blue-200"
+                  className="group bg-white rounded-2xl shadow-soft hover:shadow-soft-lg p-6 transition-all duration-300 hover:-translate-y-1 animate-slide-up border border-gray-100 hover:border-accent-200"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-start gap-4">
                     {/* 资讯图标 */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-soft group-hover:scale-110 transition-transform duration-200">
-                        <FiClock className="w-6 h-6 text-white" />
+                      <div className="w-12 h-12 news-icon-gradient shadow-soft group-hover:scale-110 transition-transform duration-200">
+                        <FiFileText className="w-6 h-6 text-white" />
                       </div>
                       <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
                     </div>
@@ -180,9 +180,9 @@ export default function HomePage() {
                           rel="noopener noreferrer"
                           className="flex-1 group/link"
                         >
-                          <h2 className="text-lg font-semibold text-gray-900 group-hover/link:text-blue-600 transition-colors duration-200 leading-tight mb-2 flex items-start gap-2">
+                          <h2 className="text-lg font-semibold text-gray-900 group-hover/link:text-accent-600 transition-colors duration-200 leading-tight mb-2 flex items-start gap-2">
                             <span className="flex-1">{item.title}</span>
-                            <FiExternalLink className="w-4 h-4 text-gray-400 group-hover/link:text-blue-600 transition-colors duration-200 flex-shrink-0 mt-1" />
+                            <FiExternalLink className="w-4 h-4 text-gray-400 group-hover/link:text-accent-600 transition-colors duration-200 flex-shrink-0 mt-1" />
                           </h2>
                         </a>
                         
@@ -204,7 +204,7 @@ export default function HomePage() {
                       {/* 相关工具标签 */}
                       {item.tool && (
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-sm text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200 hover:bg-blue-100 transition-colors">
+                          <span className="news-tag">
                             <FiTag className="w-3 h-3" />
                             相关工具: {item.tool}
                           </span>
@@ -214,7 +214,7 @@ export default function HomePage() {
                   </div>
 
                   {/* 悬浮时的底部装饰 */}
-                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                  <div className="absolute bottom-0 left-6 right-6 h-1 news-icon-gradient rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                 </article>
               ))}
             </div>
@@ -226,7 +226,7 @@ export default function HomePage() {
       <div className="text-center py-8">
         <p className="text-gray-500 text-sm">
           数据每5分钟自动更新 • 
-          <span className="text-blue-600 hover:text-blue-700 cursor-pointer"> 查看更多工具资讯</span>
+          <span className="news-accent-text hover:opacity-80 cursor-pointer"> 查看更多工具资讯</span>
         </p>
       </div>
     </div>
