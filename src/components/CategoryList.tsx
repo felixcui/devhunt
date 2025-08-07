@@ -115,30 +115,31 @@ export default function CategoryList() {
         const categoryPath = `/category/${encodeURIComponent(category.id)}`;
         const isActive = pathname === categoryPath;
         
+        const baseClasses = "relative flex items-center p-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02]";
+        const activeClasses = "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-soft-lg";
+        const inactiveClasses = "text-gray-700";
+        
         return (
           <div key={category.id} className="group animate-slide-up" style={{ animationDelay: `${index * 50}ms` }}>
             <a
               href={categoryPath}
               onClick={(e) => handleNavigation(categoryPath, e)}
-              className={`relative flex items-center p-3 rounded-xl transition-all duration-300 group-hover:scale-[1.02] transform
-                ${isActive 
-                  ? `bg-gradient-to-r ${iconConfig.gradient} text-white shadow-soft-lg` 
-                  : 'text-gray-700 hover:bg-gray-100/80 hover:shadow-soft'
-                }`}
+              className={`${baseClasses} ${isActive ? activeClasses : inactiveClasses}`}
+
             >
               {/* 图标背景 - 根据分类使用不同颜色 */}
               <div className={`relative flex items-center justify-center w-10 h-10 rounded-lg mr-3 transition-all duration-200
                 ${isActive 
                   ? 'bg-white/20 backdrop-blur-sm' 
-                  : `${iconConfig.light} group-hover:bg-white group-hover:shadow-soft`
+                  : `${iconConfig.light}`
                 }`}>
-                <Icon className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : `text-gray-600 group-hover:text-white`}`} />
+                <Icon className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : 'text-gray-600'}`} />
               </div>
               
               {/* 分类名称 */}
               <div className="flex-1 min-w-0">
                 <span className={`font-medium text-base transition-all duration-200 ${
-                  isActive ? 'text-white' : 'text-gray-700 group-hover:text-gray-900'
+                  isActive ? 'text-white' : 'text-gray-700'
                 }`}>
                   {category.name}
                 </span>

@@ -47,7 +47,7 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
           <Link href={`/tool/${tool.id}`} className="flex items-start gap-3 flex-1 group/link">
             {/* 工具图标 - 根据分类使用不同图标和颜色 */}
             <div className="relative group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-              <div className={`w-8 h-8 ${toolIconConfig.gradient} shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
+              <div className={`w-8 h-8 ${toolIconConfig.gradient} rounded-2xl flex items-center justify-center shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
                 <Icon className="w-4 h-4 text-white" />
               </div>
               {/* 悬浮光效 */}
