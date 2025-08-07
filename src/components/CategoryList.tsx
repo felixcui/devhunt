@@ -108,14 +108,14 @@ export default function CategoryList() {
   }
   
   return (
-    <nav className="space-y-1">
+    <nav className="space-y-0.5">
       {categories.map((category, index) => {
         const iconConfig = getCategoryStyleConfig(category.name);
         const Icon = iconConfig.icon;
         const categoryPath = `/category/${encodeURIComponent(category.id)}`;
         const isActive = pathname === categoryPath;
         
-        const baseClasses = "relative flex items-center p-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02]";
+        const baseClasses = "relative flex items-center p-2 rounded-xl transition-all duration-300 transform hover:scale-[1.02]";
         const activeClasses = "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-soft-lg";
         const inactiveClasses = "text-gray-700";
         
@@ -128,12 +128,12 @@ export default function CategoryList() {
 
             >
               {/* 图标背景 - 根据分类使用不同颜色 */}
-              <div className={`relative flex items-center justify-center w-10 h-10 rounded-lg mr-3 transition-all duration-200
+              <div className={`relative flex items-center justify-center w-8 h-8 rounded-lg mr-3 transition-all duration-200
                 ${isActive 
                   ? 'bg-white/20 backdrop-blur-sm' 
                   : `${iconConfig.light}`
                 }`}>
-                <Icon className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : 'text-gray-600'}`} />
+                <Icon className={`w-4 h-4 transition-all duration-200 ${isActive ? 'text-white' : 'text-gray-600'}`} />
               </div>
               
               {/* 分类名称 */}
