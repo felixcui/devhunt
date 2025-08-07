@@ -48,21 +48,40 @@ export async function GET(): Promise<NextResponse<ApiResponse<Tool>>> {
 
     const tools = feishuData.data.items.map((item: FeishuRecord) => {
       let tags: string[] = [];
-      if (item.fields.tags && Array.isArray(item.fields.tags)) {
-        // Handle if tags is an array of FeishuField objects
-        tags = (item.fields.tags as FeishuField[]).map(field => field.text || '').filter(Boolean);
-      } else if (typeof item.fields.tags === 'string') {
-        // Handle if tags is a string
-        tags = [item.fields.tags];
+      
+      // 处理不同格式的 tags 字段
+      const tagsField = item.fields.tags;
+      if (tagsField) {
+        if (Array.isArray(tagsField)) {
+          // 如果 tags 是数组，可能包含 FeishuField 对象或字符串
+          tags = tagsField.map((tag: FeishuField | string) => {
+            if (typeof tag === 'object' && tag && tag.text) {
+              return String(tag.text).trim();
+            } else if (typeof tag === 'string') {
+              return tag.trim();
+            }
+            return '';
+          }).filter((tag: string) => tag.length > 0);
+        } else if (typeof tagsField === 'string') {
+          // 如果 tags 是字符串，按逗号分割
+          tags = tagsField.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+        }
       }
 
-      // 添加调试信息
+      // 添加调试信息 - 更详细的原始数据结构
       if (process.env.NODE_ENV === 'development') {
+        const toolName = getFieldText(item.fields.name as FeishuField[]);
         console.log('Tool tags debug:', {
-          name: getFieldText(item.fields.name as FeishuField[]),
-          rawTags: item.fields.tags,
+          name: toolName,
+          rawTags: tagsField,
+          allFields: Object.keys(item.fields),
           processedTags: tags
         });
+        
+        // 如果是特定工具，打印完整字段信息
+        if (toolName === 'Cursor' || toolName === 'Continue') {
+          console.log(`${toolName} 完整字段信息:`, item.fields);
+        }
       }
 
       return {

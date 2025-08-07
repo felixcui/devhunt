@@ -26,7 +26,11 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
   if (!tool) return null;
 
   const hasValidTags = tool.tags && Array.isArray(tool.tags) && tool.tags.length > 0;
-  const isHot = hasValidTags && tool.tags && tool.tags.some(tag => tag.toLowerCase() === 'hot');
+  // 严格匹配"hot"标签
+  const isHot = hasValidTags && tool.tags && tool.tags.some(tag => {
+    const lowerTag = tag.toLowerCase().trim();
+    return lowerTag === 'hot';
+  });
   const toolIconStyle = getToolIconStyle();
 
   return (
@@ -83,7 +87,10 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
             </span>
             
             {/* 工具标签 - 使用中性灰色 */}
-            {hasValidTags && tool.tags && tool.tags.filter(tag => tag.toLowerCase() !== 'hot').slice(0, 2).map((tag, index) => (
+            {hasValidTags && tool.tags && tool.tags.filter(tag => {
+              const lowerTag = tag.toLowerCase().trim();
+              return lowerTag !== 'hot';
+            }).slice(0, 2).map((tag, index) => (
               <span 
                 key={index}
                 className="inline-flex items-center text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105"
@@ -93,9 +100,15 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
             ))}
             
             {/* 更多标签指示器 */}
-            {hasValidTags && tool.tags && tool.tags.filter(tag => tag.toLowerCase() !== 'hot').length > 2 && (
+            {hasValidTags && tool.tags && tool.tags.filter(tag => {
+              const lowerTag = tag.toLowerCase().trim();
+              return lowerTag !== 'hot';
+            }).length > 2 && (
               <span className="inline-flex items-center text-gray-400 text-xs bg-gray-50 px-1.5 py-0.5 rounded-full font-medium">
-                +{tool.tags.filter(tag => tag.toLowerCase() !== 'hot').length - 2}
+                +{tool.tags.filter(tag => {
+                  const lowerTag = tag.toLowerCase().trim();
+                  return lowerTag !== 'hot';
+                }).length - 2}
               </span>
             )}
           </div>

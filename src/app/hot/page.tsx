@@ -56,30 +56,50 @@ export default function HotToolsPage() {
   const loadHotTools = async () => {
     try {
       const allTools = await fetchTools();
-      console.log('所有工具数据:', allTools);
-      console.log('第一个工具的tags:', allTools[0]?.tags);
-      console.log('工具总数:', allTools.length);
+      console.log('=== 热门工具筛选调试 ===');
+      console.log('获取到的工具总数:', allTools.length);
       
-      // 方案1: 如果有hot标签的工具
-      let hotTools = allTools.filter(tool => 
-        tool.tags && 
-        Array.isArray(tool.tags) && 
-        tool.tags.some(tag => tag.toLowerCase() === 'hot')
+      // 筛选有有效标签的工具
+      const toolsWithTags = allTools.filter(tool => 
+        tool.tags && Array.isArray(tool.tags) && tool.tags.length > 0
       );
+      console.log('有标签的工具数量:', toolsWithTags.length);
+      console.log('有标签的工具:', toolsWithTags.map(tool => ({
+        name: tool.name,
+        tags: tool.tags
+      })));
       
-      // 方案2: 如果没有hot标签，使用前8个工具作为热门工具
-      if (hotTools.length === 0) {
-        console.log('没有找到hot标签的工具，使用前8个工具作为热门工具');
-        hotTools = allTools.slice(0, 8);
+      // 只筛选包含"hot"标签的工具 - 严格匹配，没有就显示空
+      const hotTools = allTools.filter(tool => {
+        if (!tool.tags || !Array.isArray(tool.tags)) {
+          return false;
+        }
+        return tool.tags.some(tag => {
+          const lowerTag = tag.toLowerCase().trim();
+          return lowerTag === 'hot';
+        });
+      });
+      
+      console.log('包含"hot"标签的工具数量:', hotTools.length);
+      if (hotTools.length > 0) {
+        console.log('所有包含"hot"标签的工具详情:', hotTools.map(tool => ({
+          name: tool.name,
+          tags: tool.tags,
+          category: tool.category,
+          id: tool.id
+        })));
+      } else {
+        console.log('没有找到任何包含"hot"标签的工具');
       }
       
-      console.log('最终热门工具:', hotTools);
-      console.log('热门工具数量:', hotTools.length);
-      
+      // 设置工具列表 - 有就显示，没有就是空数组
       setTools(hotTools);
       setToCache(hotTools);
+      
+      console.log('最终显示的热门工具数量:', hotTools.length);
     } catch (error) {
       console.error('Error loading hot tools:', error);
+      setTools([]); // 出错时也设置为空
     } finally {
       setLoading(false);
     }
