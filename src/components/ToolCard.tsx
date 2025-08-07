@@ -2,17 +2,19 @@
 
 import Link from 'next/link';
 import { Tool } from '@/types';
-import { FiBox, FiArrowUpRight, FiStar, FiZap, FiTrendingUp, FiExternalLink } from 'react-icons/fi';
+import { FiArrowUpRight, FiStar, FiZap, FiTrendingUp, FiExternalLink } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
+import { getCategoryDisplayName } from '@/utils/category-mapping';
+import { getCategoryIconConfig } from '@/utils/category-icons';
 
 interface ToolCardProps {
   tool: Tool;
   featured?: boolean;
 }
 
-// 统一工具图标颜色 - 所有工具都使用Primary Blue
-function getToolIconStyle(): string {
-  return 'tool-icon-gradient'; // 使用统一的工具图标样式
+// 根据工具分类获取图标配置
+function getToolIconConfig(tool: Tool) {
+  return getCategoryIconConfig(tool.category);
 }
 
 export default function ToolCard({ tool, featured = false }: ToolCardProps) {
@@ -31,7 +33,8 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
     const lowerTag = tag.toLowerCase().trim();
     return lowerTag === 'hot';
   });
-  const toolIconStyle = getToolIconStyle();
+  const toolIconConfig = getToolIconConfig(tool);
+  const Icon = toolIconConfig.icon;
 
   return (
     <div className={`group relative bg-white rounded-3xl shadow-soft overflow-hidden hover:shadow-soft-lg transition-all duration-500 transform hover:-translate-y-2 border border-gray-100/50 hover:border-gray-200/60 ${
@@ -42,13 +45,13 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
       <div className="p-6 pb-4">
         <div className="flex items-start justify-between mb-4">
           <Link href={`/tool/${tool.id}`} className="flex items-start gap-3 flex-1 group/link">
-            {/* 工具图标 - 统一使用Primary Blue */}
+            {/* 工具图标 - 根据分类使用不同图标和颜色 */}
             <div className="relative group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-              <div className={`w-8 h-8 ${toolIconStyle} shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
-                <FiBox className="w-4 h-4 text-white" />
+              <div className={`w-8 h-8 ${toolIconConfig.gradient} shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
+                <Icon className="w-4 h-4 text-white" />
               </div>
               {/* 悬浮光效 */}
-              <div className="absolute inset-0 tool-icon-gradient rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500 -z-10 scale-110"></div>
+              <div className={`absolute inset-0 ${toolIconConfig.gradient} rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500 -z-10 scale-110`}></div>
             </div>
             
             {/* 工具信息 */}
@@ -83,7 +86,7 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
             {/* 分类标签 - 统一使用精选样式 */}
             <span className="inline-flex items-center gap-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
               <FiZap className="w-2 h-2" />
-              {tool.category}
+              {getCategoryDisplayName(tool.category)}
             </span>
             
             {/* 工具标签 - 使用中性灰色 */}
@@ -143,10 +146,10 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
       </div>
 
       {/* 悬浮时的边框光效 - 使用工具图标颜色 */}
-      <div className="absolute inset-0 rounded-3xl tool-icon opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"></div>
+      <div className={`absolute inset-0 rounded-3xl ${toolIconConfig.solid} opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}></div>
       
       {/* 底部装饰线 - 使用工具图标颜色 */}
-      <div className="absolute bottom-0 left-8 right-8 h-1 tool-icon-gradient rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
+      <div className={`absolute bottom-0 left-8 right-8 h-1 ${toolIconConfig.gradient} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center`}></div>
     </div>
   );
 } 

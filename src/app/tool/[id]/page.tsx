@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { FiBox, FiExternalLink, FiTag, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
 import Link from 'next/link';
+import { getCategoryDisplayName } from '@/utils/category-mapping';
 
 interface PageProps {
   params: Promise<{
@@ -92,7 +93,7 @@ export default async function ToolPage({ params }: PageProps) {
                     
                     <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-soft">
                       <FiTag className="w-3 h-3" />
-                      {tool.category}
+                      {getCategoryDisplayName(tool.category)}
                     </span>
                   </div>
 

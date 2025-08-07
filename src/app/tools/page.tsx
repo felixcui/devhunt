@@ -6,6 +6,7 @@ import ToolGrid from '@/components/ToolGrid';
 import SearchBar from '@/components/SearchBar';
 import { Tool } from '@/types';
 import { FiGrid, FiFilter, FiTrendingUp, FiClock } from 'react-icons/fi';
+import { getCategoryDisplayName } from '@/utils/category-mapping';
 
 export default function ToolsPage() {
   const [tools, setTools] = useState<Tool[]>([]);
@@ -40,6 +41,7 @@ export default function ToolsPage() {
     const filtered = tools.filter(tool => 
       tool.name.toLowerCase().includes(searchQuery) ||
       tool.description.toLowerCase().includes(searchQuery) ||
+      getCategoryDisplayName(tool.category).toLowerCase().includes(searchQuery) ||
       tool.category.toLowerCase().includes(searchQuery) ||
       (tool.tags && tool.tags.some(tag => tag.toLowerCase().includes(searchQuery)))
     );
@@ -53,7 +55,7 @@ export default function ToolsPage() {
         case 'name':
           return a.name.localeCompare(b.name);
         case 'category':
-          return a.category.localeCompare(b.category);
+          return getCategoryDisplayName(a.category).localeCompare(getCategoryDisplayName(b.category), 'zh');
         case 'recent':
         default:
           return b.id.localeCompare(a.id); // 假设id越大越新

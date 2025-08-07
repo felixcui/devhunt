@@ -4,26 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchCategories } from '@/data/tools';
 import { Category } from '@/types';
 import { useRouter, usePathname } from 'next/navigation';
-import { IconType } from 'react-icons';
-import { 
-  FiMessageSquare, 
-  FiCode, 
-  FiCheck, 
-  FiCloud,
-  FiBox,
-  FiLayout,
-  FiPackage,
-  FiActivity,
-  FiGlobe,
-  FiTrendingUp,
-  FiCpu,
-  FiDatabase,
-  FiLayers,
-  FiTerminal,
-  FiMonitor,
-  FiSettings,
-  FiPenTool
-} from 'react-icons/fi';
+import { getCategoryIconConfig } from '@/utils/category-icons';
 
 // 缓存相关常量
 const CACHE_KEY = 'categories_cache';
@@ -69,45 +50,9 @@ function setToCache(data: Category[]) {
   localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
 }
 
-// 根据分类名称特征选择图标
-function getCategoryIcon(category: string): IconType {
-  const lowerCategory = category.toLowerCase();
-  
-  // 具体分类匹配
-  if (lowerCategory === 'other') return FiSettings;
-  if (lowerCategory === 'sassagent') return FiCpu;
-  if (lowerCategory === 'ui-code') return FiMonitor;
-  if (lowerCategory === 'testing') return FiActivity;
-  if (lowerCategory === 'ide') return FiTerminal;
-  if (lowerCategory === 'cliagent') return FiBox;
-  if (lowerCategory === 'mcptool') return FiLayers;
-  
-  // 通用匹配规则
-  if (lowerCategory.includes('ui') || lowerCategory.includes('界面')) return FiLayout;
-  if (lowerCategory.includes('sass') || lowerCategory.includes('平台')) return FiCloud;
-  if (lowerCategory.includes('plugin') || lowerCategory.includes('插件')) return FiPackage;
-  if (lowerCategory.includes('agent') || lowerCategory.includes('代理')) return FiCpu;
-  if (lowerCategory.includes('review') || lowerCategory.includes('审查')) return FiCheck;
-  if (lowerCategory.includes('test') || lowerCategory.includes('测试')) return FiActivity;
-  if (lowerCategory.includes('chat') || lowerCategory.includes('对话')) return FiMessageSquare;
-  if (lowerCategory.includes('综合')) return FiGlobe;
-  if (lowerCategory.includes('热门') || lowerCategory.includes('流行')) return FiTrendingUp;
-  if (lowerCategory.includes('cli') || lowerCategory.includes('命令行')) return FiTerminal;
-  if (lowerCategory.includes('ide') || lowerCategory.includes('编辑器')) return FiPenTool;
-  if (lowerCategory.includes('database') || lowerCategory.includes('数据库')) return FiDatabase;
-  if (lowerCategory.includes('monitor') || lowerCategory.includes('监控')) return FiMonitor;
-  
-  return FiCode; // 默认图标
-}
-
-// 统一分类标签颜色 - 所有分类都使用蓝绿渐变
-function getCategoryColor(): string {
-  return 'from-blue-500 to-green-500'; // 统一使用蓝绿渐变
-}
-
-// 统一图标颜色 - 所有分类图标都使用蓝色
-function getIconColor(): string {
-  return 'text-blue-600'; // 统一使用蓝色
+// 根据分类名称获取图标配置
+function getCategoryStyleConfig(category: string) {
+  return getCategoryIconConfig(category);
 }
 
 export default function CategoryList() {
@@ -165,11 +110,10 @@ export default function CategoryList() {
   return (
     <nav className="space-y-1">
       {categories.map((category, index) => {
-        const Icon = getCategoryIcon(category.name);
+        const iconConfig = getCategoryStyleConfig(category.name);
+        const Icon = iconConfig.icon;
         const categoryPath = `/category/${encodeURIComponent(category.id)}`;
         const isActive = pathname === categoryPath;
-        const gradientColor = getCategoryColor();
-        const iconColor = getIconColor();
         
         return (
           <div key={category.id} className="group animate-slide-up" style={{ animationDelay: `${index * 50}ms` }}>
@@ -178,17 +122,17 @@ export default function CategoryList() {
               onClick={(e) => handleNavigation(categoryPath, e)}
               className={`relative flex items-center p-3 rounded-xl transition-all duration-300 group-hover:scale-[1.02] transform
                 ${isActive 
-                  ? `bg-gradient-to-r ${gradientColor} text-white shadow-soft-lg` 
+                  ? `bg-gradient-to-r ${iconConfig.gradient} text-white shadow-soft-lg` 
                   : 'text-gray-700 hover:bg-gray-100/80 hover:shadow-soft'
                 }`}
             >
-              {/* 图标背景 - 统一样式 */}
+              {/* 图标背景 - 根据分类使用不同颜色 */}
               <div className={`relative flex items-center justify-center w-10 h-10 rounded-lg mr-3 transition-all duration-200
                 ${isActive 
                   ? 'bg-white/20 backdrop-blur-sm' 
-                  : 'bg-blue-100 group-hover:bg-white group-hover:shadow-soft'
+                  : `${iconConfig.light} group-hover:bg-white group-hover:shadow-soft`
                 }`}>
-                <Icon className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : `${iconColor} group-hover:text-white`}`} />
+                <Icon className={`w-5 h-5 transition-all duration-200 ${isActive ? 'text-white' : `text-gray-600 group-hover:text-white`}`} />
               </div>
               
               {/* 分类名称 */}

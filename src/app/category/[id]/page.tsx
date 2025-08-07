@@ -2,6 +2,7 @@ import { fetchTools, fetchCategories } from '@/data/tools';
 import { notFound } from 'next/navigation';
 import ToolGrid from '@/components/ToolGrid';
 import { Metadata } from 'next';
+import { getCategoryId } from '@/utils/category-mapping';
 
 interface PageProps {
   params: Promise<{
@@ -22,9 +23,11 @@ export default async function CategoryPage({ params }: PageProps) {
     const category = categories.find(c => c.id === id);
     if (!category) return notFound();
 
-    const categoryTools = tools.filter(tool => 
-      tool.category.toLowerCase().replace(/\s+/g, '-') === id
-    );
+    const categoryTools = tools.filter(tool => {
+      // 使用映射函数获取工具分类的标准化ID
+      const toolCategoryId = getCategoryId(tool.category);
+      return toolCategoryId === id;
+    });
 
     return (
       <div>
