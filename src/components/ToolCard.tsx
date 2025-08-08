@@ -131,10 +131,10 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
             )}
             
             <Link 
-              href={`/tool/${tool.id}`}
+              href={`/tool/${tool.id}/news?name=${encodeURIComponent(tool.name)}`}
               className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold text-xs bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-all duration-200 hover:scale-105"
             >
-              查看详情
+              查看资讯
               <FiArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
