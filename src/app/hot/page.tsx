@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { fetchTools } from '@/data/tools';
 import ToolGrid from '@/components/ToolGrid';
 import { Tool } from '@/types';
+import Link from 'next/link';
+import { FiArrowLeft } from 'react-icons/fi';
 
 // 缓存相关常量
 const CACHE_KEY = 'hot_tools_cache';
@@ -127,6 +129,17 @@ export default function HotToolsPage() {
 
   return (
     <div>
+      {/* 返回按钮 */}
+      <div className="mb-8">
+        <Link 
+          href="/"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-3 py-2 rounded-lg"
+        >
+          <FiArrowLeft className="w-4 h-4" />
+          返回首页
+        </Link>
+      </div>
+      
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">热门工具</h1>
         <p className="text-gray-600">精选推荐的AI研发工具</p>
@@ -140,7 +153,7 @@ export default function HotToolsPage() {
           <p className="text-gray-500">暂无热门工具</p>
         </div>
       ) : (
-        <ToolGrid tools={tools} />
+        <ToolGrid tools={tools} from="hot" />
       )}
     </div>
   );

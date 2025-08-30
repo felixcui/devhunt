@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { News } from '@/types';
-import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiBookOpen } from 'react-icons/fi';
+import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiBookOpen, FiArrowLeft } from 'react-icons/fi';
+import Link from 'next/link';
 
 export default function NewsPage() {
   const [news, setNews] = useState<News[]>([]);
@@ -42,6 +43,17 @@ export default function NewsPage() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
+      {/* 返回按钮 */}
+      <div>
+        <Link 
+          href="/"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-3 py-2 rounded-lg"
+        >
+          <FiArrowLeft className="w-4 h-4" />
+          返回首页
+        </Link>
+      </div>
+      
       {/* 页面头部 */}
       <div className="relative">
         {/* 背景装饰 */}

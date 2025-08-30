@@ -206,7 +206,7 @@ export default function ToolsPage() {
           </div>
 
           {/* 工具网格 */}
-          <ToolGrid tools={filteredTools} />
+          <ToolGrid tools={filteredTools} from="tools" />
         </div>
       )}
 

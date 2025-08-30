@@ -6,9 +6,10 @@ import ToolCard from './ToolCard';
 interface ToolGridProps {
   tools: Tool[];
   featured?: string[]; // 精选工具ID数组
+  from?: string; // 来源页面标识
 }
 
-export default function ToolGrid({ tools, featured = [] }: ToolGridProps) {
+export default function ToolGrid({ tools, featured = [], from }: ToolGridProps) {
   if (!Array.isArray(tools)) {
     return null;
   }
@@ -28,7 +29,7 @@ export default function ToolGrid({ tools, featured = [] }: ToolGridProps) {
             className="animate-fade-in"
             style={{ animationDelay: `${index * 100}ms` }}
           >
-            <ToolCard tool={tool} featured={isFeatured && index < 3} />
+            <ToolCard tool={tool} featured={isFeatured && index < 3} from={from} />
           </div>
         );
       })}

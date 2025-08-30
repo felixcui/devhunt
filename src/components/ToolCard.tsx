@@ -9,9 +9,10 @@ import { getCategoryDisplayName } from '@/utils/category-mapping';
 interface ToolCardProps {
   tool: Tool;
   featured?: boolean;
+  from?: string; // 来源页面标识
 }
 
-export default function ToolCard({ tool, featured = false }: ToolCardProps) {
+export default function ToolCard({ tool, featured = false, from }: ToolCardProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -31,6 +32,9 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
   // 统一使用 FiCode 图标和蓝绿渐变背景
   const UnifiedIcon = FiCode;
   const unifiedGradient = 'from-blue-500 to-green-500';
+  
+  // 构建工具详情链接，包含来源页面参数
+  const toolDetailUrl = from ? `/tool/${tool.id}?from=${from}` : `/tool/${tool.id}`;
 
   return (
     <div className={`group relative bg-white rounded-3xl shadow-soft overflow-hidden hover:shadow-soft-lg transition-all duration-500 transform hover:-translate-y-2 border border-gray-100/50 hover:border-gray-200/60 ${
@@ -40,7 +44,7 @@ export default function ToolCard({ tool, featured = false }: ToolCardProps) {
       {/* 工具头部 */}
       <div className="p-6 pb-4">
         <div className="flex items-start justify-between mb-4">
-          <Link href={`/tool/${tool.id}`} className="flex items-start gap-3 flex-1 group/link">
+          <Link href={toolDetailUrl} className="flex items-start gap-3 flex-1 group/link">
             {/* 工具图标 - 统一使用蓝绿渐变背景 */}
             <div className="relative group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
               <div className={`w-8 h-8 bg-gradient-to-r ${unifiedGradient} rounded-2xl flex items-center justify-center shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
