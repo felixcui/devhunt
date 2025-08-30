@@ -16,12 +16,7 @@ export async function fetchTools(): Promise<Tool[]> {
     });
     
     if (!response.ok) {
-      console.error('API Error Response:', {
-        status: response.status,
-        statusText: response.statusText,
-        url: response.url,
-        headers: Object.fromEntries(response.headers.entries())
-      });
+      console.error('API Error Response:', 'Status:', response.status, 'StatusText:', response.statusText, 'URL:', response.url);
       
       const errorText = await response.text();
       console.error('Error Response Body:', errorText);
@@ -51,12 +46,7 @@ export async function fetchNews(): Promise<News[]> {
     });
     
     if (!response.ok) {
-      console.error('News API Error Response:', {
-        status: response.status,
-        statusText: response.statusText,
-        url: response.url,
-        headers: Object.fromEntries(response.headers.entries())
-      });
+      console.error('News API Error Response:', 'Status:', response.status, 'StatusText:', response.statusText, 'URL:', response.url);
       
       const errorText = await response.text();
       console.error('News Error Response Body:', errorText);
@@ -127,10 +117,8 @@ export async function fetchCategories(): Promise<Category[]> {
     
     // 添加调试信息
     if (process.env.NODE_ENV === 'development') {
-      console.log('Categories mapping result:', {
-        total: categories.length,
-        categories: categories.map(c => ({ id: c.id, name: c.name }))
-      });
+      console.log('Categories mapping result - Total:', categories.length);
+      console.log('Categories:', categories.map(c => `${c.id}: ${c.name}`).join(', '));
     }
     
     return categories;

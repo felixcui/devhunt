@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { FiCode, FiExternalLink, FiTag, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
 import Link from 'next/link';
 import { getCategoryDisplayName } from '@/utils/category-mapping';
+import ToolNewsSection from '@/components/ToolNewsSection';
 
 interface PageProps {
   params: Promise<{
@@ -113,14 +114,6 @@ export default async function ToolPage({ params }: PageProps) {
                       访问工具
                       <FiExternalLink className="w-4 h-4" />
                     </a>
-                    
-                    <Link
-                      href={`/tool/${tool.id}/news?name=${encodeURIComponent(tool.name)}`}
-                      className="inline-flex items-center gap-2 bg-white text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-50 transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-soft-lg border border-gray-200 font-medium"
-                    >
-                      <FiFileText className="w-4 h-4" />
-                      相关资讯
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -153,6 +146,9 @@ export default async function ToolPage({ params }: PageProps) {
                   </div>
                 </div>
               )}
+
+              {/* 相关资讯部分 */}
+              <ToolNewsSection toolId={tool.id} toolName={tool.name} />
             </div>
           </div>
         </div>

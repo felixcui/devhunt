@@ -190,7 +190,7 @@ export default function NewsPage() {
 
                       {/* 描述 */}
                       {item.description && (
-                        <p className="text-gray-600 leading-relaxed mb-4 line-clamp-2">
+                        <p className="text-gray-600 leading-relaxed mb-4 line-clamp-3">
                           {item.description}
                         </p>
                       )}
