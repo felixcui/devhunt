@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiClock, FiPlus, FiGrid, FiTrendingUp, FiFileText } from 'react-icons/fi';
+import { FiClock, FiPlus, FiGrid, FiTrendingUp, FiFileText, FiInfo } from 'react-icons/fi';
 
 const SUBMIT_TOOL_URL = 'https://nhihqe5yfi.feishu.cn/share/base/form/shrcnH6nUO2x2ddTTXtZCGVKKcc';
+const ABOUT_URL = 'https://nhihqe5yfi.feishu.cn/wiki/KBlUwLv56izVmdk5xzncJUAFnHd';
 
 export default function TopNav() {
   const pathname = usePathname();
@@ -24,6 +25,7 @@ export default function TopNav() {
     { href: '/hot', icon: FiTrendingUp, label: '热门工具', badge: 'Hot' },
     { href: '/recent', icon: FiClock, label: '最近收录' },
     { href: '/tools', icon: FiGrid, label: '全部工具' },
+    { href: ABOUT_URL, icon: FiInfo, label: '关于我们', external: true },
   ];
 
   return (
@@ -40,7 +42,28 @@ export default function TopNav() {
               const Icon = item.icon;
               const isActive = pathname === item.href;
               
-              return (
+              return item.external ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full transition-all duration-200 group
+                    text-gray-600 hover:text-primary-600 hover:bg-primary-50/80`}
+                >
+                  <Icon className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
+                  <span className="font-medium text-lg">{item.label}</span>
+                  {item.badge && (
+                    <span className={`absolute -top-1 -right-1 px-1.5 py-0.5 text-xs font-bold rounded-full ${
+                      item.badge === 'New' 
+                        ? 'bg-green-500 text-white' 
+                        : 'bg-red-500 text-white animate-pulse'
+                    }`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </a>
+              ) : (
                 <Link
                   key={item.href}
                   href={item.href}
