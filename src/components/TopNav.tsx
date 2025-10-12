@@ -4,9 +4,19 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FiClock, FiPlus, FiGrid, FiTrendingUp, FiFileText, FiInfo } from 'react-icons/fi';
+import { IconType } from 'react-icons';
 
 const SUBMIT_TOOL_URL = 'https://nhihqe5yfi.feishu.cn/share/base/form/shrcnH6nUO2x2ddTTXtZCGVKKcc';
 const ABOUT_URL = 'https://nhihqe5yfi.feishu.cn/wiki/KBlUwLv56izVmdk5xzncJUAFnHd';
+
+// 导航项接口定义
+interface NavItem {
+  href: string;
+  icon: IconType;
+  label: string;
+  badge?: 'New' | 'Hot';
+  external?: boolean;
+}
 
 export default function TopNav() {
   const pathname = usePathname();
@@ -20,7 +30,7 @@ export default function TopNav() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { href: '/news', icon: FiFileText, label: '工具资讯', badge: 'New' },
     { href: '/hot', icon: FiTrendingUp, label: '热门工具', badge: 'Hot' },
     { href: '/recent', icon: FiClock, label: '最近收录' },
