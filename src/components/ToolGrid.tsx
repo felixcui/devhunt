@@ -21,7 +21,7 @@ export default function ToolGrid({ tools, featured = [], from }: ToolGridProps) 
           return null;
         }
         
-        const isFeatured = featured.includes(tool.id) || index < 3; // 前3个或指定的为精选
+        const isFeatured = featured.includes(tool.id); // 只根据featured数组判断是否为精选
         
         return (
           <div 
@@ -29,10 +29,10 @@ export default function ToolGrid({ tools, featured = [], from }: ToolGridProps) 
             className="animate-fade-in"
             style={{ animationDelay: `${index * 100}ms` }}
           >
-            <ToolCard tool={tool} featured={isFeatured && index < 3} from={from} />
+            <ToolCard tool={tool} featured={isFeatured} from={from} />
           </div>
         );
       })}
     </div>
   );
-} 
+}

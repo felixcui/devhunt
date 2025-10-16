@@ -37,7 +37,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
   const toolDetailUrl = from ? `/tool/${tool.id}?from=${from}` : `/tool/${tool.id}`;
 
   return (
-    <div className={`group relative bg-white rounded-3xl shadow-soft overflow-hidden hover:shadow-soft-lg transition-all duration-500 transform hover:-translate-y-2 border border-gray-100/50 hover:border-gray-200/60 ${
+    <div className={`group relative bg-white rounded-xl shadow-soft overflow-hidden hover:shadow-soft-lg transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-accent-200 ${
       isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
     } ${featured ? 'ring-2 ring-yellow-400/30 ring-offset-2' : ''}`}>
       
@@ -83,20 +83,20 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
         <div className="flex items-center justify-between pt-3 border-t border-gray-100">
           {/* 左侧：分类和工具标签 */}
           <div className="flex flex-wrap items-center gap-2 flex-1">
-            {/* 分类标签 - 统一使用精选样式 */}
-            <span className="inline-flex items-center gap-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+            {/* 分类标签 - 统一使用灰色背景黑色字体 */}
+            <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
               <FiZap className="w-2 h-2" />
               {getCategoryDisplayName(tool.category)}
             </span>
             
-            {/* 工具标签 - 使用中性灰色 */}
+            {/* 工具标签 - 使用灰色背景黑色字体 */}
             {hasValidTags && tool.tags && tool.tags.filter(tag => {
               const lowerTag = tag.toLowerCase().trim();
               return lowerTag !== 'hot';
             }).slice(0, 2).map((tag, index) => (
               <span 
                 key={index}
-                className="inline-flex items-center text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105"
+                className="inline-flex items-center text-gray-900 bg-gray-200 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105"
               >
                 #{tag}
               </span>
@@ -107,7 +107,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
               const lowerTag = tag.toLowerCase().trim();
               return lowerTag !== 'hot';
             }).length > 2 && (
-              <span className="inline-flex items-center text-gray-400 text-xs bg-gray-50 px-1.5 py-0.5 rounded-full font-medium">
+              <span className="inline-flex items-center text-gray-900 text-xs bg-gray-200 px-1.5 py-0.5 rounded-full font-medium">
                 +{tool.tags.filter(tag => {
                   const lowerTag = tag.toLowerCase().trim();
                   return lowerTag !== 'hot';
@@ -120,7 +120,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
           <div className="flex items-center gap-2 flex-shrink-0">
             {/* 精选标签 */}
             {featured && (
-              <span className="inline-flex items-center gap-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 <FiStar className="w-2 h-2" />
                 精选
               </span>
@@ -128,7 +128,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
             
             {/* 热门标签 */}
             {isHot && !featured && (
-              <span className="inline-flex items-center gap-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 <FiTrendingUp className="w-2 h-2" />
                 热门
               </span>
@@ -136,7 +136,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
             
             <Link 
               href={`/tool/${tool.id}/news?name=${encodeURIComponent(tool.name)}`}
-              className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold text-xs bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-all duration-200 hover:scale-105"
+              className="inline-flex items-center gap-1 text-gray-900 bg-gray-200 font-medium text-xs px-1.5 py-0.5 rounded-full transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-md"
             >
               查看资讯
               <FiArrowUpRight className="w-3 h-3" />
@@ -146,10 +146,10 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
       </div>
 
       {/* 悬浮时的边框光效 - 使用统一蓝绿色 */}
-      <div className="absolute inset-0 rounded-3xl bg-blue-500 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"></div>
+      <div className="absolute inset-0 rounded-xl bg-blue-500 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"></div>
       
-      {/* 底部装饰线 - 使用统一蓝绿渐变 */}
-      <div className={`absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r ${unifiedGradient} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center`}></div>
+      {/* 底部装饰线 - 使用资讯卡片样式 */}
+      <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
     </div>
   );
-} 
+}
