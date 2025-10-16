@@ -20,16 +20,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
       {/* 左侧导航栏 */}
       <aside className="fixed left-0 top-0 h-screen w-72 bg-white/90 backdrop-blur-xl border-r border-gray-200/50 shadow-soft-lg z-50 overflow-y-auto">
-        <div className="p-6">
+        <div className="px-6 pt-3 pb-6">
           {/* Logo区域 */}
-          <Link href="/" className="block group">
-            <div className="flex items-center justify-center mb-8 p-4 rounded-xl gradient-brand text-white shadow-soft transform transition-all duration-200 hover:scale-[1.02] hover:shadow-soft-lg">
-              <div>
-                <h1 className="text-xl font-bold tracking-tight text-center">
-                  AICoding基地
-                </h1>
-              </div>
-              <FiZap className="w-5 h-5 ml-3 group-hover:animate-bounce-subtle" />
+          <Link href="/" className="block group h-16 flex items-center justify-center">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+                AICoding基地
+              </h1>
+              <FiZap className="w-6 h-6 ml-2 text-blue-600 group-hover:animate-bounce-subtle" />
             </div>
           </Link>
 

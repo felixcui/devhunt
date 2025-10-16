@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { News } from '@/types';
-import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiBookOpen, FiArrowLeft } from 'react-icons/fi';
-import Link from 'next/link';
+import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiBookOpen } from 'react-icons/fi';
 
 export default function NewsPage() {
   const [news, setNews] = useState<News[]>([]);
@@ -11,54 +10,47 @@ export default function NewsPage() {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
-  const loadNews = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await fetch('/api/news');
-      const data = await response.json();
-      
-      if (data.code === 0) {
-        setNews(data.data.items);
-        setLastUpdated(new Date().toLocaleTimeString('zh-CN'));
-      } else {
-        setError(data.msg || '获取资讯失败');
-      }
-    } catch (error) {
-      console.error('Error fetching news:', error);
-      setError('网络错误，请稍后重试');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const loadNews = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch('/api/news');
+        const data = await response.json();
+
+        if (data.code === 0) {
+          setNews(data.data.items);
+          setLastUpdated(new Date().toLocaleTimeString('zh-CN'));
+        } else {
+          setError(data.msg || '获取资讯失败');
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error);
+        setError('网络错误,请稍后重试');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadNews();
+
+    // 设置定时刷新
+    const interval = setInterval(loadNews, 5 * 60 * 1000); // 5分钟刷新
+    return () => clearInterval(interval);
   }, []);
 
   const handleRefresh = () => {
-    loadNews();
+    window.location.reload();
   };
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      {/* 返回按钮 */}
-      <div>
-        <Link 
-          href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-3 py-2 rounded-lg"
-        >
-          <FiArrowLeft className="w-4 h-4" />
-          返回首页
-        </Link>
-      </div>
-      
       {/* 页面头部 */}
       <div className="relative">
-        {/* 背景装饰 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-3xl blur-xl"></div>
-        
+        {/* 背景装饰 - 使用资讯专用颜色 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent-500/10 to-accent-600/10 rounded-3xl blur-xl"></div>
+
         <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-soft border border-white/20">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -71,8 +63,8 @@ export default function NewsPage() {
                 </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                  工具资讯
+                <h1 className="text-2xl font-bold gradient-text-brand">
+                  最新资讯
                 </h1>
                 <p className="text-gray-600 text-sm mt-1">
                   为开发者精选的AI工具资讯和行业动态
@@ -91,7 +83,7 @@ export default function NewsPage() {
               <button
                 onClick={handleRefresh}
                 disabled={loading}
-                className="flex items-center gap-2 px-3 py-1.5 news-icon-gradient text-white rounded-lg disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
+                className="flex items-center gap-2 px-3 py-1.5 tool-icon-gradient text-white rounded-lg disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
               >
                 <FiRefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 刷新
@@ -111,7 +103,7 @@ export default function NewsPage() {
               <div className="absolute inset-2 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
             <h3 className="text-lg font-semibold text-gray-700 mb-2">正在加载最新资讯</h3>
-            <p className="text-gray-500">请稍等片刻，为您获取最新内容...</p>
+            <p className="text-gray-500">请稍等片刻,为您获取最新内容...</p>
           </div>
 
           {/* 骨架屏 */}
@@ -142,9 +134,9 @@ export default function NewsPage() {
           </div>
           <h3 className="text-xl font-semibold text-gray-800 mb-2">加载失败</h3>
           <p className="text-red-500 mb-6">{error}</p>
-          <button 
-            onClick={handleRefresh} 
-            className="inline-flex items-center gap-2 px-4 py-2 news-icon-gradient text-white rounded-lg transition-all duration-200 hover:scale-105 shadow-soft text-sm"
+          <button
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center gap-2 px-6 py-3 tool-icon-gradient text-white rounded-lg transition-all duration-200 hover:scale-105 shadow-soft"
           >
             <FiRefreshCw className="w-4 h-4" />
             重新加载
@@ -163,18 +155,18 @@ export default function NewsPage() {
           ) : (
             <div className="space-y-4">
               {news.map((item, index) => (
-                <article 
-                  key={item.id} 
-                  className="group bg-white rounded-2xl shadow-soft hover:shadow-soft-lg p-6 transition-all duration-300 hover:-translate-y-1 animate-slide-up border border-gray-100 hover:border-blue-200"
+                <article
+                  key={item.id}
+                  className="group bg-white rounded-2xl shadow-soft hover:shadow-soft-lg p-6 transition-all duration-300 hover:-translate-y-1 animate-slide-up border border-gray-100 hover:border-accent-200"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-start gap-4">
                     {/* 资讯图标 */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center shadow-soft group-hover:scale-110 transition-transform duration-200">
-                        <FiFileText className="w-5 h-5 text-white" />
+                      <div className="w-12 h-12 news-icon-gradient shadow-soft group-hover:scale-110 transition-transform duration-200">
+                        <FiFileText className="w-6 h-6 text-white" />
                       </div>
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+                      <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
                     </div>
 
                     {/* 资讯内容 */}
@@ -186,13 +178,13 @@ export default function NewsPage() {
                           rel="noopener noreferrer"
                           className="flex-1 group/link"
                         >
-                          <h2 className="text-lg font-semibold text-gray-900 group-hover/link:text-blue-600 transition-colors duration-200 leading-tight mb-2 flex items-start gap-2">
+                          <h2 className="text-lg font-semibold text-gray-900 group-hover/link:text-accent-600 transition-colors duration-200 leading-tight mb-2 flex items-start gap-2">
                             <span className="flex-1">{item.title}</span>
-                            <FiExternalLink className="w-4 h-4 text-gray-400 group-hover/link:text-blue-600 transition-colors duration-200 flex-shrink-0 mt-1" />
+                            <FiExternalLink className="w-4 h-4 text-gray-400 group-hover/link:text-accent-600 transition-colors duration-200 flex-shrink-0 mt-1" />
                           </h2>
                         </a>
-                        
-                        <time 
+
+                        <time
                           dateTime={item.updateTime}
                           className="flex-shrink-0 text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-200"
                         >
@@ -210,7 +202,7 @@ export default function NewsPage() {
                       {/* 相关工具标签 */}
                       {item.tool && (
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-sm text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200 hover:bg-blue-100 transition-colors">
+                          <span className="news-tag">
                             <FiTag className="w-3 h-3" />
                             相关工具: {item.tool}
                           </span>
@@ -231,10 +223,10 @@ export default function NewsPage() {
       {/* 页面底部提示 */}
       <div className="text-center py-8">
         <p className="text-gray-500 text-sm">
-          最新工具资讯 • 
-          <span className="text-blue-600 hover:text-blue-700 cursor-pointer"> 发现更多AI工具</span>
+          数据每5分钟自动更新 •
+          <a href="/tools" className="news-accent-text hover:opacity-80 cursor-pointer ml-1">查看所有工具</a>
         </p>
       </div>
     </div>
   );
-} 
+}
