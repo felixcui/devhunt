@@ -153,7 +153,8 @@ export default function ToolPage({ params }: PageProps) {
 
               {/* 工具基本信息 */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between mb-4">
+                {/* 工具名字、标签和访问工具按钮在同一行 */}
+                <div className="flex items-center gap-4 mb-4 flex-wrap">
                   <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                     {tool.name}
                   </h1>
@@ -162,25 +163,22 @@ export default function ToolPage({ params }: PageProps) {
                     <FiTag className="w-3 h-3" />
                     {getCategoryDisplayName(tool.category)}
                   </span>
+                  
+                  <a
+                    href={tool.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-green-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-soft hover:from-blue-600 hover:to-green-600 transition-all duration-200 hover:scale-105"
+                  >
+                    <FiGlobe className="w-3 h-3" />
+                    访问工具
+                    <FiExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
 
                 <p className="text-lg text-gray-600 leading-relaxed whitespace-pre-line mb-6">
                   {tool.description}
                 </p>
-
-                {/* 操作按钮 */}
-                <div className="flex gap-4">
-                  <a
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-green-600 transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-soft-lg font-medium"
-                  >
-                    <FiGlobe className="w-4 h-4" />
-                    访问工具
-                    <FiExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
               </div>
             </div>
 
