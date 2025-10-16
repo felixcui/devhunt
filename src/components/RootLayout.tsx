@@ -20,9 +20,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
       {/* 左侧导航栏 */}
       <aside className="fixed left-0 top-0 h-screen w-72 bg-white/90 backdrop-blur-xl border-r border-gray-200/50 shadow-soft-lg z-50 overflow-y-auto">
-        <div className="px-6 pt-3 pb-6">
+        <div className="px-6">
           {/* Logo区域 */}
-          <Link href="/" className="block group h-16 flex items-center justify-center">
+          <Link href="/" className="block group h-16 flex items-center">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold tracking-tight text-gray-900">
                 AICoding基地
@@ -72,4 +72,4 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </div>
     </div>
   );
-} 
+}
