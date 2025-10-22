@@ -19,6 +19,14 @@ export const FEISHU_CONFIG = {
     FIELDS: ["title", "link", "tool", "description", "updatetime"]
   },
 
+  // AI资讯数据表配置
+  AI_NEWS: {
+    APP_TOKEN: "RKtzbimEHaEjkIsr0ChcvEa7nZA",
+    TABLE_ID: "tblvw9pvs44GiNuU",
+    VIEW_ID: "vewHuxEOf0",
+    FIELDS: ["title", "description", "link", "category", "updatetime"]
+  },
+
   // API 接口
   API: {
     BASE_URL: "https://open.feishu.cn/open-apis",

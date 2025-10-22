@@ -125,17 +125,12 @@ export default function CategoryList() {
               href={categoryPath}
               onClick={(e) => handleNavigation(categoryPath, e)}
               className={`${baseClasses} ${isActive ? activeClasses : inactiveClasses}`}
-
             >
-              {/* 图标背景 - 根据分类使用不同颜色 */}
-              <div className={`relative flex items-center justify-center w-8 h-8 rounded-lg mr-3 transition-all duration-200
-                ${isActive 
-                  ? 'bg-white/20 backdrop-blur-sm' 
-                  : `${iconConfig.light}`
-                }`}>
+              {/* 图标 - 移除背景颜色 */}
+              <div className="relative flex items-center justify-center w-8 h-8 mr-3 transition-all duration-200">
                 <Icon className={`w-4 h-4 transition-all duration-200 ${isActive ? 'text-white' : 'text-gray-600'}`} />
               </div>
-              
+
               {/* 分类名称 */}
               <div className="flex-1 min-w-0">
                 <span className={`font-medium text-base transition-all duration-200 ${

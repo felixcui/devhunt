@@ -24,3 +24,12 @@ export interface News {
   description?: string;
   tool?: string;
 }
+
+export interface AINews {
+  id: string;
+  title: string;
+  url: string;
+  updateTime: string;
+  description?: string;
+  category?: string;
+}
