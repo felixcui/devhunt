@@ -41,7 +41,7 @@ export default function TopNav() {
 
   return (
     <>
-      <nav className={`fixed top-0 right-0 left-72 h-16 z-40 transition-all duration-300 ${
+      <nav className={`fixed top-4 right-0 left-72 h-16 z-40 transition-all duration-300 ${
         isScrolled 
           ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/80 shadow-soft' 
           : 'bg-transparent'
