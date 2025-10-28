@@ -17,7 +17,8 @@ import {
   FiSettings,
   FiPenTool,
   FiFileText,
-  FiGlobe
+  FiGlobe,
+  FiStar
 } from 'react-icons/fi';
 
 // 分类图标配置接口
@@ -31,6 +32,24 @@ export interface CategoryIconConfig {
 
 // 分类图标映射表
 const CATEGORY_ICON_MAP: Record<string, CategoryIconConfig> = {
+  // 入门工具 - 金色系
+  vibetool: {
+    icon: FiStar,
+    gradient: 'from-yellow-500 to-orange-500',
+    solid: 'bg-yellow-500',
+    light: 'bg-yellow-100',
+    name: '入门工具'
+  },
+
+    // 开发IDE - 紫色系
+  ide: {
+    icon: FiCode,
+    gradient: 'from-purple-600 to-pink-600',
+    solid: 'bg-purple-600',
+    light: 'bg-purple-100',
+    name: '开发IDE'
+  },
+  
   // 命令行工具 - 深蓝色系
   cliagent: {
     icon: FiTerminal,
@@ -39,15 +58,7 @@ const CATEGORY_ICON_MAP: Record<string, CategoryIconConfig> = {
     light: 'bg-blue-100',
     name: '命令行工具'
   },
-  
-  // 开发IDE - 紫色系
-  ide: {
-    icon: FiCode,
-    gradient: 'from-purple-600 to-pink-600',
-    solid: 'bg-purple-600',
-    light: 'bg-purple-100',
-    name: '开发IDE'
-  },
+
   
   // AI测试 - 绿色系
   testing: {
@@ -152,6 +163,11 @@ const CATEGORY_ICON_MAP: Record<string, CategoryIconConfig> = {
 // 模糊匹配映射
 const FUZZY_MATCH_MAP: Record<string, string> = {
   // 英文关键词匹配
+  'vibe': 'vibetool',
+  'beginner': 'vibetool',
+  'starter': 'vibetool',
+  'entry': 'vibetool',
+  
   'cli': 'cliagent',
   'command': 'cliagent',
   'terminal': 'cliagent',
@@ -205,6 +221,11 @@ const FUZZY_MATCH_MAP: Record<string, string> = {
   'resources': 'resource',
   
   // 中文关键词匹配
+  '入门': 'vibetool',
+  '新手': 'vibetool',
+  '初学': 'vibetool',
+  '基础': 'vibetool',
+  
   '命令行': 'cliagent',
   '终端': 'cliagent',
   '控制台': 'cliagent',

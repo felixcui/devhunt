@@ -5,19 +5,20 @@
 
 // 分类映射表 - 从 /category 文件中提取
 export const CATEGORY_MAPPING = {
-  1: { id: 'cliagent', name: '命令行工具', originalKey: 'CliAgent' },
+  1: { id: 'vibetool', name: '入门工具', originalKey: 'VibeTool' },
   2: { id: 'ide', name: '开发IDE', originalKey: 'IDE' },
-  3: { id: 'testing', name: 'AI测试', originalKey: 'Testing' },
-  4: { id: 'devops', name: 'DevOps工具', originalKey: 'DevOps' },
-  5: { id: 'extension', name: 'IDE插件', originalKey: 'Extension' },
-  6: { id: 'codereview', name: '代码审查', originalKey: 'CodeReview' },
-  7: { id: 'other', name: '其他工具', originalKey: 'Other' },
-  8: { id: 'resource', name: '相关资源', originalKey: 'resource' },
-  9: { id: 'docs', name: '文档相关', originalKey: 'Docs' },
-  10: { id: 'design', name: '设计工具', originalKey: 'Design' },
-  11: { id: 'ui-code', name: 'UI生成', originalKey: 'UI-Code' },
-  12: { id: 'codeagent', name: 'CodeAgent', originalKey: 'CodeAgent' },
-  13: { id: 'mcptool', name: 'MCP工具', originalKey: 'McpTool' }
+  3: { id: 'cliagent', name: '命令行工具', originalKey: 'CliAgent' },
+  4: { id: 'testing', name: 'AI测试', originalKey: 'Testing' },
+  5: { id: 'devops', name: 'DevOps工具', originalKey: 'DevOps' },
+  6: { id: 'extension', name: 'IDE插件', originalKey: 'Extension' },
+  7: { id: 'codereview', name: '代码审查', originalKey: 'CodeReview' },
+  8: { id: 'docs', name: '文档相关', originalKey: 'Docs' },
+  9: { id: 'design', name: '设计工具', originalKey: 'Design' },
+  10: { id: 'ui-code', name: 'UI生成', originalKey: 'UI-Code' },
+  11: { id: 'codeagent', name: 'CodeAgent', originalKey: 'CodeAgent' },
+  12: { id: 'mcptool', name: 'MCP工具', originalKey: 'McpTool' },
+  13: { id: 'other', name: '其他工具', originalKey: 'Other' },
+  14: { id: 'resource', name: '相关资源', originalKey: 'resource' }
 } as const;
 
 // 反向映射：从原始分类名称到标准化信息
@@ -78,7 +79,7 @@ export function normalizeCategoryName(originalCategory: string): {
   
   // 如果没有匹配，归类为"其他工具"
   console.warn(`未找到分类映射: ${originalCategory}, 归类为"其他工具"`);
-  return CATEGORY_MAPPING[7]; // Other
+  return CATEGORY_MAPPING[8]; // Other
 }
 
 /**

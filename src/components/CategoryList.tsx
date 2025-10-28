@@ -58,6 +58,7 @@ function getCategoryStyleConfig(category: string) {
 export default function CategoryList() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -66,7 +67,9 @@ export default function CategoryList() {
     try {
       const data = await fetchCategories();
       setCategories(data);
-      setToCache(data);
+      if (isClient) {
+        setToCache(data);
+      }
     } catch (error) {
       console.error('Error loading categories:', error);
     } finally {
@@ -75,7 +78,10 @@ export default function CategoryList() {
   };
 
   useEffect(() => {
-    // 首先尝试从缓存获取数据
+    // 标记为客户端环境
+    setIsClient(true);
+    
+    // 只在客户端尝试从缓存获取数据
     const cachedData = getFromCache();
     if (cachedData) {
       setCategories(cachedData);
@@ -159,4 +165,4 @@ export default function CategoryList() {
       })}
     </nav>
   );
-} 
+}

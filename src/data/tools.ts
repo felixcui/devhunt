@@ -1,5 +1,5 @@
 import { Tool, Category, News } from '@/types';
-import { normalizeCategoryName, getAllCategories } from '@/utils/category-mapping';
+import { normalizeCategoryName, getAllCategories, CATEGORY_MAPPING } from '@/utils/category-mapping';
 
 export async function fetchTools(): Promise<Tool[]> {
   try {
@@ -91,6 +91,7 @@ export async function fetchCategories(): Promise<Category[]> {
       let icon: Category['icon'] = 'code';
       const lowerName = info.name.toLowerCase();
       
+      if (lowerName.includes('入门') || id === 'vibetool') icon = 'star';
       if (lowerName.includes('命令行') || id === 'cliagent') icon = 'terminal';
       if (lowerName.includes('ide') || id === 'ide') icon = 'code';
       if (lowerName.includes('测试') || id === 'testing') icon = 'test';
@@ -112,8 +113,17 @@ export async function fetchCategories(): Promise<Category[]> {
       };
     });
     
-    // 按分类名称排序
-    categories.sort((a, b) => a.name.localeCompare(b.name, 'zh'));
+    // 按分类映射表的顺序排序，确保VibeTool在最前面
+    const categoryOrder = Object.values(CATEGORY_MAPPING).reduce((acc, item, index) => {
+      acc[item.id] = index;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    categories.sort((a, b) => {
+      const orderA = categoryOrder[a.id] ?? 999;
+      const orderB = categoryOrder[b.id] ?? 999;
+      return orderA - orderB;
+    });
     
     // 添加调试信息
     if (process.env.NODE_ENV === 'development') {
@@ -133,4 +143,4 @@ export async function fetchCategories(): Promise<Category[]> {
       icon: 'code' as const
     }));
   }
-} 
+}

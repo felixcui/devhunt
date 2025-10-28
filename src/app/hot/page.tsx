@@ -53,6 +53,7 @@ function setToCache(data: Tool[]) {
 export default function HotToolsPage() {
   const [tools, setTools] = useState<Tool[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   // 加载热门工具数据
   const loadHotTools = async () => {
@@ -96,7 +97,9 @@ export default function HotToolsPage() {
       
       // 设置工具列表 - 有就显示，没有就是空数组
       setTools(hotTools);
-      setToCache(hotTools);
+      if (isClient) {
+        setToCache(hotTools);
+      }
       
       console.log('最终显示的热门工具数量:', hotTools.length);
     } catch (error) {
@@ -108,7 +111,10 @@ export default function HotToolsPage() {
   };
 
   useEffect(() => {
-    // 首先尝试从缓存获取数据
+    // 标记为客户端环境
+    setIsClient(true);
+    
+    // 只在客户端尝试从缓存获取数据
     const cachedData = getFromCache();
     if (cachedData) {
       setTools(cachedData);
@@ -157,4 +163,4 @@ export default function HotToolsPage() {
       )}
     </div>
   );
-} 
+}

@@ -13,7 +13,7 @@ export interface Category {
   id: string;
   name: string;
   description: string;
-  icon: 'chat' | 'robot' | 'review' | 'code' | 'cloud' | 'terminal' | 'web' | 'plugin' | 'test';
+  icon: 'chat' | 'robot' | 'review' | 'code' | 'cloud' | 'terminal' | 'web' | 'plugin' | 'test' | 'star';
 }
 
 export interface News {
