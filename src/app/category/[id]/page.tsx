@@ -48,7 +48,7 @@ export default async function CategoryPage({ params }: PageProps) {
           <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
           <p className="text-gray-600">{category.description}</p>
         </div>
-        <ToolGrid tools={categoryTools} from="tools" />
+        <ToolGrid tools={categoryTools} from={`category-${id}`} />
       </div>
     );
   } catch (error) {

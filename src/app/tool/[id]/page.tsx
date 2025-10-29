@@ -25,6 +25,11 @@ const getReturnPath = (from: string | null): { path: string; label: string } => 
     case 'tools':
       return { path: '/tools', label: '返回全部工具' };
     default:
+      // 如果from参数是分类ID（以category-开头），返回对应分类页面
+      if (from && from.startsWith('category-')) {
+        const categoryId = from.replace('category-', '');
+        return { path: `/category/${categoryId}`, label: '返回分类' };
+      }
       // 默认返回全部工具页面
       return { path: '/tools', label: '返回工具列表' };
   }
