@@ -3,7 +3,6 @@
 import CategoryList from './CategoryList';
 import Link from 'next/link';
 import TopNav from './TopNav';
-import { FiZap } from 'react-icons/fi';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -27,7 +26,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <h1 className="text-2xl font-bold tracking-tight text-gray-900">
                 AICoding基地
               </h1>
-              <FiZap className="w-6 h-6 ml-2 text-blue-600 group-hover:animate-bounce-subtle" />
             </div>
           </Link>
 

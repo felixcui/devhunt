@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { fetchCategories } from '@/data/tools';
 import { Category } from '@/types';
 import { useRouter, usePathname } from 'next/navigation';
@@ -63,7 +63,7 @@ export default function CategoryList() {
   const pathname = usePathname();
 
   // 加载分类数据
-  const loadCategories = async () => {
+  const loadCategories = useCallback(async () => {
     try {
       const data = await fetchCategories();
       setCategories(data);
@@ -75,7 +75,7 @@ export default function CategoryList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isClient]);
 
   useEffect(() => {
     // 标记为客户端环境
@@ -89,7 +89,7 @@ export default function CategoryList() {
     } else {
       loadCategories();
     }
-  }, []);
+  }, [loadCategories]);
 
   const handleNavigation = (path: string, e: React.MouseEvent) => {
     e.preventDefault();

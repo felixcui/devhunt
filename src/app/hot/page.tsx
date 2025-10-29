@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { fetchTools } from '@/data/tools';
 import ToolGrid from '@/components/ToolGrid';
 import { Tool } from '@/types';
@@ -56,7 +56,7 @@ export default function HotToolsPage() {
   const [isClient, setIsClient] = useState(false);
 
   // 加载热门工具数据
-  const loadHotTools = async () => {
+  const loadHotTools = useCallback(async () => {
     try {
       const allTools = await fetchTools();
       console.log('=== 热门工具筛选调试 ===');
@@ -108,7 +108,7 @@ export default function HotToolsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isClient]);
 
   useEffect(() => {
     // 标记为客户端环境
@@ -131,7 +131,7 @@ export default function HotToolsPage() {
     }, 60 * 60 * 1000); // 每60分钟检查一次
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [loadHotTools]);
 
   return (
     <div>

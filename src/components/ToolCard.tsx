@@ -83,6 +83,14 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
         <div className="flex items-center justify-between pt-3 border-t border-gray-100">
           {/* 左侧：分类和工具标签 */}
           <div className="flex flex-wrap items-center gap-2 flex-1">
+            {/* 热门标签 - 优先显示在最左边 */}
+            {isHot && !featured && (
+              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+                <FiTrendingUp className="w-2 h-2" />
+                热门
+              </span>
+            )}
+            
             {/* 分类标签 - 统一使用灰色背景黑色字体 */}
             <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
               <FiZap className="w-2 h-2" />
@@ -98,7 +106,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
                 key={index}
                 className="inline-flex items-center text-gray-900 bg-gray-200 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105"
               >
-                #{tag}
+                #{tag.toLowerCase().trim() === "star" ? "精选" : tag}
               </span>
             ))}
             
@@ -107,7 +115,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
               const lowerTag = tag.toLowerCase().trim();
               return lowerTag !== 'hot';
             }).length > 2 && (
-              <span className="inline-flex items-center text-gray-900 text-xs bg-gray-200 px-1.5 py-0.5 rounded-full font-medium">
+              <span className="inline-flex items-center text-gray-900 text-xs bg-gray-200 px-1.5 py-0.5 rounded-full font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 +{tool.tags.filter(tag => {
                   const lowerTag = tag.toLowerCase().trim();
                   return lowerTag !== 'hot';
@@ -123,14 +131,6 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
               <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 <FiStar className="w-2 h-2" />
                 精选
-              </span>
-            )}
-            
-            {/* 热门标签 */}
-            {isHot && !featured && (
-              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
-                <FiTrendingUp className="w-2 h-2" />
-                热门
               </span>
             )}
             
