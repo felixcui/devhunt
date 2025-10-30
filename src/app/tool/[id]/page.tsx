@@ -3,9 +3,8 @@
 import { useEffect, useState } from 'react';
 import { fetchTools } from '@/data/tools';
 import { notFound, useSearchParams } from 'next/navigation';
-import { FiCode, FiExternalLink, FiTag, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
+import { FiCode, FiExternalLink, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
 import Link from 'next/link';
-import { getCategoryDisplayName } from '@/utils/category-mapping';
 import ToolNewsSection from '@/components/ToolNewsSection';
 import type { Tool } from '@/types';
 
@@ -163,11 +162,6 @@ export default function ToolPage({ params }: PageProps) {
                   <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                     {tool.name}
                   </h1>
-                  
-                  <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-soft">
-                    <FiTag className="w-3 h-3" />
-                    {getCategoryDisplayName(tool.category)}
-                  </span>
                   
                   <a
                     href={tool.url}
