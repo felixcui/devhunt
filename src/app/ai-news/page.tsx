@@ -58,53 +58,6 @@ export default function AINewsPage() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      {/* 页面头部 */}
-      <div className="relative">
-        {/* 背景装饰 - 使用AI资讯专用颜色 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-indigo-600/10 rounded-3xl blur-xl"></div>
-
-        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-soft border border-white/20">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-soft">
-                  <FiCpu className="w-6 h-6 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <FiZap className="w-2 h-2 text-white" />
-                </div>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  其他资讯
-                </h1>
-                <p className="text-gray-600 text-sm mt-1">
-                  AI技术动态、行业趋势和开发者资讯
-                </p>
-              </div>
-            </div>
-
-            {/* 刷新按钮和更新时间 */}
-            <div className="flex items-center gap-3">
-              {lastUpdated && (
-                <div className="text-sm text-gray-500 flex items-center gap-1">
-                  <FiClock className="w-4 h-4" />
-                  <span>更新于 {lastUpdated}</span>
-                </div>
-              )}
-              <button
-                onClick={handleRefresh}
-                disabled={loading}
-                className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
-              >
-                <FiRefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                刷新
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* 内容区域 */}
       {loading ? (
         <div className="space-y-6">

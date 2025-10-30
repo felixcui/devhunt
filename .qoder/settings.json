@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "ask": [
+      "Read(!/Users/felixcui/work/devhunt/**)",
+      "Edit(!/Users/felixcui/work/devhunt/**)"
+    ],
+    "allow": [
+      "Read(/Users/felixcui/work/devhunt/**)",
+      "Edit(/Users/felixcui/work/devhunt/**)"
+    ]
+  },
+  "memoryImport": {},
+  "monitoring": {}
+}
