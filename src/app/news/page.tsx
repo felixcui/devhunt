@@ -1,97 +1,89 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { News } from '@/types';
-import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiBookOpen } from 'react-icons/fi';
+import { useEffect, useState, useCallback, Suspense } from 'react';
+import { Tool, News } from '@/types';
+import { FiClock, FiExternalLink, FiRefreshCw, FiFileText } from 'react-icons/fi';
+import { fetchTools } from '@/data/tools';
+import { useSearchParams, useRouter } from 'next/navigation';
 
-export default function NewsPage() {
+function NewsContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [news, setNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<string>('');
+  
+  const [featuredTools, setFeaturedTools] = useState<Tool[]>([]);
 
+  const activeToolId = searchParams.get('tool');
+  const activeToolName = searchParams.get('name') || '';
+
+  // 获取精选工具（仅 star 标签）
   useEffect(() => {
-    const loadNews = async () => {
+    const loadFeaturedTools = async () => {
       try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch('/api/news');
-        const data = await response.json();
-
-        if (data.code === 0) {
-          setNews(data.data.items);
-          setLastUpdated(new Date().toLocaleTimeString('zh-CN'));
-        } else {
-          setError(data.msg || '获取资讯失败');
-        }
-      } catch (error) {
-        console.error('Error fetching news:', error);
-        setError('网络错误,请稍后重试');
-      } finally {
-        setLoading(false);
+        const allTools = await fetchTools();
+        const starred = allTools.filter(t => t.tags?.some(tag => tag.toLowerCase().trim() === 'star'));
+        setFeaturedTools(starred);
+      } catch (e) {
+        console.error('Error fetching tools for left nav:', e);
+        setFeaturedTools([]);
       }
     };
-
-    loadNews();
-
-    // 设置定时刷新
-    const interval = setInterval(loadNews, 5 * 60 * 1000); // 5分钟刷新
-    return () => clearInterval(interval);
+    loadFeaturedTools();
   }, []);
 
+  const fetchNewsData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      let response: Response;
+      if (activeToolId) {
+        response = await fetch(`/api/tools/${activeToolId}/news?name=${encodeURIComponent(activeToolName)}`);
+      } else {
+        response = await fetch('/api/news');
+      }
+      const data = await response.json();
+
+      if (data.code === 0) {
+        setNews(data.data.items);
+      } else {
+        setError(data.msg || '获取资讯失败');
+      }
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      setError('网络错误,请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  }, [activeToolId, activeToolName]);
+
+  useEffect(() => {
+    fetchNewsData();
+    const interval = setInterval(fetchNewsData, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [fetchNewsData]);
+
   const handleRefresh = () => {
-    window.location.reload();
+    fetchNewsData();
   };
+
+  const hasLeftNav = featuredTools.length > 0;
+
+  const handleSelectTool = (tool: Tool) => {
+    router.replace(`/news?tool=${tool.id}&name=${encodeURIComponent(tool.name)}`);
+  };
+
+  const isActiveTool = useCallback(
+    (id: string) => !!activeToolId && activeToolId === id,
+    [activeToolId]
+  );
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
-      {/* 页面头部 */}
-      <div className="relative">
-        {/* 背景装饰 - 使用资讯专用颜色 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-accent-500/10 to-accent-600/10 rounded-3xl blur-xl"></div>
-
-        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-soft border border-white/20">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-12 h-12 news-icon-gradient shadow-soft">
-                  <FiBookOpen className="w-6 h-6 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <FiZap className="w-2 h-2 text-white" />
-                </div>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold gradient-text-brand">
-                  最新资讯
-                </h1>
-                <p className="text-gray-600 text-sm mt-1">
-                  为开发者精选的AI工具资讯和行业动态
-                </p>
-              </div>
-            </div>
-
-            {/* 刷新按钮和更新时间 */}
-            <div className="flex items-center gap-3">
-              {lastUpdated && (
-                <div className="text-sm text-gray-500 flex items-center gap-1">
-                  <FiClock className="w-4 h-4" />
-                  <span>更新于 {lastUpdated}</span>
-                </div>
-              )}
-              <button
-                onClick={handleRefresh}
-                disabled={loading}
-                className="flex items-center gap-2 px-3 py-1.5 tool-icon-gradient text-white rounded-lg disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-sm"
-              >
-                <FiRefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                刷新
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* 顶部标题模块已移除 */}
 
       {/* 内容区域 */}
       {loading ? (
@@ -135,7 +127,7 @@ export default function NewsPage() {
           <h3 className="text-xl font-semibold text-gray-800 mb-2">加载失败</h3>
           <p className="text-red-500 mb-6">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={handleRefresh}
             className="inline-flex items-center gap-2 px-6 py-3 tool-icon-gradient text-white rounded-lg transition-all duration-200 hover:scale-105 shadow-soft"
           >
             <FiRefreshCw className="w-4 h-4" />
@@ -144,6 +136,29 @@ export default function NewsPage() {
         </div>
       ) : (
         <div className="space-y-6">
+          {/* 顶部精选工具导航（含全部资讯） */}
+          {hasLeftNav && (
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-soft border border-white/20">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => router.replace('/news')}
+                  className={`px-3 py-2 rounded-lg text-sm transition-all duration-200 border ${!activeToolId ? 'bg-accent-50 border-accent-200 text-accent-700' : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-700'}`}
+                >
+                  全部资讯
+                </button>
+                {featuredTools.map(tool => (
+                  <button
+                    key={tool.id}
+                    onClick={() => handleSelectTool(tool)}
+                    className={`px-3 py-2 rounded-lg text-sm transition-all duration-200 border ${isActiveTool(tool.id) ? 'bg-accent-50 border-accent-200 text-accent-700' : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-700'}`}
+                    title={tool.name}
+                  >
+                    <span className="line-clamp-1">{tool.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           {news.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -198,16 +213,6 @@ export default function NewsPage() {
                           {item.description}
                         </p>
                       )}
-
-                      {/* 相关工具标签 */}
-                      {item.tool && (
-                        <div className="flex items-center gap-2">
-                          <span className="news-tag">
-                            <FiTag className="w-3 h-3" />
-                            相关工具: {item.tool}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -227,6 +232,15 @@ export default function NewsPage() {
           <a href="/tools" className="news-accent-text hover:opacity-80 cursor-pointer ml-1">查看所有工具</a>
         </p>
       </div>
+      {/* 左右布局：当存在精选工具时，采用两栏布局 */}
     </div>
+  );
+}
+
+export default function NewsPage() {
+  return (
+    <Suspense fallback={<div className="max-w-5xl mx-auto py-8 text-gray-500 text-sm">加载中...</div>}>
+      <NewsContent />
+    </Suspense>
   );
 }
