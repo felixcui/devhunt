@@ -186,7 +186,7 @@ export default function HomePage() {
               <FiZap className="w-5 h-5 text-white" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900">
-              本周精选工具
+              精选工具
             </h2>
           </div>
           <a
