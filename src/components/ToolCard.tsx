@@ -42,25 +42,25 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
     } ${featured ? 'ring-2 ring-yellow-400/30 ring-offset-2' : ''}`}>
       
       {/* 工具头部 */}
-      <div className="p-6 pb-4">
-        <div className="flex items-start justify-between mb-4">
-          <Link href={toolDetailUrl} className="flex items-start gap-3 flex-1 group/link">
+      <div className="p-4 sm:p-5 lg:p-6 pb-3 sm:pb-4">
+        <div className="flex items-start justify-between mb-3 sm:mb-4">
+          <Link href={toolDetailUrl} className="flex items-start gap-2 sm:gap-3 flex-1 group/link min-w-0">
             {/* 工具图标 - 统一使用蓝绿渐变背景 */}
             <div className="relative group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-              <div className={`w-8 h-8 bg-gradient-to-r ${unifiedGradient} rounded-2xl flex items-center justify-center shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
-                <UnifiedIcon className="w-4 h-4 text-white" />
+              <div className={`w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r ${unifiedGradient} rounded-xl sm:rounded-2xl flex items-center justify-center shadow-soft-lg group-hover:shadow-lg transition-all duration-300`}>
+                <UnifiedIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
               </div>
               {/* 悬浮光效 */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${unifiedGradient} rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500 -z-10 scale-110`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-r ${unifiedGradient} rounded-xl sm:rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500 -z-10 scale-110`}></div>
             </div>
             
             {/* 工具信息 */}
             <div className="flex-1 min-w-0">
             {/* 工具标题链接 - 使用Primary Blue */}
-              <h3 className="font-bold text-xl text-gray-900 group-hover/link:text-blue-600 transition-colors duration-200 mb-1.5 line-clamp-1">
+              <h3 className="font-bold text-base sm:text-lg lg:text-xl text-gray-900 group-hover/link:text-blue-600 transition-colors duration-200 mb-1 sm:mb-1.5 line-clamp-1">
                 {tool.name}
               </h3>
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 min-h-[2rem]">
+                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed line-clamp-2 min-h-[2rem]">
                 {tool.description}
               </p>
             </div>
@@ -71,28 +71,28 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
             href={tool.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-shrink-0 p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-x-3 group-hover:translate-x-0 hover:scale-110"
+            className="flex-shrink-0 p-1.5 sm:p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 opacity-0 md:group-hover:opacity-100 md:transform md:translate-x-3 md:group-hover:translate-x-0 hover:scale-110"
             onClick={(e) => e.stopPropagation()}
             title="访问工具"
           >
-            <FiExternalLink className="w-4 h-4" />
+            <FiExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </a>
         </div>
 
         {/* 底部信息 */}
-        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+        <div className="flex flex-row items-start sm:items-center gap-2 pt-2.5 sm:pt-3 border-t border-gray-100">
           {/* 左侧：分类和工具标签 */}
-          <div className="flex flex-wrap items-center gap-2 flex-1">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 flex-1">
             {/* 热门标签 - 优先显示在最左边 */}
             {isHot && !featured && (
-              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 <FiTrendingUp className="w-2 h-2" />
                 热门
               </span>
             )}
             
             {/* 分类标签 - 统一使用灰色背景黑色字体 */}
-            <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+            <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
               <FiZap className="w-2 h-2" />
               {getCategoryDisplayName(tool.category)}
             </span>
@@ -104,7 +104,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
             }).slice(0, 2).map((tag, index) => (
               <span 
                 key={index}
-                className="inline-flex items-center text-gray-900 bg-gray-200 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105"
+                className="inline-flex items-center text-gray-900 bg-gray-200 px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105"
               >
                 #{tag.toLowerCase().trim() === "star" ? "精选" : tag}
               </span>
@@ -115,7 +115,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
               const lowerTag = tag.toLowerCase().trim();
               return lowerTag !== 'hot';
             }).length > 2 && (
-              <span className="inline-flex items-center text-gray-900 text-xs bg-gray-200 px-1.5 py-0.5 rounded-full font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+              <span className="inline-flex items-center text-gray-900 text-[10px] sm:text-xs bg-gray-200 px-1.5 py-0.5 rounded-full font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 +{tool.tags.filter(tag => {
                   const lowerTag = tag.toLowerCase().trim();
                   return lowerTag !== 'hot';
@@ -125,10 +125,10 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
           </div>
           
           {/* 右侧：状态标签和查看详情 */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
             {/* 精选标签 */}
             {featured && (
-              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
+              <span className="inline-flex items-center gap-0.5 bg-gray-200 text-gray-900 px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium shadow-soft hover:shadow-md transition-all duration-200 hover:scale-105">
                 <FiStar className="w-2 h-2" />
                 精选
               </span>
@@ -136,10 +136,10 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
             
             <Link 
               href={`/tool/${tool.id}/news?name=${encodeURIComponent(tool.name)}`}
-              className="inline-flex items-center gap-1 text-gray-900 bg-gray-200 font-medium text-xs px-1.5 py-0.5 rounded-full transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-md"
+              className="inline-flex items-center gap-0.5 sm:gap-1 text-gray-900 bg-gray-200 font-medium text-[10px] sm:text-xs px-1.5 py-0.5 rounded-full transition-all duration-200 hover:scale-105 shadow-soft hover:shadow-md whitespace-nowrap"
             >
               查看资讯
-              <FiArrowUpRight className="w-3 h-3" />
+              <FiArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
             </Link>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function ToolCard({ tool, featured = false, from }: ToolCardProps
       <div className="absolute inset-0 rounded-xl bg-blue-500 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"></div>
       
       {/* 底部装饰线 - 使用资讯卡片样式 */}
-      <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+      <div className="absolute bottom-0 left-3 right-3 sm:left-4 sm:right-4 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
     </div>
   );
 }

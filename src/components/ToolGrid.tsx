@@ -15,7 +15,7 @@ export default function ToolGrid({ tools, featured = [], from }: ToolGridProps) 
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
       {tools.map((tool, index) => {
         if (!tool || typeof tool !== 'object') {
           return null;

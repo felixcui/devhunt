@@ -48,27 +48,27 @@ export default function AddToolForm({ onSuccess, onClose }: AddToolFormProps) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
+    <div className="flex items-center justify-center min-h-screen p-3 sm:p-4">
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
       
-      <div className="relative bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
+      <div className="relative bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 w-full max-w-md shadow-xl">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">添加新工具</h2>
+          <h2 className="text-lg sm:text-xl font-bold">添加新工具</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 p-2"
+            className="text-gray-500 hover:text-gray-700 p-1.5 sm:p-2"
           >
             ✕
           </button>
         </div>
         
         <div className="max-h-[calc(100vh-200px)] overflow-y-auto">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 工具名称
               </label>
               <input
@@ -76,25 +76,25 @@ export default function AddToolForm({ onSuccess, onClose }: AddToolFormProps) {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
+                className="w-full px-2.5 sm:px-3 py-1.5 sm:py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-sm sm:text-base"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 工具描述
               </label>
               <textarea
                 required
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
+                className="w-full px-2.5 sm:px-3 py-1.5 sm:py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-sm sm:text-base"
                 rows={3}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 工具链接
               </label>
               <input
@@ -102,19 +102,19 @@ export default function AddToolForm({ onSuccess, onClose }: AddToolFormProps) {
                 required
                 value={formData.url}
                 onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
+                className="w-full px-2.5 sm:px-3 py-1.5 sm:py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-sm sm:text-base"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 工具分类
               </label>
               <select
                 required
                 value={formData.category}
                 onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
+                className="w-full px-2.5 sm:px-3 py-1.5 sm:py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-sm sm:text-base"
               >
                 <option value="">选择分类</option>
                 <option value="UI-Code">UI-Code</option>
@@ -125,18 +125,18 @@ export default function AddToolForm({ onSuccess, onClose }: AddToolFormProps) {
               </select>
             </div>
 
-            <div className="flex justify-end gap-4 mt-6">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-4 mt-4 sm:mt-6">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base border rounded-lg sm:border-0"
               >
                 取消
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg hover:from-blue-600 hover:to-green-600 disabled:opacity-50"
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg hover:from-blue-600 hover:to-green-600 disabled:opacity-50 text-sm sm:text-base"
               >
                 {loading ? '添加中...' : '确认添加'}
               </button>

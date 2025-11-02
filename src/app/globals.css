@@ -466,3 +466,13 @@ button, input, select, textarea, a, .interactive {
     box-shadow: none !important;
   }
 }
+
+/* 隐藏滚动条但保持功能 */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

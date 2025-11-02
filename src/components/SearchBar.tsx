@@ -42,16 +42,16 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <form className="w-full max-w-2xl mx-auto mb-8" onSubmit={e => e.preventDefault()}>
+    <form className="w-full max-w-2xl mx-auto mb-6 sm:mb-8" onSubmit={e => e.preventDefault()}>
       <div className="relative">
         <input
           type="text"
           value={query}
           onChange={handleChange}
           placeholder="搜索AI工具..."
-          className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors bg-white/80 backdrop-blur-sm"
+          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pl-10 sm:pl-12 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors bg-white/80 backdrop-blur-sm text-sm sm:text-base"
         />
-        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <FiSearch className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
       </div>
     </form>
   );

@@ -1,0 +1,379 @@
+// 获取工具资讯列表
+curl -i -X POST 'https://open.feishu.cn/open-apis/bitable/v1/apps/Tn1vbRQyraNFvAstbqicUlIJnue/tables/tblXp6DHjQPomXbv/records/search?page_size=5' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer t-g104b1gdJUSVIC4OGHRIQLQVG5IF4AKQSRXB6GIP' \
+-d '{
+	"automatic_fields": false,
+	"field_names": [
+		"title",
+		"link",
+		"tool",
+		"description",
+		"updatetime"
+	],
+	"sort": [
+		{
+			"desc": true,
+			"field_name": "updatetime"
+		}
+	],
+	"view_id": "vewbl6mgMC"
+}'
+
+// 获取工具资讯返回数据
+{
+  "code": 0,
+  "data": {
+    "has_more": true,
+    "items": [
+      {
+        "fields": {
+          "description": [
+            {
+              "text": "本文是对 Google Cloud Platform 开发者体验部门副总裁 Keith Ballinger 的访谈。他指出当下 AI 开发应先写文档，未来开发者或只需写意图。介绍了 Google 开发者体验部工作，分享早期 AI 编程经历，还谈到 CLI 与 IDE 协作、编程语言演进、Gemini CLI 发展及与 AI 共写论文等内容。 ",
+              "type": "text"
+            }
+          ],
+          "link": [
+            {
+              "text": "https://mp.weixin.qq.com/s/8lpvh8SKUZt8OM7LnCUAQQ",
+              "type": "text"
+            }
+          ],
+          "title": [
+            {
+              "text": "别急着写代码了，先好好写文档吧!Gemini CLI产品负责人预言:未来的开发者可能根本不需要看代码，只需要写下意图",
+              "type": "text"
+            }
+          ],
+          "tool": "gemini-cli",
+          "updatetime": 1761982890488
+        },
+        "record_id": "recv1hyDYPauI3"
+      },
+      {
+        "fields": {
+          "description": [
+            {
+              "text": "2025年11月1日晚散步回来，作者受群里讨论启发，用Claude Code等工具花1.5小时开发出AI歌词工具Musicify。开发快得益于AI助手给力、复用架构、需求聚焦。改进提问方式后体验提升，首歌获专业认可。它填补歌词创作缺口，有三种模式，已开源，快去体验。 ",
+              "type": "text"
+            }
+          ],
+          "link": [
+            {
+              "text": "https://mp.weixin.qq.com/s/GdI0mh0x-jrTVJH6SkZP-A",
+              "type": "text"
+            }
+          ],
+          "title": [
+            {
+              "text": "散步回来灵光一闪，我用1.5小时做了个AI歌词工具",
+              "type": "text"
+            }
+          ],
+          "tool": "claude-code",
+          "updatetime": 1761980969778
+        },
+        "record_id": "recv1hqAjDxRuG"
+      },
+      {
+        "fields": {
+          "description": [
+            {
+              "text": "本文围绕OpenSpec介绍规范驱动开发，解决AI编程失控问题。它有轻量级、兼容性强等特点，遵循四步工作流。以ForestFocus项目为例展示完整流程，凸显其需求明确、技术决策可查等优势。还给出使用建议，对比其他方案，适合改进项目等场景，推荐开发者尝试。 ",
+              "type": "text"
+            }
+          ],
+          "link": [
+            {
+              "text": "https://mp.weixin.qq.com/s/SwdGIVyO82cui4DJ1ErGDw",
+              "type": "text"
+            }
+          ],
+          "title": [
+            {
+              "text": "新手必看:规范驱动开发如何让AI编程不失控?OpenSpec完整实战指南",
+              "type": "text"
+            }
+          ],
+          "tool": "general",
+          "updatetime": 1761980023037
+        },
+        "record_id": "recv1hmC1DBJPp"
+      },
+      {
+        "fields": {
+          "description": [
+            {
+              "text": "本文是Spec - Kit保姆级教程。作者作为编程小白，在使用AI编程遇阻后，发现了Spec - Kit。它是规范化、流程化的AI协作引擎，核心是让AI先决策计划再编码。作者以开发“我的重要时刻”应用为例，展示安装、初始化及实操步骤。该工具能带来确定性输出等价值，值得引入。GitHub地址：https://github.com/github/spec - kit 。 ",
+              "type": "text"
+            }
+          ],
+          "link": [
+            {
+              "text": "https://mp.weixin.qq.com/s/SljiEOmTrQ6mlxMpZ08K9A",
+              "type": "text"
+            }
+          ],
+          "title": [
+            {
+              "text": "我这个小白都能玩转AI规范化编程了!Spec-Kit 保姆级教程，别再掉队了",
+              "type": "text"
+            }
+          ],
+          "tool": "spec-kit",
+          "updatetime": 1761966670229
+        },
+        "record_id": "recv1gsAlLg3g3"
+      },
+      {
+        "fields": {
+          "description": [
+            {
+              "text": "大瑜分享三周沉浸式AI编程精华。AI编程能力强，可完成产品UI设计、功能规划、数据库重构等一条龙开发。但也会犯傻，如调整代码致混乱、多模型修改冲突、默认生成mock数据等。工具方面，官方账号稳妥但贵，可用中转平台体验，不过安全性存疑，高敏感内容建议走官方渠道。 ",
+              "type": "text"
+            }
+          ],
+          "link": [
+            {
+              "text": "https://mp.weixin.qq.com/s/5t7kUA_3n69XNRvzGUZEiA",
+              "type": "text"
+            }
+          ],
+          "title": [
+            {
+              "text": "三周沉浸式 AI 编程，我把精华都写下来了",
+              "type": "text"
+            }
+          ],
+          "tool": "general",
+          "updatetime": 1761966324230
+        },
+        "record_id": "recv1gr8l7XJOc"
+      }
+    ],
+    "page_token": "cGFnZVRva2VuOjU=",
+    "total": 718
+  },
+  "msg": "success"
+}
+
+//获取AI编程工具 数据请求
+curl -i -X POST 'https://open.feishu.cn/open-apis/bitable/v1/apps/Fd6zbPzXgahcmvsJGBOc4mqHn8e/tables/tblYSqPv958KOBRg/records/search?page_size=5' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer t-g104b1gdJUSVIC4OGHRIQLQVG5IF4AKQSRXB6GIP' \
+-d '{
+	"automatic_fields": false,
+	"field_names": [
+		"name",
+		"url",
+		"description",
+		"category",
+		"updatetime",
+		"extra",
+		"tags"
+	],
+	"sort": [
+		{
+			"desc": true,
+			"field_name": "updatetime"
+		}
+	],
+	"view_id": "vewqzyG1nb"
+}'
+
+// 获取AI编程工具 返回数据
+{
+  "code": 0,
+  "data": {
+    "has_more": true,
+    "items": [
+      {
+        "fields": {
+          "category": [
+            {
+              "text": "VibeTool",
+              "type": "text"
+            }
+          ],
+          "description": [
+            {
+              "text": "百度的vibe Coding 平台，一句话生成网站，小游戏等",
+              "type": "text"
+            }
+          ],
+          "name": [
+            {
+              "text": "秒搭",
+              "type": "text"
+            }
+          ],
+          "updatetime": 1761580800000,
+          "url": [
+            {
+              "link": "https://www.miaoda.cn/",
+              "text": "https://www.miaoda.cn/",
+              "type": "url"
+            }
+          ]
+        },
+        "record_id": "recv0UGFMrTdv6"
+      },
+      {
+        "fields": {
+          "category": [
+            {
+              "text": "McpTool",
+              "type": "text"
+            }
+          ],
+          "description": [
+            {
+              "text": "Context7  MCP 是一款基于 Model Context Protocol (MCP) 的服务工具，能够为 AI 编码助手在提示中自动注入最新库/框架的官方文档和代码示例，从而消除过时信息与“幻觉”代码，提升开发效率和准确性。",
+              "type": "text"
+            }
+          ],
+          "extra": [
+            {
+              "link": "https://github.com/upstash/context7",
+              "text": "https://github.com/upstash/context7",
+              "type": "url"
+            }
+          ],
+          "name": [
+            {
+              "text": "context7",
+              "type": "text"
+            }
+          ],
+          "updatetime": 1761148800000,
+          "url": [
+            {
+              "link": "https://context7.com/",
+              "text": "https://context7.com/",
+              "type": "url"
+            }
+          ]
+        },
+        "record_id": "recv0pfAYqL3eE"
+      },
+      {
+        "fields": {
+          "category": [
+            {
+              "text": "VibeTool",
+              "type": "text"
+            }
+          ],
+          "description": [
+            {
+              "text": "豆包里的vibe coding编程工具，面向非专业开发人员",
+              "type": "text"
+            }
+          ],
+          "name": [
+            {
+              "text": "豆包编程",
+              "type": "text"
+            }
+          ],
+          "updatetime": 1760976000000,
+          "url": [
+            {
+              "link": "https://www.doubao.com/code/chat",
+              "text": "https://www.doubao.com/code/chat",
+              "type": "url"
+            }
+          ]
+        },
+        "record_id": "recv0gRQJR2stu"
+      },
+      {
+        "fields": {
+          "category": [
+            {
+              "text": "Docs",
+              "type": "text"
+            }
+          ],
+          "description": [
+            {
+              "text": "Spec-Kit 是 GitHub 官方推出的开源规范驱动开发工具包，以 “规范即代码” 为核心，通过深度集成 Copilot、Claude 等 AI 编码助手，将清晰完整的需求规格直接转化为可执行代码，颠覆传统开发中规格与实现脱节的问题。它依托 “项目宪法” 建立统一标准，覆盖从项目初始化到代码生成的全流程，支持多技术栈，适配新项目开发、遗留系统现代化等场景，能显著提升开发效率、保证代码质量与合规性，降低维护成本。",
+              "type": "text"
+            }
+          ],
+          "name": [
+            {
+              "text": "Spec-kit",
+              "type": "text"
+            }
+          ],
+          "tags": [
+            "star",
+            "hot"
+          ],
+          "updatetime": 1760457600000,
+          "url": [
+            {
+              "link": "https://github.com/github/spec-kit",
+              "text": "https://github.com/github/spec-kit",
+              "type": "url"
+            }
+          ]
+        },
+        "record_id": "recuZEtELf9Poa"
+      },
+      {
+        "fields": {
+          "category": [
+            {
+              "text": "McpTool",
+              "type": "text"
+            }
+          ],
+          "description": [
+            {
+              "text": "Chrome DevTools MCP 是谷歌推出的 Model Context Protocol 服务器，作为 AI 编程助手（如 Claude、Cursor）与 Chrome 浏览器间的桥梁，将 DevTools 能力封装为可调用工具，支持 AI 完成页面操控、网络分析、性能追踪、控制台监控等操作，实现自动化测试、调试与优化的闭环，无需人工介入验证。",
+              "type": "text"
+            }
+          ],
+          "name": [
+            {
+              "text": "chrome-devtools",
+              "type": "text"
+            }
+          ],
+          "updatetime": 1760457600000,
+          "url": [
+            {
+              "link": "https://developer.chrome.com/blog/chrome-devtools-mcp?hl=zh-cn",
+              "text": "https://developer.chrome.com/blog/chrome-devtools-mcp?hl=zh-cn",
+              "type": "url"
+            }
+          ]
+        },
+        "record_id": "recuZEACW6gBgI"
+      }
+    ],
+    "page_token": "cGFnZVRva2VuOjU=",
+    "total": 130
+  },
+  "msg": "success"
+}
+
+
+// 获取token请求
+curl -i -X POST 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
+-H 'Content-Type: application/json' \
+-d '{
+        "app_id": "cli_a7cf81a5d318500b",
+        "app_secret": "pbvES8Ks3AkQELrsNbqzMb8CZzktIXow"
+}'
+// 获取token返回数据
+{
+    "code": 0,
+    "expire": 7200,
+    "msg": "ok",
+    "tenant_access_token": "t-g104bqnc2DJYDHRDZG4EHSEO4CL2PMLU52ZJDUEK"
+}
+

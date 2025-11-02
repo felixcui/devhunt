@@ -136,27 +136,27 @@ export default function HotToolsPage() {
   return (
     <div>
       {/* 返回按钮 */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <Link 
           href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-3 py-2 rounded-lg"
+          className="inline-flex items-center gap-1.5 sm:gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base"
         >
-          <FiArrowLeft className="w-4 h-4" />
+          <FiArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           返回首页
         </Link>
       </div>
       
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">热门工具</h1>
-        <p className="text-gray-600">精选推荐的AI研发工具</p>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-1.5 sm:mb-2">热门工具</h1>
+        <p className="text-sm sm:text-base text-gray-600">精选推荐的AI研发工具</p>
       </div>
       {loading ? (
         <div className="text-center py-12">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
+          <div className="inline-block h-6 w-6 sm:h-8 sm:w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
         </div>
       ) : tools.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">暂无热门工具</p>
+        <div className="text-center py-12 px-4">
+          <p className="text-sm sm:text-base text-gray-500">暂无热门工具</p>
         </div>
       ) : (
         <ToolGrid tools={tools} from="hot" />

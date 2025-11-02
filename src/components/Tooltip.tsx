@@ -26,13 +26,13 @@ export default function Tooltip({ content, children }: TooltipProps) {
     >
       {children}
       {isVisible && (
-        <div className="absolute bottom-full left-0 right-0 mb-2 z-50 pointer-events-none">
-          <div className="max-w-sm mx-auto px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg">
+        <div className="absolute bottom-full left-0 right-0 mb-1.5 sm:mb-2 z-50 pointer-events-none">
+          <div className="max-w-xs sm:max-w-sm mx-auto px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-900 text-white text-xs sm:text-sm rounded-lg shadow-lg">
             <div className="whitespace-pre-wrap leading-relaxed">
               {content}
             </div>
             {/* Tooltip arrow */}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-900 rotate-45"></div>
           </div>
         </div>
       )}
