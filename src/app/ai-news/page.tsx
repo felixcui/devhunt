@@ -206,7 +206,7 @@ export default function AINewsPage() {
 
                       {/* 描述 */}
                       {item.description && (
-                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-3">
+                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-3 sm:mb-4 line-clamp-3 sm:line-clamp-4">
                           {item.description}
                         </p>
                       )}

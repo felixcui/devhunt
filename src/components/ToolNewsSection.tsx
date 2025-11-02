@@ -193,7 +193,7 @@ export default function ToolNewsSection({ toolId, toolName }: ToolNewsSectionPro
 
                   {/* 描述 */}
                   {item.description && (
-                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-2 line-clamp-2 sm:line-clamp-3">
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-2 line-clamp-3 sm:line-clamp-4">
                       {item.description}
                     </p>
                   )}

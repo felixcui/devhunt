@@ -209,7 +209,7 @@ function NewsContent() {
 
                       {/* 描述 */}
                       {item.description && (
-                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed line-clamp-2 sm:line-clamp-3">
+                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed line-clamp-3 sm:line-clamp-4">
                           {item.description}
                         </p>
                       )}

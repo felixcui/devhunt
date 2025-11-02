@@ -46,7 +46,7 @@ export default function TopNav() {
           ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/80 shadow-soft' 
           : 'bg-transparent'
       }`}>
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 flex items-center justify-between">
+        <div className="h-full max-w-7xl mx-auto pl-14 pr-2 sm:px-6 lg:px-6 flex items-center justify-between">
           {/* 左侧导航 */}
           <div className="flex items-center gap-0.5 sm:gap-1 overflow-x-auto hide-scrollbar flex-1 mr-2">
             {navItems.map((item) => {

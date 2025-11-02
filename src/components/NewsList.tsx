@@ -45,7 +45,7 @@ export default function NewsList({ news }: NewsListProps) {
                 </span>
               </div>
               {item.description && (
-                <p className="mt-2 text-gray-600 leading-relaxed line-clamp-3">
+                <p className="mt-2 text-gray-600 leading-relaxed line-clamp-4">
                   {convertUrlsToLinks(item.description)}
                 </p>
               )}

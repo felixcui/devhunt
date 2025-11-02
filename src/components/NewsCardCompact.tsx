@@ -24,7 +24,7 @@ export default function NewsCardCompact({ news }: NewsCardCompactProps) {
 
         {/* 描述 (可选) */}
         {news.description && (
-          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-2 sm:mb-3 line-clamp-2">
+          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-2 sm:mb-3 line-clamp-3 sm:line-clamp-4">
             {news.description}
           </p>
         )}
