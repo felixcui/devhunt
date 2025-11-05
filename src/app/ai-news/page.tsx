@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { AINews } from '@/types';
-import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText, FiZap, FiCpu } from 'react-icons/fi';
+import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText } from 'react-icons/fi';
 
 export default function AINewsPage() {
   const [news, setNews] = useState<AINews[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<string>('');
 
   useEffect(() => {
     const loadNews = async () => {
@@ -21,7 +20,6 @@ export default function AINewsPage() {
 
         if (data.code === 0) {
           setNews(data.data.items);
-          setLastUpdated(new Date().toLocaleTimeString('zh-CN'));
         } else {
           setError(data.msg || '获取资讯失败');
         }
@@ -40,10 +38,6 @@ export default function AINewsPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleRefresh = () => {
-    window.location.reload();
-  };
-
   // 根据category返回对应的徽章颜色
   const getCategoryBadgeColor = (category?: string) => {
     if (!category) return 'bg-gray-100 text-gray-700';
@@ -58,53 +52,6 @@ export default function AINewsPage() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
-      {/* 页面头部 */}
-      <div className="relative">
-        {/* 背景装饰 - 使用AI资讯专用颜色 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-indigo-600/10 rounded-2xl sm:rounded-3xl blur-xl"></div>
-
-        <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-soft border border-white/20">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="relative flex-shrink-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-soft">
-                  <FiCpu className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <FiZap className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
-                </div>
-              </div>
-              <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  其他资讯
-                </h1>
-                <p className="text-gray-600 text-xs sm:text-sm mt-0.5 sm:mt-1">
-                  AI技术动态、行业趋势和开发者资讯
-                </p>
-              </div>
-            </div>
-
-            {/* 刷新按钮和更新时间 */}
-            <div className="flex items-center gap-2 sm:gap-3 self-start sm:self-center">
-              {lastUpdated && (
-                <div className="text-xs sm:text-sm text-gray-500 flex items-center gap-1 hidden sm:flex">
-                  <FiClock className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>更新于 {lastUpdated}</span>
-                </div>
-              )}
-              <button
-                onClick={handleRefresh}
-                disabled={loading}
-                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg disabled:opacity-50 transition-all duration-200 hover:scale-105 shadow-soft text-xs sm:text-sm whitespace-nowrap"
-              >
-                <FiRefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
-                刷新
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* 内容区域 */}
       {loading ? (
         <div className="space-y-4 sm:space-y-6">
