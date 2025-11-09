@@ -68,7 +68,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <div className="px-6">
           {/* Logo区域 */}
           <Link 
-            href="/" 
+            href="/news" 
             className="block group h-16 flex items-center"
             onClick={() => setIsSidebarOpen(false)}
           >
