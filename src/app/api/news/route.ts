@@ -69,7 +69,8 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
         description,
         tool
       };
-    }).filter(item => item.title && item.url); // 过滤掉没有标题或链接的资讯
+    }).filter(item => item.title && item.url) // 过滤掉没有标题或链接的资讯
+      .slice(0, 100); // 限制最多返回100条
 
     const responseData: ApiResponse<News> = {
       code: 0,

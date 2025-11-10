@@ -24,7 +24,7 @@ export default function ToolNewsSection({ toolId, toolName }: ToolNewsSectionPro
       const data = await response.json();
       
       if (data.code === 0) {
-        setNews(data.data.items.slice(0, 3)); // 只显示前3条资讯
+        setNews(data.data.items.slice(0, 10)); // 只显示前10条资讯
       } else {
         setError(data.msg || '获取资讯失败');
       }
@@ -55,7 +55,7 @@ export default function ToolNewsSection({ toolId, toolName }: ToolNewsSectionPro
         </div>
         
         <div className="space-y-3 sm:space-y-4">
-          {Array.from({ length: 3 }).map((_, index) => (
+          {Array.from({ length: 10 }).map((_, index) => (
             <div key={index} className="bg-gradient-to-br from-gray-50 to-blue-50/30 rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-gray-200/50 animate-pulse">
               <div className="flex items-start gap-2 sm:gap-3">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gray-200 rounded-lg shimmer flex-shrink-0"></div>
@@ -213,7 +213,7 @@ export default function ToolNewsSection({ toolId, toolName }: ToolNewsSectionPro
           ))}
         </div>
         
-        {news.length >= 3 && (
+        {news.length >= 10 && (
           <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200/50 text-center">
             <Link
               href={`/tool/${toolId}/news?name=${encodeURIComponent(toolName)}`}
