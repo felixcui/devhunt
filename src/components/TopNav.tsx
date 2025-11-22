@@ -31,11 +31,11 @@ export default function TopNav() {
   }, []);
 
   const navItems: NavItem[] = [
-    { href: '/news', icon: FiFileText, label: '工具资讯', badge: 'New' },
-    { href: '/hot', icon: FiTrendingUp, label: '热门工具', badge: 'Hot' },
+    { href: '/news', icon: FiFileText, label: '编程资讯' },
+    { href: '/ai-news', icon: FiCpu, label: 'AI资讯' },
+    { href: '/hot', icon: FiTrendingUp, label: '热门工具' },
     { href: '/recent', icon: FiClock, label: '最近收录' },
     { href: '/tools', icon: FiGrid, label: '全部工具' },
-    { href: '/ai-news', icon: FiCpu, label: '其他资讯', badge: 'New' },
     { href: ABOUT_URL, icon: FiInfo, label: '入群交流', external: true },
   ];
 
