@@ -29,7 +29,17 @@ export default function RootLayout({
     <html lang="zh-CN">
       <head>
         {/* 51.la 网站访问量统计 */}
-        <script charSet="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js?id=3O9o1FIp3fpK18Yd&ck=3O9o1FIp3fpK18Yd"></script>
+        <Script
+          id="LA_COLLECT"
+          src="//sdk.51.la/js-sdk-pro.min.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          id="51la-init"
+          strategy="beforeInteractive"
+        >
+          {`LA.init({id:"3O9o1FIp3fpK18Yd",ck:"3O9o1FIp3fpK18Yd"})`}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
