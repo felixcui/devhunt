@@ -3,14 +3,16 @@
 import { useState, useEffect } from 'react';
 import CategoryList from './CategoryList';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import TopNav from './TopNav';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiTrendingUp, FiClock } from 'react-icons/fi';
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const scrollToTop = () => {
@@ -79,14 +81,48 @@ export default function RootLayout({ children }: RootLayoutProps) {
             </div>
           </Link>
 
-          {/* 分类列表 */}
-          <div className="space-y-2">
-            <h2 className="text-base font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              工具分类
-            </h2>
-            <div onClick={() => setIsSidebarOpen(false)}>
-              <CategoryList />
-            </div>
+          {/* 分类列表（包含热门工具和最近收录） */}
+          <div className="space-y-0.5" onClick={() => setIsSidebarOpen(false)}>
+            {/* 热门工具 */}
+            <Link
+              href="/hot"
+              className={`relative flex items-center p-2 rounded-xl transition-all duration-300 transform hover:scale-[1.02] ${
+                pathname === '/hot'
+                  ? 'bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-soft-lg'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 mr-2 sm:mr-3 transition-all duration-200 flex-shrink-0">
+                <FiTrendingUp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-200 ${pathname === '/hot' ? 'text-white' : 'text-gray-600'}`} />
+              </div>
+              <span className={`font-medium text-sm sm:text-base transition-all duration-200 ${pathname === '/hot' ? 'text-white' : 'text-gray-700'}`}>
+                热门工具
+              </span>
+              {pathname === '/hot' && (
+                <div className="absolute right-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+              )}
+            </Link>
+            {/* 最近收录 */}
+            <Link
+              href="/recent"
+              className={`relative flex items-center p-2 rounded-xl transition-all duration-300 transform hover:scale-[1.02] ${
+                pathname === '/recent'
+                  ? 'bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-soft-lg'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 mr-2 sm:mr-3 transition-all duration-200 flex-shrink-0">
+                <FiClock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-200 ${pathname === '/recent' ? 'text-white' : 'text-gray-600'}`} />
+              </div>
+              <span className={`font-medium text-sm sm:text-base transition-all duration-200 ${pathname === '/recent' ? 'text-white' : 'text-gray-700'}`}>
+                最近收录
+              </span>
+              {pathname === '/recent' && (
+                <div className="absolute right-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+              )}
+            </Link>
+            {/* 其他分类 */}
+            <CategoryList />
           </div>
         </div>
       </aside>

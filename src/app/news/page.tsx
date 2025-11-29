@@ -18,6 +18,15 @@ function NewsContent() {
 
   const activeToolId = searchParams.get('tool');
   const activeToolName = searchParams.get('name') || '';
+  const activeCategory = searchParams.get('category');
+
+  // 资讯分类映射（使用中文名称匹配飞书表格中的分类）
+  const categoryLabels: Record<string, string> = {
+    '编程实践': '编程实践',
+    '编程模型': '编程模型',
+    '工具平台': '工具平台',
+    '行业观点': '行业观点',
+  };
 
   // 获取精选工具（仅 star 标签）
   useEffect(() => {
@@ -48,7 +57,12 @@ function NewsContent() {
       const data = await response.json();
 
       if (data.code === 0) {
-        setNews(data.data.items);
+        let items = data.data.items;
+        // 如果有分类筛选，在客户端过滤
+        if (activeCategory && items.length > 0) {
+          items = items.filter((item: News) => item.category === activeCategory);
+        }
+        setNews(items);
       } else {
         setError(data.msg || '获取资讯失败');
       }
@@ -58,7 +72,7 @@ function NewsContent() {
     } finally {
       setLoading(false);
     }
-  }, [activeToolId, activeToolName]);
+  }, [activeToolId, activeToolName, activeCategory]);
 
   useEffect(() => {
     fetchNewsData();
@@ -136,8 +150,23 @@ function NewsContent() {
         </div>
       ) : (
         <div className="space-y-6">
+          {/* 分类标题 */}
+          {activeCategory && categoryLabels[activeCategory] && (
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                {categoryLabels[activeCategory]}
+              </h2>
+              <button
+                onClick={() => router.replace('/news')}
+                className="text-sm text-gray-500 hover:text-accent-600 transition-colors"
+              >
+                查看全部资讯 →
+              </button>
+            </div>
+          )}
+
           {/* 顶部精选工具导航（含全部资讯） */}
-          {hasLeftNav && (
+          {hasLeftNav && !activeCategory && (
             <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-soft border border-white/20">
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <button

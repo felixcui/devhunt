@@ -23,6 +23,7 @@ export interface News {
   updateTime: string;
   description?: string;
   tool?: string;
+  category?: string;
 }
 
 export interface AINews {

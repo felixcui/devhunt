@@ -16,7 +16,7 @@ export const FEISHU_CONFIG = {
     APP_TOKEN: "Tn1vbRQyraNFvAstbqicUlIJnue",
     TABLE_ID: "tblXp6DHjQPomXbv",
     VIEW_ID: "vewbl6mgMC",
-    FIELDS: ["title", "link", "tool", "description", "updatetime"]
+    FIELDS: ["title", "link", "tool", "description", "updatetime", "category"]
   },
 
   // AI资讯数据表配置

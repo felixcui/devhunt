@@ -60,6 +60,11 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
       const tool = item.fields.tool
         ? getFieldText(item.fields.tool as FeishuField[])
         : undefined;
+
+      // 获取分类字段 - 单选字段返回字符串
+      const category = item.fields.category
+        ? (typeof item.fields.category === 'string' ? item.fields.category : undefined)
+        : undefined;
       
       return {
         id: item.record_id,
@@ -67,7 +72,8 @@ export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
         url,
         updateTime: updateTime ? formatDate(updateTime) : formatDate(new Date().toISOString()),
         description,
-        tool
+        tool,
+        category
       };
     }).filter(item => item.title && item.url) // 过滤掉没有标题或链接的资讯
       .slice(0, 100); // 限制最多返回100条
