@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { FiFileText, FiBookOpen, FiChevronDown, FiUsers } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 
@@ -17,6 +17,8 @@ interface NavItem {
 
 export default function TopNav() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentCategory = searchParams.get('category');
   const [isScrolled, setIsScrolled] = useState(false);
   const [weeklyItems, setWeeklyItems] = useState<{ slug: string; title: string }[]>([]);
   const [weeklyOpen, setWeeklyOpen] = useState(false);
@@ -81,20 +83,20 @@ export default function TopNav() {
             <Link
               href="/news"
               className={`relative flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-200 group whitespace-nowrap
-                ${pathname === '/news' && !new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '').has('category')
+                ${pathname === '/news' && !currentCategory
                   ? 'text-white bg-gradient-to-r from-blue-500 to-green-500 shadow-soft' 
                   : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50/80'
                 }`}
             >
               <FiFileText className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:scale-110 flex-shrink-0 ${
-                pathname === '/news' ? 'text-white' : ''
+                pathname === '/news' && !currentCategory ? 'text-white' : ''
               }`} />
               <span className="font-medium text-xs sm:text-sm lg:text-base">每日资讯</span>
             </Link>
 
             {/* 资讯分类平铺展示 */}
             {newsCategories.map((cat) => {
-              const isActive = pathname === '/news' && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('category') === cat.id;
+              const isActive = pathname === '/news' && currentCategory === cat.id;
               return (
                 <Link
                   key={cat.id}
