@@ -27,6 +27,14 @@ export const FEISHU_CONFIG = {
     FIELDS: ["title", "description", "link", "category", "updatetime"]
   },
 
+  // 编程资源数据表配置
+  PROGRAMMING_RESOURCE: {
+    APP_TOKEN: "UuiBbeHFpatIqtsJfB2ccGYjnSd",
+    TABLE_ID: "tbl7nhqDqqn5Ij1k",
+    VIEW_ID: "vewNwrOLum",
+    FIELDS: ["name", "link", "description", "tool", "category"]
+  },
+
   // API 接口
   API: {
     BASE_URL: "https://open.feishu.cn/open-apis",

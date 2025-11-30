@@ -293,20 +293,44 @@ function TopNavContent() {
 
               {resourceOpen && resourceLoaded && (
                 <div className="absolute left-0 mt-2 w-40 sm:w-52 bg-white rounded-xl shadow-soft border border-gray-100 py-1 z-50">
-                  {resourceItems.length === 0 ? (
-                    <div className="px-3 py-2 text-xs sm:text-sm text-gray-400">暂无资源</div>
-                  ) : (
-                    resourceItems.map((item) => (
-                      <Link
-                        key={item.slug}
-                        href={`/resource/${encodeURIComponent(item.slug)}`}
-                        className="flex items-center px-3 py-1.5 text-xs sm:text-sm text-gray-700 hover:bg-primary-50/80 hover:text-primary-600 transition-colors"
-                        onClick={() => setResourceOpen(false)}
-                      >
-                        <span className="truncate">{item.title}</span>
-                      </Link>
-                    ))
+                  {/* 固定的工具资源菜单 */}
+                  <Link
+                    href="/resource/tool/claude-code"
+                    className={`flex items-center px-3 py-1.5 text-xs sm:text-sm transition-colors ${
+                      pathname === '/resource/tool/claude-code'
+                        ? 'text-primary-600 bg-primary-50/80'
+                        : 'text-gray-700 hover:bg-primary-50/80 hover:text-primary-600'
+                    }`}
+                    onClick={() => setResourceOpen(false)}
+                  >
+                    <span className="truncate">Claude Code</span>
+                  </Link>
+                  <Link
+                    href="/resource/tool/cursor"
+                    className={`flex items-center px-3 py-1.5 text-xs sm:text-sm transition-colors ${
+                      pathname === '/resource/tool/cursor'
+                        ? 'text-primary-600 bg-primary-50/80'
+                        : 'text-gray-700 hover:bg-primary-50/80 hover:text-primary-600'
+                    }`}
+                    onClick={() => setResourceOpen(false)}
+                  >
+                    <span className="truncate">Cursor</span>
+                  </Link>
+                  {/* 分隔线 */}
+                  {resourceItems.length > 0 && (
+                    <div className="my-1 border-t border-gray-100"></div>
                   )}
+                  {/* 文件资源列表 */}
+                  {resourceItems.map((item) => (
+                    <Link
+                      key={item.slug}
+                      href={`/resource/${encodeURIComponent(item.slug)}`}
+                      className="flex items-center px-3 py-1.5 text-xs sm:text-sm text-gray-700 hover:bg-primary-50/80 hover:text-primary-600 transition-colors"
+                      onClick={() => setResourceOpen(false)}
+                    >
+                      <span className="truncate">{item.title}</span>
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
