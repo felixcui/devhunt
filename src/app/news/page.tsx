@@ -20,14 +20,6 @@ function NewsContent() {
   const activeToolName = searchParams.get('name') || '';
   const activeCategory = searchParams.get('category');
 
-  // 资讯分类映射（使用中文名称匹配飞书表格中的分类）
-  const categoryLabels: Record<string, string> = {
-    '编程实践': '编程实践',
-    '编程模型': '编程模型',
-    '编程工具': '编程工具',
-    '行业观点': '行业观点',
-  };
-
   // 获取精选工具（仅 star 标签）
   useEffect(() => {
     const loadFeaturedTools = async () => {
@@ -151,10 +143,10 @@ function NewsContent() {
       ) : (
         <div className="space-y-6">
           {/* 分类标题 */}
-          {activeCategory && categoryLabels[activeCategory] && (
+          {activeCategory && (
             <div className="flex items-center justify-between">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                {categoryLabels[activeCategory]}
+                {activeCategory}
               </h2>
               <button
                 onClick={() => router.replace('/news')}
