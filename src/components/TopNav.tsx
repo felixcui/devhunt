@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { FiFileText, FiBookOpen, FiChevronDown, FiUsers } from 'react-icons/fi';
@@ -15,7 +15,7 @@ interface NavItem {
   external?: boolean;
 }
 
-export default function TopNav() {
+function TopNavContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get('category');
@@ -211,5 +211,13 @@ export default function TopNav() {
       </nav>
 
     </>
+  );
+}
+
+export default function TopNav() {
+  return (
+    <Suspense fallback={null}>
+      <TopNavContent />
+    </Suspense>
   );
 }
