@@ -28,7 +28,7 @@ export default function TopNav() {
   const newsCategories = [
     { id: '编程实践', label: '编程实践' },
     { id: '编程模型', label: '编程模型' },
-    { id: '工具平台', label: '工具平台' },
+    { id: '编程工具', label: '编程工具' },
     { id: '行业观点', label: '行业观点' },
   ];
 

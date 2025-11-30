@@ -24,7 +24,7 @@ function NewsContent() {
   const categoryLabels: Record<string, string> = {
     '编程实践': '编程实践',
     '编程模型': '编程模型',
-    '工具平台': '工具平台',
+    '编程工具': '编程工具',
     '行业观点': '行业观点',
   };
 
