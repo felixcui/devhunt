@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { FiFileText, FiBookOpen, FiChevronDown, FiUsers, FiTag, FiCode } from 'react-icons/fi';
+import { FiFileText, FiBookOpen, FiChevronDown, FiUsers, FiTag, FiCode, FiCpu } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 
 // 导航项接口定义
@@ -29,9 +29,13 @@ function TopNavContent() {
   const [resourceOpen, setResourceOpen] = useState(false);
   const [resourceItems, setResourceItems] = useState<{ slug: string; title: string }[]>([]);
   const [resourceLoaded, setResourceLoaded] = useState(false);
+  const [aiNewsOpen, setAiNewsOpen] = useState(false);
+  const [aiNewsCategories, setAiNewsCategories] = useState<string[]>([]);
+  const [aiNewsCategoriesLoaded, setAiNewsCategoriesLoaded] = useState(false);
   const weeklyRef = useRef<HTMLDivElement>(null);
   const categoryRef = useRef<HTMLDivElement>(null);
   const resourceRef = useRef<HTMLDivElement>(null);
+  const aiNewsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,16 +57,19 @@ function TopNavContent() {
       if (resourceRef.current && !resourceRef.current.contains(event.target as Node)) {
         setResourceOpen(false);
       }
+      if (aiNewsRef.current && !aiNewsRef.current.contains(event.target as Node)) {
+        setAiNewsOpen(false);
+      }
     };
 
-    if (weeklyOpen || categoryOpen || resourceOpen) {
+    if (weeklyOpen || categoryOpen || resourceOpen || aiNewsOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [weeklyOpen, categoryOpen, resourceOpen]);
+  }, [weeklyOpen, categoryOpen, resourceOpen, aiNewsOpen]);
 
   useEffect(() => {
     const fetchWeekly = async () => {
@@ -136,6 +143,31 @@ function TopNavContent() {
     };
 
     fetchResources();
+  }, []);
+
+  // 获取AI资讯分类列表
+  useEffect(() => {
+    const fetchAiNewsCategories = async () => {
+      try {
+        const res = await fetch('/api/ai-news/categories');
+        if (!res.ok) {
+          console.error('Failed to fetch AI news categories:', res.status);
+          return;
+        }
+        const data = await res.json();
+        if (data.code === 0 && Array.isArray(data.data?.categories)) {
+          setAiNewsCategories(data.data.categories);
+        } else {
+          console.error('Invalid AI news categories response:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching AI news categories:', error);
+      } finally {
+        setAiNewsCategoriesLoaded(true);
+      }
+    };
+
+    fetchAiNewsCategories();
   }, []);
 
   const navItems: NavItem[] = [
@@ -215,21 +247,6 @@ function TopNavContent() {
                 </div>
               )}
             </div>
-
-            {/* AI资讯 - 暂时隐藏 */}
-            {/* <Link
-              href="/ai-news"
-              className={`relative flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-200 group whitespace-nowrap
-                ${pathname === '/ai-news'
-                  ? 'text-white bg-gradient-to-r from-blue-500 to-green-500 shadow-soft' 
-                  : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50/80'
-                }`}
-            >
-              <FiCpu className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:scale-110 flex-shrink-0 ${
-                pathname === '/ai-news' ? 'text-white' : ''
-              }`} />
-              <span className="font-medium text-xs sm:text-sm lg:text-base">AI资讯</span>
-            </Link> */}
 
             {/* 资讯周报下拉菜单 */}
             <div className="relative" ref={weeklyRef}>
@@ -329,6 +346,63 @@ function TopNavContent() {
                       onClick={() => setResourceOpen(false)}
                     >
                       <span className="truncate">{item.title}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* AI资讯下拉菜单 */}
+            <div className="relative" ref={aiNewsRef}>
+              <button
+                type="button"
+                onClick={() => setAiNewsOpen((prev) => !prev)}
+                className={`relative flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-200 group whitespace-nowrap ${
+                  pathname === '/ai-news'
+                    ? 'text-white bg-gradient-to-r from-blue-500 to-green-500 shadow-soft'
+                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50/80'
+                }`}
+              >
+                <FiCpu className="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:scale-110 flex-shrink-0" />
+                <span className="font-medium text-xs sm:text-sm lg:text-base">周边资讯</span>
+                <FiChevronDown
+                  className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform ${
+                    aiNewsOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {aiNewsOpen && aiNewsCategoriesLoaded && (
+                <div className="absolute left-0 mt-2 w-32 sm:w-40 bg-white rounded-xl shadow-soft border border-gray-100 py-1 z-50">
+                  {/* 全部资讯 */}
+                  <Link
+                    href="/ai-news"
+                    className={`flex items-center px-3 py-1.5 text-xs sm:text-sm transition-colors ${
+                      pathname === '/ai-news' && !searchParams.get('category')
+                        ? 'text-primary-600 bg-primary-50/80'
+                        : 'text-gray-700 hover:bg-primary-50/80 hover:text-primary-600'
+                    }`}
+                    onClick={() => setAiNewsOpen(false)}
+                  >
+                    <span className="truncate">全部资讯</span>
+                  </Link>
+                  {/* 分隔线 */}
+                  {aiNewsCategories.length > 0 && (
+                    <div className="my-1 border-t border-gray-100"></div>
+                  )}
+                  {/* 分类列表 */}
+                  {aiNewsCategories.map((cat) => (
+                    <Link
+                      key={cat}
+                      href={`/ai-news?category=${encodeURIComponent(cat)}`}
+                      className={`flex items-center px-3 py-1.5 text-xs sm:text-sm transition-colors ${
+                        searchParams.get('category') === cat && pathname === '/ai-news'
+                          ? 'text-primary-600 bg-primary-50/80'
+                          : 'text-gray-700 hover:bg-primary-50/80 hover:text-primary-600'
+                      }`}
+                      onClick={() => setAiNewsOpen(false)}
+                    >
+                      <span className="truncate">{cat}</span>
                     </Link>
                   ))}
                 </div>

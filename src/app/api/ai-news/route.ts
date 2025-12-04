@@ -65,8 +65,14 @@ export async function GET(): Promise<NextResponse<ApiResponse<AINews>>> {
         ? getFieldText(item.fields.description as FeishuField[])
         : undefined;
 
-      const category = item.fields.category
-        ? getFieldText(item.fields.category as FeishuField[])
+      // 处理 category 字段（可能是字符串或富文本数组）
+      const categoryField = item.fields.category;
+      const category = categoryField
+        ? (Array.isArray(categoryField)
+            ? getFieldText(categoryField as FeishuField[])
+            : typeof categoryField === 'string'
+              ? categoryField
+              : undefined)
         : undefined;
 
       return {

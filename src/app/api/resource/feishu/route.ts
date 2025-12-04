@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
+import NodeCache from 'node-cache';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+// 缓存实例，TTL 1小时
+const cache = new NodeCache({ stdTTL: 3600 });
 
 interface ResourceItem {
   name: string;
@@ -76,6 +80,13 @@ export async function GET(request: Request) {
       );
     }
 
+    // 检查缓存
+    const cacheKey = `resource_${tool}`;
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      return NextResponse.json(cachedData);
+    }
+
     // 获取飞书访问令牌
     const token = await getTenantAccessToken();
 
@@ -134,14 +145,19 @@ export async function GET(request: Request) {
       grouped[cat].push(item);
     });
 
-    return NextResponse.json({
+    const responseData = {
       code: 0,
       data: {
         tool,
         total: items.length,
         categories: grouped
       }
-    });
+    };
+
+    // 设置缓存
+    cache.set(cacheKey, responseData);
+
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error('Error fetching programming resources:', error);
     return NextResponse.json(

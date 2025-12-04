@@ -1,10 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { AINews } from '@/types';
 import { FiClock, FiExternalLink, FiTag, FiRefreshCw, FiFileText } from 'react-icons/fi';
 
-export default function AINewsPage() {
+function AINewsContent() {
+  const searchParams = useSearchParams();
+  const categoryFilter = searchParams.get('category');
   const [news, setNews] = useState<AINews[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +40,11 @@ export default function AINewsPage() {
     const interval = setInterval(loadNews, 5 * 60 * 1000); // 5分钟刷新
     return () => clearInterval(interval);
   }, []);
+
+  // 根据category过滤资讯
+  const filteredNews = categoryFilter
+    ? news.filter(item => item.category === categoryFilter)
+    : news;
 
   // 根据category返回对应的徽章颜色
   const getCategoryBadgeColor = (category?: string) => {
@@ -103,7 +111,7 @@ export default function AINewsPage() {
         </div>
       ) : (
         <div className="space-y-4 sm:space-y-6">
-          {news.length === 0 ? (
+          {filteredNews.length === 0 ? (
             <div className="text-center py-12 sm:py-16 px-4">
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <FiClock className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" />
@@ -113,7 +121,7 @@ export default function AINewsPage() {
             </div>
           ) : (
             <div className="space-y-3 sm:space-y-4">
-              {news.map((item, index) => (
+              {filteredNews.map((item, index) => (
                 <article
                   key={item.id}
                   className="group relative bg-white rounded-xl sm:rounded-2xl shadow-soft hover:shadow-soft-lg p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1 animate-slide-up border border-gray-100 hover:border-purple-200"
@@ -187,5 +195,13 @@ export default function AINewsPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AINewsPage() {
+  return (
+    <Suspense fallback={null}>
+      <AINewsContent />
+    </Suspense>
   );
 }
