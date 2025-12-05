@@ -2,11 +2,16 @@ import { Tool, Category, News } from '@/types';
 import { normalizeCategoryName, getAllCategories, CATEGORY_MAPPING } from '@/utils/category-mapping';
 
 function getBaseUrl() {
+  // 1) 显式配置优先
   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-  if (typeof window !== 'undefined') return window.location.origin;
-  // Vercel 生产环境使用站点域名
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  // 2) Vercel 运行时域名（服务端）
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  // 本地或其他环境回退
+  // 3) Vercel 公开变量（构建/客户端可用）
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+  // 4) 浏览器端自动取当前站点
+  if (typeof window !== 'undefined') return window.location.origin;
+  // 5) 本地或其他环境回退
   return 'http://localhost:3000';
 }
 
