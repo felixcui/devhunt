@@ -3,6 +3,31 @@ import { FeishuResponse, FeishuField, FeishuRecord } from '@/types/api';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { formatDate } from '@/utils/date';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
+import NodeCache from 'node-cache';
+
+// 缓存实例，TTL 1小时
+const cache = new NodeCache({ stdTTL: 3600 });
+
+interface ToolNewsResponse {
+  code: number;
+  msg: string;
+  data: {
+    items: Array<{
+      id: string;
+      title: string;
+      url: string;
+      updateTime: string;
+      description?: string;
+      tool: string;
+    }>;
+    total: number;
+    has_more: boolean;
+    tool: {
+      id: string;
+      name: string;
+    };
+  };
+}
 
 export const GET = async function getToolNews(
   req: Request | NextRequest,
@@ -19,6 +44,18 @@ export const GET = async function getToolNews(
     const toolName = searchParams.get('name');
     if (!toolName) {
       throw new Error('Tool name is required');
+    }
+
+    // 检查缓存
+    const cacheKey = `tool_news_${id}_${toolName.toLowerCase()}`;
+    const cachedData = cache.get<ToolNewsResponse>(cacheKey);
+    if (cachedData) {
+      return new Response(JSON.stringify(cachedData), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     }
 
     const token = await getTenantAccessToken();
@@ -161,9 +198,7 @@ export const GET = async function getToolNews(
     // 限制最多返回100条
     news = news.slice(0, 100);
 
-
-
-    return new Response(JSON.stringify({
+    const responseData: ToolNewsResponse = {
       code: 0,
       msg: 'success',
       data: {
@@ -175,7 +210,12 @@ export const GET = async function getToolNews(
           name: toolName
         }
       }
-    }), {
+    };
+
+    // 将数据存入缓存
+    cache.set(cacheKey, responseData);
+
+    return new Response(JSON.stringify(responseData), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
