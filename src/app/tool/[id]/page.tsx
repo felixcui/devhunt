@@ -1,21 +1,18 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { fetchTools } from '@/data/tools';
-import { notFound, useSearchParams } from 'next/navigation';
-import { FiCode, FiExternalLink, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
+import { getTools } from '@/lib/server/tools';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import ToolNewsSection from '@/components/ToolNewsSection';
-import type { Tool } from '@/types';
+import { FiCode, FiExternalLink, FiFileText, FiArrowLeft, FiGlobe, FiStar } from 'react-icons/fi';
+import ToolNewsSection from '@/components/ToolNewsSection'; // This is a client component, careful
 
 interface PageProps {
   params: Promise<{
     id: string;
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // 智能返回路径映射
-const getReturnPath = (from: string | null): { path: string; label: string } => {
+const getReturnPath = (from: string | undefined): { path: string; label: string } => {
   switch (from) {
     case 'hot':
       return { path: '/hot', label: '返回热门工具' };
@@ -38,7 +35,7 @@ const getReturnPath = (from: string | null): { path: string; label: string } => 
 function convertUrlsToLinks(text: string) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const parts = text.split(urlRegex);
-  
+
   return parts.map((part, index) => {
     if (part.match(urlRegex)) {
       return (
@@ -58,76 +55,28 @@ function convertUrlsToLinks(text: string) {
   });
 }
 
-export default function ToolPage({ params }: PageProps) {
-  const [tool, setTool] = useState<Tool | null>(null);
-  const [loading, setLoading] = useState(true);
-  const searchParams = useSearchParams();
-  
-  // 获取来源页面参数
-  const from = searchParams.get('from');
-  const returnInfo = getReturnPath(from);
+export const dynamic = 'force-dynamic';
 
-  useEffect(() => {
-    const loadTool = async () => {
-      try {
-        const resolvedParams = await params;
-        const toolId = resolvedParams.id;
-        
-        const tools = await fetchTools();
-        
-        if (!Array.isArray(tools)) {
-          throw new Error('Failed to fetch tools');
-        }
-        
-        const foundTool = tools.find(t => t && typeof t === 'object' && t.id === toolId);
-        
-        if (!foundTool) {
-          notFound();
-          return;
-        }
-        
-        setTool(foundTool);
-      } catch (error) {
-        console.error('Error in ToolPage:', error);
-        notFound();
-      } finally {
-        setLoading(false);
-      }
-    };
+export default async function ToolPage({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const toolId = resolvedParams.id;
+  const from = typeof resolvedSearchParams.from === 'string' ? resolvedSearchParams.from : undefined;
 
-    loadTool();
-  }, [params]);
-
-  if (loading) {
-    return (
-      <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
-        <div className="animate-pulse">
-          <div className="h-8 sm:h-10 bg-gray-200 rounded mb-6 sm:mb-8 w-32 sm:w-48"></div>
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8">
-            <div className="flex items-start gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gray-200 rounded-xl sm:rounded-2xl"></div>
-              <div className="flex-1">
-                <div className="h-6 sm:h-7 lg:h-8 bg-gray-200 rounded mb-3 sm:mb-4"></div>
-                <div className="h-3 sm:h-4 bg-gray-200 rounded mb-1.5 sm:mb-2"></div>
-                <div className="h-3 sm:h-4 bg-gray-200 rounded mb-3 sm:mb-4 w-3/4"></div>
-                <div className="h-8 sm:h-9 lg:h-10 bg-gray-200 rounded w-24 sm:w-32"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const tools = await getTools();
+  const tool = tools.find(t => t.id === toolId);
 
   if (!tool) {
     return notFound();
   }
 
+  const returnInfo = getReturnPath(from);
+
   return (
     <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
       {/* 智能返回按钮 */}
       <div>
-        <Link 
+        <Link
           href={returnInfo.path}
           className="inline-flex items-center gap-1.5 sm:gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base"
         >
@@ -140,7 +89,7 @@ export default function ToolPage({ params }: PageProps) {
       <div className="relative">
         {/* 背景装饰 */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-green-500/5 rounded-2xl sm:rounded-3xl blur-xl"></div>
-        
+
         <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-soft border border-white/20 overflow-hidden">
           {/* 工具头部信息 */}
           <div className="p-4 sm:p-6 lg:p-8">
@@ -162,7 +111,7 @@ export default function ToolPage({ params }: PageProps) {
                   <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                     {tool.name}
                   </h1>
-                  
+
                   <a
                     href={tool.url}
                     target="_blank"
@@ -190,7 +139,7 @@ export default function ToolPage({ params }: PageProps) {
                   </div>
                   <h2 className="text-xl sm:text-2xl font-bold text-gray-800">相关资料</h2>
                 </div>
-                
+
                 <div className="bg-gradient-to-br from-gray-50 to-blue-50/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200/50">
                   <div className="prose prose-blue max-w-none text-gray-700 leading-relaxed text-sm sm:text-base">
                     {tool.resources.split('\n').map((line, index) => (
@@ -210,7 +159,7 @@ export default function ToolPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* 相关资讯部分 */}
+            {/* 相关资讯部分 - 注意：ToolNewsSection 仍然是 Client Component，它可能内部还有 fetch，如果需要也要修 */}
             <ToolNewsSection toolId={tool.id} toolName={tool.name} />
           </div>
         </div>
@@ -219,12 +168,10 @@ export default function ToolPage({ params }: PageProps) {
       {/* 页面底部提示 */}
       <div className="text-center py-6 sm:py-8 px-4">
         <p className="text-gray-500 text-xs sm:text-sm">
-          发现更多优秀工具 • 
+          发现更多优秀工具 •
           <Link href="/tools" className="text-blue-600 hover:text-blue-700"> 浏览所有工具</Link>
         </p>
       </div>
     </div>
   );
 }
-
-export const dynamic = 'force-dynamic'
