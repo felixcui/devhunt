@@ -18,7 +18,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   try {
     const [tools, categories] = await Promise.all([
-      fetchTools(),
+      fetchTools(id),
       fetchCategories()
     ]);
     
