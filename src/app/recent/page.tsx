@@ -1,4 +1,4 @@
-import { fetchTools } from '@/data/tools';
+import { getTools } from '@/lib/server/tools';
 import ToolGrid from '@/components/ToolGrid';
 import { formatDate } from '@/utils/date';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function RecentToolsPage() {
   // 获取所有工具
-  const tools = await fetchTools();
+  const tools = await getTools();
 
   // 兼容 updateTime 为数字或字符串，过滤掉没有 updateTime 的工具
   const sorted = [...tools]
@@ -25,7 +25,7 @@ export default async function RecentToolsPage() {
     <div>
       {/* 返回按钮 */}
       <div className="mb-6 sm:mb-8">
-        <Link 
+        <Link
           href="/"
           className="inline-flex items-center gap-1.5 sm:gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base"
         >
@@ -33,7 +33,7 @@ export default async function RecentToolsPage() {
           返回首页
         </Link>
       </div>
-      
+
       <div className="mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold mb-1.5 sm:mb-2">最近收录</h1>
         <p className="text-sm sm:text-base text-gray-600">最新收录的20个AI开发工具</p>
@@ -43,12 +43,12 @@ export default async function RecentToolsPage() {
           <p className="text-sm sm:text-base text-gray-500">暂无最近收录工具</p>
         </div>
       ) : (
-        <ToolGrid 
+        <ToolGrid
           tools={sorted.map(tool => ({
             ...tool,
             // 兼容ToolGrid内部如需显示时间，确保传递正确的时间戳格式
             updateTime: tool.updateTime ? formatDate(typeof tool.updateTime === 'string' ? parseInt(tool.updateTime) : tool.updateTime) : '',
-          }))} 
+          }))}
           from="recent"
         />
       )}

@@ -1,4 +1,4 @@
-import { fetchTools, fetchCategories } from '@/data/tools';
+import { getTools, getCategories } from '@/lib/server/tools';
 import { notFound } from 'next/navigation';
 import ToolGrid from '@/components/ToolGrid';
 import { Metadata } from 'next';
@@ -18,10 +18,10 @@ export default async function CategoryPage({ params }: PageProps) {
 
   try {
     const [tools, categories] = await Promise.all([
-      fetchTools(),
-      fetchCategories()
+      getTools(),
+      getCategories()
     ]);
-    
+
     const category = categories.find(c => c.id === id);
     if (!category) return notFound();
 
@@ -35,7 +35,7 @@ export default async function CategoryPage({ params }: PageProps) {
       <div>
         {/* 返回按钮 */}
         <div className="mb-6 sm:mb-8">
-          <Link 
+          <Link
             href="/tools"
             className="inline-flex items-center gap-1.5 sm:gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 hover:bg-gray-100 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base"
           >
@@ -43,7 +43,7 @@ export default async function CategoryPage({ params }: PageProps) {
             返回全部工具
           </Link>
         </div>
-        
+
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-1.5 sm:mb-2">{category.name}</h1>
           <p className="text-sm sm:text-base text-gray-600">{category.description}</p>
@@ -65,9 +65,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const resolvedParams = await params;
   const id = resolvedParams.id;
 
-  const categories = await fetchCategories();
+  const categories = await getCategories();
   const category = categories.find(c => c.id === id);
-  
+
   return {
     title: category ? `${category.name} - AI研发工具` : 'AI研发工具',
     description: category?.description || 'AI研发工具导航'
