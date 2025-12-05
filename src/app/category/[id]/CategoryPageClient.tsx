@@ -23,7 +23,7 @@ export default function CategoryPageClient({ categoryId }: Props) {
     setLoading(true);
     setError(null);
 
-    Promise.all([fetchTools(categoryId), fetchCategories()])
+    Promise.all([fetchTools(), fetchCategories()])
       .then(([toolList, categoryList]) => {
         if (!mounted) return;
         setTools(toolList);
