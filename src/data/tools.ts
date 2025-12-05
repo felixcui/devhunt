@@ -15,17 +15,13 @@ function getBaseUrl() {
   return 'http://localhost:3000';
 }
 
-export async function fetchTools(categoryId?: string): Promise<Tool[]> {
+export async function fetchTools(): Promise<Tool[]> {
   try {
     const baseUrl = getBaseUrl();
     
-    const toolsUrl = categoryId
-      ? `${baseUrl}/api/tools?category=${encodeURIComponent(categoryId)}`
-      : `${baseUrl}/api/tools`;
-
-    console.log('Fetching tools from:', toolsUrl);
+    console.log('Fetching tools from:', `${baseUrl}/api/tools`);
     
-    const response = await fetch(toolsUrl, {
+    const response = await fetch(`${baseUrl}/api/tools`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',

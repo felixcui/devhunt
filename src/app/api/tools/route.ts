@@ -3,21 +3,14 @@ import { FeishuResponse, ApiResponse, FeishuField, FeishuRecord } from '@/types/
 import { Tool } from '@/types';
 import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/feishu';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
-import { CATEGORY_MAPPING } from '@/utils/category-mapping';
 import NodeCache from 'node-cache';
 
 const cache = new NodeCache({ stdTTL: 6 * 60 * 60 });
 const CACHE_KEY = 'tools_data';
 
-export async function GET(req: Request): Promise<NextResponse<ApiResponse<Tool>>> {
+export async function GET(): Promise<NextResponse<ApiResponse<Tool>>> {
   try {
-    const url = new URL(req.url);
-    const categoryId = url.searchParams.get('category');
-
-    // 分类维度缓存，避免不同分类命中同一缓存
-    const cacheKey = categoryId ? `${CACHE_KEY}_${categoryId}` : CACHE_KEY;
-
-    const cachedData = cache.get<ApiResponse<Tool>>(cacheKey);
+    const cachedData = cache.get<ApiResponse<Tool>>(CACHE_KEY);
     if (cachedData) {
       return new NextResponse(JSON.stringify(cachedData), {
         status: 200,
@@ -26,53 +19,20 @@ export async function GET(req: Request): Promise<NextResponse<ApiResponse<Tool>>
     }
 
     const token = await getTenantAccessToken();
-    const baseUrl = buildBitableUrl(FEISHU_CONFIG.TOOLS.APP_TOKEN, FEISHU_CONFIG.TOOLS.TABLE_ID);
-
-    // 组装飞书搜索请求体
-    const requestBody: {
-      page_size: number;
-      view_id: string;
-      field_names: string[];
-      sort: Array<{ field_name: string; desc: boolean }>;
-      filter?: {
-        conditions: Array<{
-          field_name: string;
-          operator: string;
-          value: string[];
-        }>;
-        conjunction: string;
-      };
-    } = {
-      page_size: 100,
-      view_id: FEISHU_CONFIG.TOOLS.VIEW_ID,
-      field_names: FEISHU_CONFIG.TOOLS.FIELDS,
-      sort: [{ field_name: "name", desc: true }]
-    };
-
-    if (categoryId) {
-      // 将前端分类ID映射回飞书表中的原始分类值
-      const matchedCategory = Object.values(CATEGORY_MAPPING).find(item => item.id === categoryId);
-      const categoryValue = matchedCategory?.originalKey || categoryId;
-
-      requestBody.filter = {
-        conditions: [
-          {
-            field_name: "category",
-            operator: "contains",
-            value: [categoryValue]
-          }
-        ],
-        conjunction: "and"
-      };
-    }
-
-    const response = await fetch(`${baseUrl}/search`, {
+    const url = buildBitableUrl(FEISHU_CONFIG.TOOLS.APP_TOKEN, FEISHU_CONFIG.TOOLS.TABLE_ID);
+    
+    const response = await fetch(`${url}/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({
+        page_size: 100,
+        view_id: FEISHU_CONFIG.TOOLS.VIEW_ID,
+        field_names: FEISHU_CONFIG.TOOLS.FIELDS,
+        sort: [{ field_name: "name", desc: true }]
+      }),
       cache: 'no-store'
     });
 
@@ -146,7 +106,7 @@ export async function GET(req: Request): Promise<NextResponse<ApiResponse<Tool>>
       }
     };
 
-    cache.set(cacheKey, responseData);
+    cache.set(CACHE_KEY, responseData);
 
     return new NextResponse(JSON.stringify(responseData), {
       status: 200,
