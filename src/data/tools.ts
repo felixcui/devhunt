@@ -1,10 +1,18 @@
 import { Tool, Category, News } from '@/types';
 import { normalizeCategoryName, getAllCategories, CATEGORY_MAPPING } from '@/utils/category-mapping';
 
+function getBaseUrl() {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined') return window.location.origin;
+  // Vercel 生产环境使用站点域名
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  // 本地或其他环境回退
+  return 'http://localhost:3000';
+}
+
 export async function fetchTools(): Promise<Tool[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
-      (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    const baseUrl = getBaseUrl();
     
     console.log('Fetching tools from:', `${baseUrl}/api/tools`);
     
@@ -33,8 +41,7 @@ export async function fetchTools(): Promise<Tool[]> {
 
 export async function fetchNews(): Promise<News[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 
-      (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    const baseUrl = getBaseUrl();
     
     console.log('Fetching news from:', `${baseUrl}/api/news`);
     
