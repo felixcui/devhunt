@@ -6,8 +6,8 @@ import NodeCache from 'node-cache';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// 缓存实例，TTL 1小时
-const cache = new NodeCache({ stdTTL: 3600 });
+// 缓存实例，TTL 6小时
+const cache = new NodeCache({ stdTTL: 6 * 60 * 60 });
 
 interface ResourceItem {
   name: string;

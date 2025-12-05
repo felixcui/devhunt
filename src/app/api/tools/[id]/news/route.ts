@@ -5,8 +5,8 @@ import { formatDate } from '@/utils/date';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
 import NodeCache from 'node-cache';
 
-// 缓存实例，TTL 1小时
-const cache = new NodeCache({ stdTTL: 3600 });
+// 缓存实例，TTL 6小时
+const cache = new NodeCache({ stdTTL: 6 * 60 * 60 });
 
 interface ToolNewsResponse {
   code: number;

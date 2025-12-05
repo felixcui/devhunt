@@ -5,7 +5,7 @@ import { FEISHU_CONFIG, getTenantAccessToken, buildBitableUrl } from '@/config/f
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
 import NodeCache from 'node-cache';
 
-const cache = new NodeCache({ stdTTL: 3600 });
+const cache = new NodeCache({ stdTTL: 6 * 60 * 60 });
 const CACHE_KEY = 'tools_data';
 
 export async function GET(): Promise<NextResponse<ApiResponse<Tool>>> {

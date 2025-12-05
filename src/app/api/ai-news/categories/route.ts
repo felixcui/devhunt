@@ -7,7 +7,7 @@ import NodeCache from 'node-cache';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const cache = new NodeCache({ stdTTL: 3600 });
+const cache = new NodeCache({ stdTTL: 6 * 60 * 60 });
 const CACHE_KEY = 'ai_news_categories';
 
 export async function GET() {

@@ -8,7 +8,7 @@ import { getCategoryIconConfig } from '@/utils/category-icons';
 
 // 缓存相关常量
 const CACHE_KEY = 'categories_cache';
-const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12小时的毫秒数
+const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6小时的毫秒数
 
 // 缓存接口
 interface CacheData {

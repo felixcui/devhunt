@@ -6,7 +6,7 @@ import { formatDate } from '@/utils/date';
 import { getFieldText, getFieldUrl } from '@/utils/feishu';
 import NodeCache from 'node-cache';
 
-const cache = new NodeCache({ stdTTL: 3600 });
+const cache = new NodeCache({ stdTTL: 6 * 60 * 60 });
 const CACHE_KEY = 'news_data';
 
 export async function GET(): Promise<NextResponse<ApiResponse<News>>> {
