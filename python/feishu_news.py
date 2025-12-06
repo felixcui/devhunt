@@ -1,8 +1,10 @@
 import os
 import json
+import argparse
 from datetime import datetime, timedelta
 import requests
 from typing import Dict, List, Optional
+from collections import defaultdict
 
 # Feishu Configuration
 FEISHU_CONFIG = {
@@ -12,7 +14,7 @@ FEISHU_CONFIG = {
         "APP_TOKEN": "Tn1vbRQyraNFvAstbqicUlIJnue",
         "TABLE_ID": "tblXp6DHjQPomXbv",
         "VIEW_ID": "vewbl6mgMC",
-        "FIELDS": ["title", "link", "tool", "description", "updatetime"]
+        "FIELDS": ["title", "link", "category", "description", "updatetime"]
     },
     "API": {
         "BASE_URL": "https://open.feishu.cn/open-apis",
@@ -78,9 +80,20 @@ def format_date(date_str: str) -> str:
     except:
         return date_str
 
-def get_news_list() -> Dict:
-    """获取资讯列表"""
+def get_news_list(start_date: str = None, end_date: str = None) -> Dict:
+    """获取资讯列表
+    Args:
+        start_date: 开始日期 (YYYY-MM-DD)，默认为7天前
+        end_date: 结束日期 (YYYY-MM-DD)，默认为今天
+    """
     try:
+        # 确定日期范围
+        if not end_date:
+            end_date = datetime.now().strftime("%Y-%m-%d")
+        
+        if not start_date:
+            start_date = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+
         # 获取访问令牌
         token = get_tenant_access_token()
         
@@ -119,19 +132,18 @@ def get_news_list() -> Dict:
         
         # 处理数据
         news_items = []
-    # 计算一周前的日期
-        now = datetime.now()
-        one_week_ago = (now - timedelta(days=7)).strftime("%Y-%m-%d")
         
         for item in feishu_data["data"]["items"]:
             fields = item.get("fields", {})
             
-            # 安全地获取 updatetime 并检查是否在最近一周内
+            # 安全地获取 updatetime 并检查范围
             update_time = fields.get("updatetime", "")
             formatted_date = format_date(update_time)
           
-            if not update_time or formatted_date < one_week_ago:
-                # print(f"Skipping date: {formatted_date} < {one_week_ago}")
+            if not update_time:
+                continue
+                
+            if not (start_date <= formatted_date <= end_date):
                 continue
             
             # 安全地获取 title
@@ -158,13 +170,20 @@ def get_news_list() -> Dict:
             elif desc_field:
                 description = str(desc_field)
             
-            # 安全地获取 tool
-            tool = None
-            tool_field = fields.get("tool", [])
-            if isinstance(tool_field, list):
-                tool = get_field_text(tool_field)
-            elif tool_field:
-                tool = str(tool_field)
+            # 安全地获取 category
+            category = "未分类"
+            category_field = fields.get("category", [])
+            if isinstance(category_field, list) and category_field:
+                 # 假设category是单选标签，或者文本
+                 # 如果是文本字段
+                category = get_field_text(category_field)
+                # 如果是单选/多选字段，可能结构不同，通常是 options/value
+                # 尝试直接取text，如果不行可能要调整
+                if not category and isinstance(category_field[0], str): #Simple string
+                     category = category_field[0]
+            elif isinstance(category_field, str):
+                category = category_field
+
             
             news_items.append({
                 "id": item.get("record_id", ""),
@@ -172,7 +191,7 @@ def get_news_list() -> Dict:
                 "url": link,
                 "updateTime": format_date(update_time),
                 "description": description,
-                "tool": tool
+                "category": category if category else "未分类"
             })
         
         return {
@@ -182,7 +201,8 @@ def get_news_list() -> Dict:
                 "items": news_items,
                 "total": feishu_data["data"]["total"],
                 "has_more": feishu_data["data"]["has_more"],
-                "latest_db_date": latest_db_date
+                "latest_db_date": latest_db_date,
+                "date_range": (start_date, end_date)
             }
         }
         
@@ -199,30 +219,59 @@ def get_news_list() -> Dict:
         }
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Fetch Feishu news and output markdown.')
+    parser.add_argument('--start', type=str, help='Start date (YYYY-MM-DD)')
+    parser.add_argument('--end', type=str, help='End date (YYYY-MM-DD)')
+    args = parser.parse_args()
+
     # 获取并打印资讯列表
-    result = get_news_list()
+    result = get_news_list(start_date=args.start, end_date=args.end)
+    
     if result["code"] == 0:
         items = result["data"]["items"]
+        start_date, end_date = result["data"].get("date_range", ("unknown", "unknown"))
         
         if not items:
-            print("【提示】最近一周没有发现新的资讯。")
+            print(f"【提示】在 {start_date} 至 {end_date} 期间没有发现新的资讯。")
             print(f"数据库中最新的一条记录日期为: {result['data'].get('latest_db_date')}")
-            print(f"当前脚本配置的 Base Token: {FEISHU_CONFIG['NEWS']['APP_TOKEN']}")
-            print("注意：如果网页端能看到新数据，说明脚本与网页使用了不同的 Base Token。请检查代码配置是否与浏览器 URL (feishu.cn/base/TOKEN) 一致。")
-            
-        for item in items:
-            markdown = ""
-            title = item['title']
-            url =  item['url']
-            if item.get('description'):
-                descrption = item['description']
-            else:
-                descrption = ""
+        else:
+            # Group by category
+            grouped_items = defaultdict(list)
+            for item in items:
+                grouped_items[item['category']].append(item)
 
-            markdown += f"[{title}]({url})\n"
-            markdown += f"{descrption}"
-            print(markdown)
-        print('--------------------------------')
-        print('更多内容访问AI Coding知识库:https://nhihqe5yfi.feishu.cn/wiki/KBlUwLv56izVmdk5xzncJUAFnHd')
+            # Define preferred order of categories
+            preferred_order = ["编程实践", "工具动态", "行业观点"]
+            
+            # Get all categories
+            all_categories = list(grouped_items.keys())
+            
+            # Sort categories: preferred ones first, then others alphabetically
+            sorted_categories = sorted(all_categories, key=lambda x: (
+                preferred_order.index(x) if x in preferred_order else 999, x
+            ))
+
+            for idx, category in enumerate(sorted_categories):
+                print(f"## {category}\n")
+                
+                for item in grouped_items[category]:
+                    title = item['title']
+                    url = item['url']
+                    description = item.get('description', '') or ''
+                    
+                    print(f"### [{title}]({url})\n")
+                    if description:
+                        print(f"{description}\n")
+                    else:
+                        print("\n")
+                
+                # Add separator if it's not the last category
+                if idx < len(sorted_categories) - 1:
+                    print("---\n")
+
+            print('---')
+            print('AI Coding工具及资讯大全: http://devmaster.cn/')
+            print(f'\n(Data fetched from {start_date} to {end_date})') # Optional debug info
+            
     else:
         print(f"Error: {result['msg']}") 
